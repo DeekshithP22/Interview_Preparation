@@ -1,0 +1,301 @@
+{
+    "translations": [
+      {
+        "source_text": "<div class=\"dashboard-section\"><h2>Action Items - EY Mobility Pathway</h2><div class=\"action-item\"><h3>Case Details</h3><ul><li>Assignee: John Smith</li><li>Country: United States</li><li>Case Type: Short Term Business Traveler</li><li>Case ID: EYMP-2024-001</li><li>Status: Pending Immigration Review</li></ul></div></div>",
+        "target_text": "<div class=\"dashboard-section\"><h2>アクション項目 - イーワイ・モビリティ・パスウェイ</h2><div class=\"action-item\"><h3>案件詳細</h3><ul><li>担当者: John Smith</li><li>国: United States</li><li>案件種類: Short Term Business Traveler</li><li>案件番号: EYMP-2024-001</li><li>状態: 移民審査待ち</li></ul></div></div>",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "html",
+        "domain_terms": [
+          "EY Mobility Pathway",
+          "Short Term Business Traveler",
+          "EYMP"
+        ],
+        "context": "Dashboard action items view",
+        "metadata": {
+          "page_type": "dashboard",
+          "section": "action_items"
+        }
+      },
+      {
+        "source_text": "<div class=\"notification\"><h3>New Case Assignment</h3><p>You have been assigned a new case in EY Mobility Pathway:</p><table><tr><td>Assignee:</td><td>Maria Rodriguez</td></tr><tr><td>Home Country:</td><td>Spain</td></tr><tr><td>Host Country:</td><td>Germany</td></tr><tr><td>Case Type:</td><td>Long Term Assignment</td></tr><tr><td>Business Unit:</td><td>EY Consulting</td></tr></table></div>",
+        "target_text": "<div class=\"notification\"><h3>नई केस असाइनमेंट</h3><p>आपको ईवाई मोबिलिटी पाथवे में एक नया केस असाइन किया गया है:</p><table><tr><td>असाइनी:</td><td>Maria Rodriguez</td></tr><tr><td>होम कंट्री:</td><td>Spain</td></tr><tr><td>होस्ट कंट्री:</td><td>Germany</td></tr><tr><td>केस टाइप:</td><td>Long Term Assignment</td></tr><tr><td>बिजनेस यूनिट:</td><td>EY Consulting</td></tr></table></div>",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "html",
+        "domain_terms": [
+          "EY Mobility Pathway",
+          "Long Term Assignment",
+          "EY Consulting"
+        ],
+        "context": "Case assignment notification",
+        "metadata": {
+          "type": "notification",
+          "importance": "high"
+        }
+      },
+      {
+        "source_text": "<div class=\"status-update\"><h4>Status Update - EYMP Case Status</h4><div class=\"status-details\"><p>Case ID: EYMP-2024-002</p><p>Updated by: Tax Team</p><p>Status changed from 'Tax Review' to 'Immigration Review'</p><p>Assignment Type: Permanent Transfer</p><p>Priority Level: P1</p></div></div>",
+        "target_text": "<div class=\"status-update\"><h4>상태 업데이트 - 이와이엠피 케이스 상태</h4><div class=\"status-details\"><p>케이스 ID: EYMP-2024-002</p><p>업데이트: Tax Team</p><p>상태가 'Tax Review'에서 'Immigration Review'로 변경되었습니다</p><p>배정 유형: Permanent Transfer</p><p>우선순위: P1</p></div></div>",
+        "source_lang": "en",
+        "target_lang": "ko",
+        "content_type": "html",
+        "domain_terms": [
+          "EYMP",
+          "Tax Review",
+          "Immigration Review",
+          "Permanent Transfer"
+        ],
+        "context": "Status update notification",
+        "metadata": {
+          "type": "status_update",
+          "importance": "high"
+        }
+      }
+      {
+        "source_text": "<div class=\"talent-assessment\"><h2>Global Talent Assessment Dashboard</h2><div class=\"assessment-details\"><h3>Talent Mobility Request</h3><ul><li>Employee: Sarah Chen</li><li>Current Level: Senior Consultant</li><li>Business Line: FSO Advisory</li><li>Global Mobility Type: Talent Development</li><li>Current Region: APAC</li><li>Target Location: EMEIA</li><li>Skills Assessment Score: 4.8/5.0</li><li>Talent Pool: High Potential</li><li>Assignment Category: Strategic Growth Markets</li></ul></div></div>",
+        "target_text": "<div class=\"talent-assessment\"><h2>グローバル人材評価ダッシュボード</h2><div class=\"assessment-details\"><h3>タレントモビリティリクエスト</h3><ul><li>従業員: Sarah Chen</li><li>現在のレベル: Senior Consultant</li><li>ビジネスライン: FSO Advisory</li><li>グローバルモビリティタイプ: Talent Development</li><li>現在の地域: APAC</li><li>目標地域: EMEIA</li><li>スキル評価スコア: 4.8/5.0</li><li>タレントプール: High Potential</li><li>アサインメントカテゴリー: Strategic Growth Markets</li></ul></div></div>",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "html",
+        "domain_terms": [
+          "FSO Advisory",
+          "APAC",
+          "EMEIA",
+          "High Potential",
+          "Strategic Growth Markets",
+          "Senior Consultant"
+        ],
+        "context": "Talent assessment dashboard",
+        "metadata": {
+          "page_type": "talent_mobility",
+          "section": "assessment"
+        }
+      },
+      {
+        "source_text": "<div class=\"immigration-tracker\"><h3>Immigration Compliance Status</h3><table><tr><th>Document Type</th><th>Status</th><th>Deadline</th></tr><tr><td>Work Permit - ICT Tier</td><td>Pending Host Country Approval</td><td>2024-06-15</td></tr><tr><td>Assignment Letter</td><td>Pending GCO Review</td><td>2024-05-20</td></tr><tr><td>Tax Residency Certificate</td><td>Awaiting Home Country Authority</td><td>2024-05-30</td></tr></table><div class=\"compliance-alert\"><p>Critical Alert: BEPS Documentation required for FSO Regulatory Compliance</p><p>Risk Level: High</p></div></div>",
+        "target_text": "<div class=\"immigration-tracker\"><h3>イミグレーションコンプライアンス状況</h3><table><tr><th>書類種類</th><th>状況</th><th>期限</th></tr><tr><td>Work Permit - ICT Tier</td><td>受入国承認待ち</td><td>2024-06-15</td></tr><tr><td>Assignment Letter</td><td>GCO審査待ち</td><td>2024-05-20</td></tr><tr><td>Tax Residency Certificate</td><td>本国当局待ち</td><td>2024-05-30</td></tr></table><div class=\"compliance-alert\"><p>重要警告: FSO規制コンプライアンスにBEPSドキュメントが必要</p><p>リスクレベル: 高</p></div></div>",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "html",
+        "domain_terms": [
+          "ICT Tier",
+          "GCO",
+          "BEPS",
+          "FSO",
+          "Work Permit",
+          "Assignment Letter",
+          "Tax Residency Certificate"
+        ],
+        "context": "Immigration compliance tracker",
+        "metadata": {
+          "page_type": "compliance",
+          "importance": "critical"
+        }
+      },
+      {
+        "source_text": "<div class=\"compensation-package\"><h2>Global Compensation Package</h2><div class=\"package-details\"><h3>Assignment Benefits Structure</h3><ul><li>Policy Type: Long-Term International Assignment (LTIA)</li><li>Cost Center: EYMP-EU-FSO-2024</li><li>Assignment Allowances: Cost of Living Adjustment (COLA), Housing Allowance</li><li>Pension Scheme: Home Country Plus Host Top-Up</li><li>Healthcare: International Private Medical Insurance (IPMI)</li><li>Education Support: Dependent Schooling Assistance</li><li>Tax Approach: Tax Equalization</li><li>Mobility Premium: Grade-Based Premium Applied</li></ul></div></div>",
+        "target_text": "<div class=\"compensation-package\"><h2>글로벌 보상 패키지</h2><div class=\"package-details\"><h3>파견 혜택 구조</h3><ul><li>정책 유형: Long-Term International Assignment (LTIA)</li><li>코스트 센터: EYMP-EU-FSO-2024</li><li>파견 수당: Cost of Living Adjustment (COLA), 주택 수당</li><li>연금 제도: Home Country Plus Host Top-Up</li><li>의료보험: International Private Medical Insurance (IPMI)</li><li>교육 지원: Dependent Schooling Assistance</li><li>세금 접근방식: Tax Equalization</li><li>모빌리티 프리미엄: Grade-Based Premium Applied</li></ul></div></div>",
+        "source_lang": "en",
+        "target_lang": "ko",
+        "content_type": "html",
+        "domain_terms": [
+          "LTIA",
+          "COLA",
+          "IPMI",
+          "Tax Equalization",
+          "Grade-Based Premium",
+          "Home Country Plus Host Top-Up"
+        ],
+        "context": "Global compensation package details",
+        "metadata": {
+          "page_type": "compensation",
+          "section": "benefits"
+        }
+      },
+      {
+        "source_text": "<div class=\"relocation-services\"><h2>Global Relocation Support</h2><div class=\"service-request\"><h3>Relocation Service Request</h3><form><label>Service Type:</label><select><option>Home Search Assistance</option><option>School Search</option><option>Cultural Training</option><option>Language Training</option></select><label>Preferred RMC:</label><select><option>SIRVA</option><option>Cartus</option><option>Crown World Mobility</option></select><label>Budget Classification:</label><select><option>Executive Band</option><option>Senior Manager</option><option>Manager</option></select></form></div></div>",
+        "target_text": "<div class=\"relocation-services\"><h2>सर्विस रिलोकेशन सपोर्ट</h2><div class=\"service-request\"><h3>रिलोकेशन सर्विस रिक्वेस्ट</h3><form><label>सर्विस प्रकार:</label><select><option>Home Search Assistance</option><option>School Search</option><option>Cultural Training</option><option>Language Training</option></select><label>पसंदीदा RMC:</label><select><option>SIRVA</option><option>Cartus</option><option>Crown World Mobility</option></select><label>बजट वर्गीकरण:</label><select><option>Executive Band</option><option>Senior Manager</option><option>Manager</option></select></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "html",
+        "domain_terms": [
+          "RMC",
+          "SIRVA",
+          "Cartus",
+          "Crown World Mobility",
+          "Executive Band",
+          "Senior Manager",
+          "Manager"
+        ],
+        "context": "Relocation services form",
+        "metadata": {
+          "page_type": "relocation",
+          "section": "service_request"
+        }
+      },
+      {
+        "source_text": "<div class=\"tax-advisory\"><h2>Global Tax Advisory Dashboard</h2><div class=\"tax-services\"><h3>Tax Services Overview</h3><ul><li>Assignment Type: Split Payroll</li><li>Tax Partner: EY Global Tax</li><li>Services Required:<ul><li>Tax Equalization Calculation</li><li>Shadow Payroll Setup</li><li>Social Security Certificate A1</li><li>Double Tax Treaty Analysis</li><li>BEPS Action 13 Reporting</li><li>PE Risk Assessment</li></ul></li><li>Compliance Calendar Status: On Track</li><li>Next Filing Deadline: Q2 2024</li></ul></div></div>",
+        "target_text": "<div class=\"tax-advisory\"><h2>全球税务咨询仪表板</h2><div class=\"tax-services\"><h3>税务服务概述</h3><ul><li>派遣类型: Split Payroll</li><li>税务合作伙伴: EY Global Tax</li><li>所需服务:<ul><li>税收均衡计算</li><li>Shadow Payroll Setup</li><li>社会保障证书 A1</li><li>Double Tax Treaty Analysis</li><li>BEPS Action 13 Reporting</li><li>PE Risk Assessment</li></ul></li><li>合规日历状态: 进展顺利</li><li>下一个申报截止日期: 2024年第二季度</li></ul></div></div>",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "html",
+        "domain_terms": [
+          "Split Payroll",
+          "EY Global Tax",
+          "Shadow Payroll",
+          "A1",
+          "BEPS Action 13",
+          "PE Risk Assessment",
+          "Double Tax Treaty"
+        ],
+        "context": "Tax advisory dashboard",
+        "metadata": {
+          "page_type": "tax_services",
+          "section": "advisory"
+        }
+      },
+      {
+        "source_text": "<div class=\"document-upload\"><h2>Immigration Document Upload</h2><div class=\"upload-section\"><h3>Required Documents</h3><form class=\"upload-form\"><div class=\"document-type\"><label>Document Type:</label><select required><option value=\"\">Select Document Type</option><option value=\"passport\">Passport</option><option value=\"visa\">Work Visa</option><option value=\"work_permit\">Work Permit</option><option value=\"qualification\">Educational Qualifications</option><option value=\"criminal_record\">Criminal Record Check</option></select></div><div class=\"metadata-fields\"><label>Document Number:</label><input type=\"text\" placeholder=\"Enter document number\" required/><label>Issue Date:</label><input type=\"date\" required/><label>Expiry Date:</label><input type=\"date\" required/><label>Issuing Authority:</label><input type=\"text\" required/><label>Country of Issue:</label><input type=\"text\" required/></div><div class=\"upload-button\"><button type=\"submit\">Upload Document</button></div><p class=\"validation-message\">Accepted formats: PDF, JPG, PNG (Max size: 5MB)</p></form></div></div>",
+        "target_text": "<div class=\"document-upload\"><h2>Immigration Dokumenten-Upload</h2><div class=\"upload-section\"><h3>Erforderliche Dokumente</h3><form class=\"upload-form\"><div class=\"document-type\"><label>Dokumententyp:</label><select required><option value=\"\">Dokumententyp auswählen</option><option value=\"passport\">Reisepass</option><option value=\"visa\">Arbeitsvisum</option><option value=\"work_permit\">Arbeitsgenehmigung</option><option value=\"qualification\">Bildungsnachweise</option><option value=\"criminal_record\">Polizeiliches Führungszeugnis</option></select></div><div class=\"metadata-fields\"><label>Dokumentennummer:</label><input type=\"text\" placeholder=\"Dokumentennummer eingeben\" required/><label>Ausstellungsdatum:</label><input type=\"date\" required/><label>Ablaufdatum:</label><input type=\"date\" required/><label>Ausstellende Behörde:</label><input type=\"text\" required/><label>Ausstellungsland:</label><input type=\"text\" required/></div><div class=\"upload-button\"><button type=\"submit\">Dokument hochladen</button></div><p class=\"validation-message\">Akzeptierte Formate: PDF, JPG, PNG (Maximale Größe: 5MB)</p></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "html",
+        "domain_terms": [
+          "Work Visa",
+          "Work Permit",
+          "Criminal Record Check"
+        ],
+        "context": "Document upload interface",
+        "metadata": {
+          "page_type": "immigration",
+          "section": "document_upload"
+        }
+      },
+      {
+        "source_text": "<div class=\"tax-documents\"><h2>Tax Documentation Center</h2><div class=\"document-checklist\"><h3>Required Tax Documents</h3><form><div class=\"tax-year-select\"><label>Tax Year:</label><select><option>2024</option><option>2023</option></select></div><table class=\"document-list\"><tr><th>Document Type</th><th>Status</th><th>Action</th></tr><tr><td>Form 2555 - Foreign Earned Income</td><td>Pending</td><td><button class=\"upload-btn\">Upload</button></td></tr><tr><td>Foreign Tax Returns</td><td>Pending</td><td><button class=\"upload-btn\">Upload</button></td></tr><tr><td>Certificate of Coverage</td><td>Completed</td><td><button class=\"view-btn\">View</button></td></tr></table><div class=\"metadata-section\"><h4>Document Metadata</h4><div class=\"metadata-fields\"><label>Tax Authority:</label><input type=\"text\" required/><label>Document Reference Number:</label><input type=\"text\" required/><label>Tax Jurisdiction:</label><input type=\"text\" required/><label>Filing Status:</label><select><option>Original</option><option>Amended</option></select></div></div></form></div></div>",
+        "target_text": "<div class=\"tax-documents\"><h2>Centre de Documentation Fiscale</h2><div class=\"document-checklist\"><h3>Documents Fiscaux Requis</h3><form><div class=\"tax-year-select\"><label>Année Fiscale:</label><select><option>2024</option><option>2023</option></select></div><table class=\"document-list\"><tr><th>Type de Document</th><th>Statut</th><th>Action</th></tr><tr><td>Form 2555 - Foreign Earned Income</td><td>En attente</td><td><button class=\"upload-btn\">Télécharger</button></td></tr><tr><td>Foreign Tax Returns</td><td>En attente</td><td><button class=\"upload-btn\">Télécharger</button></td></tr><tr><td>Certificate of Coverage</td><td>Complété</td><td><button class=\"view-btn\">Voir</button></td></tr></table><div class=\"metadata-section\"><h4>Métadonnées du Document</h4><div class=\"metadata-fields\"><label>Autorité Fiscale:</label><input type=\"text\" required/><label>Numéro de Référence du Document:</label><input type=\"text\" required/><label>Juridiction Fiscale:</label><input type=\"text\" required/><label>Statut de Dépôt:</label><select><option>Original</option><option>Modifié</option></select></div></div></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "html",
+        "domain_terms": [
+          "Form 2555",
+          "Foreign Earned Income",
+          "Foreign Tax Returns",
+          "Certificate of Coverage"
+        ],
+        "context": "Tax document upload interface",
+        "metadata": {
+          "page_type": "tax",
+          "section": "document_upload"
+        }
+      },
+      {
+        "source_text": "<div class=\"dependent-documents\"><h2>Family Dependent Documentation</h2><div class=\"family-members\"><form><div class=\"member-details\"><label>Dependent Type:</label><select required><option value=\"\">Select Type</option><option value=\"spouse\">Spouse/Partner</option><option value=\"child\">Child</option><option value=\"parent\">Parent</option></select><div class=\"document-requirements\"><h4>Required Documents</h4><ul class=\"document-list\"><li><input type=\"checkbox\"> Marriage Certificate/Partnership Registration</li><li><input type=\"checkbox\"> Birth Certificate</li><li><input type=\"checkbox\"> Passport Copy</li><li><input type=\"checkbox\"> Visa Application</li><li><input type=\"checkbox\"> Medical Insurance Certificate</li></ul></div><div class=\"document-metadata\"><label>Relationship Status:</label><input type=\"text\" required/><label>Dependent's Full Name:</label><input type=\"text\" required/><label>Date of Birth:</label><input type=\"date\" required/><label>Nationality:</label><input type=\"text\" required/><label>Current Residence:</label><input type=\"text\" required/></div></div><div class=\"upload-section\"><button type=\"submit\">Submit Documents</button><p class=\"note\">All documents must be accompanied by certified translations if not in English</p></div></form></div></div>",
+        "target_text": "<div class=\"dependent-documents\"><h2>家族扶養者関係書類</h2><div class=\"family-members\"><form><div class=\"member-details\"><label>扶養者タイプ:</label><select required><option value=\"\">タイプを選択</option><option value=\"spouse\">配偶者/パートナー</option><option value=\"child\">子供</option><option value=\"parent\">親</option></select><div class=\"document-requirements\"><h4>必要書類</h4><ul class=\"document-list\"><li><input type=\"checkbox\"> 婚姻証明書/パートナーシップ登録証</li><li><input type=\"checkbox\"> 出生証明書</li><li><input type=\"checkbox\"> パスポートコピー</li><li><input type=\"checkbox\"> ビザ申請書</li><li><input type=\"checkbox\"> 医療保険証明書</li></ul></div><div class=\"document-metadata\"><label>関係ステータス:</label><input type=\"text\" required/><label>扶養者氏名:</label><input type=\"text\" required/><label>生年月日:</label><input type=\"date\" required/><label>国籍:</label><input type=\"text\" required/><label>現在の居住地:</label><input type=\"text\" required/></div></div><div class=\"upload-section\"><button type=\"submit\">書類を提出</button><p class=\"note\">英語以外の書類には認証付き翻訳を添付してください</p></div></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "html",
+        "domain_terms": [
+          "Marriage Certificate",
+          "Birth Certificate",
+          "Medical Insurance Certificate",
+          "Partnership Registration"
+        ],
+        "context": "Dependent documentation form",
+        "metadata": {
+          "page_type": "family",
+          "section": "dependent_docs"
+        }
+      },
+      {
+        "source_text": "<div class=\"housing-documents\"><h2>Housing and Accommodation Documentation</h2><div class=\"lease-upload\"><h3>Lease Agreement Processing</h3><form><div class=\"property-details\"><label>Property Type:</label><select required><option value=\"\">Select Property Type</option><option value=\"apartment\">Corporate Apartment</option><option value=\"house\">Single Family Home</option><option value=\"temporary\">Temporary Housing</option></select><div class=\"lease-metadata\"><label>Monthly Rent Amount:</label><input type=\"number\" required/><label>Currency:</label><input type=\"text\" required/><label>Lease Start Date:</label><input type=\"date\" required/><label>Lease End Date:</label><input type=\"date\" required/><label>Property Address:</label><textarea required></textarea><label>Landlord Details:</label><input type=\"text\" required/></div><div class=\"document-checklist\"><h4>Required Documents</h4><ul><li><input type=\"checkbox\"> Signed Lease Agreement</li><li><input type=\"checkbox\"> Property Insurance Certificate</li><li><input type=\"checkbox\"> Utility Setup Confirmation</li><li><input type=\"checkbox\"> Property Inspection Report</li></ul></div></div><div class=\"cost-allocation\"><h4>Cost Allocation</h4><div class=\"allocation-fields\"><label>Cost Center:</label><input type=\"text\" required/><label>Budget Code:</label><input type=\"text\" required/><label>Assignment Reference:</label><input type=\"text\" required/></div></div><button type=\"submit\">Process Lease Documents</button></form></div></div>",
+        "target_text": "<div class=\"housing-documents\"><h2>住房和住宿文件</h2><div class=\"lease-upload\"><h3>租赁协议处理</h3><form><div class=\"property-details\"><label>物业类型:</label><select required><option value=\"\">选择物业类型</option><option value=\"apartment\">公司公寓</option><option value=\"house\">独立住宅</option><option value=\"temporary\">临时住房</option></select><div class=\"lease-metadata\"><label>月租金额:</label><input type=\"number\" required/><label>货币:</label><input type=\"text\" required/><label>租约开始日期:</label><input type=\"date\" required/><label>租约结束日期:</label><input type=\"date\" required/><label>物业地址:</label><textarea required></textarea><label>房东详情:</label><input type=\"text\" required/></div><div class=\"document-checklist\"><h4>所需文件</h4><ul><li><input type=\"checkbox\"> 已签署的租赁协议</li><li><input type=\"checkbox\"> 物业保险证明</li><li><input type=\"checkbox\"> 公用设施安装确认</li><li><input type=\"checkbox\"> 物业检查报告</li></ul></div></div><div class=\"cost-allocation\"><h4>成本分配</h4><div class=\"allocation-fields\"><label>成本中心:</label><input type=\"text\" required/><label>预算代码:</label><input type=\"text\" required/><label>任务参考号:</label><input type=\"text\" required/></div></div><button type=\"submit\">处理租赁文件</button></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "html",
+        "domain_terms": [
+          "Corporate Apartment",
+          "Property Insurance Certificate",
+          "Utility Setup Confirmation",
+          "Property Inspection Report"
+        ],
+        "context": "Housing documentation form",
+        "metadata": {
+          "page_type": "housing",
+          "section": "lease_processing"
+        }
+      },
+      {
+        "source_text": "<div class=\"document-upload\"><h2>Immigration Document Upload</h2><div class=\"upload-section\"><h3>Required Documents</h3><form class=\"upload-form\"><div class=\"document-type\"><label>Document Type:</label><select required><option value=\"\">Select Document Type</option><option value=\"passport\">Passport</option><option value=\"visa\">Work Visa</option><option value=\"work_permit\">Work Permit</option><option value=\"qualification\">Educational Qualifications</option><option value=\"criminal_record\">Criminal Record Check</option></select></div><div class=\"metadata-fields\"><label>Document Number:</label><input type=\"text\" placeholder=\"Enter document number\" required/><label>Issue Date:</label><input type=\"date\" required/><label>Expiry Date:</label><input type=\"date\" required/><label>Issuing Authority:</label><input type=\"text\" required/><label>Country of Issue:</label><input type=\"text\" required/></div><div class=\"upload-button\"><button type=\"submit\">Upload Document</button></div><p class=\"validation-message\">Accepted formats: PDF, JPG, PNG (Max size: 5MB)</p></form></div></div>",
+        "target_text": "<div class=\"document-upload\"><h2>Immigration Dokumenten-Upload</h2><div class=\"upload-section\"><h3>Erforderliche Dokumente</h3><form class=\"upload-form\"><div class=\"document-type\"><label>Dokumententyp:</label><select required><option value=\"\">Dokumententyp auswählen</option><option value=\"passport\">Reisepass</option><option value=\"visa\">Arbeitsvisum</option><option value=\"work_permit\">Arbeitsgenehmigung</option><option value=\"qualification\">Bildungsnachweise</option><option value=\"criminal_record\">Polizeiliches Führungszeugnis</option></select></div><div class=\"metadata-fields\"><label>Dokumentennummer:</label><input type=\"text\" placeholder=\"Dokumentennummer eingeben\" required/><label>Ausstellungsdatum:</label><input type=\"date\" required/><label>Ablaufdatum:</label><input type=\"date\" required/><label>Ausstellende Behörde:</label><input type=\"text\" required/><label>Ausstellungsland:</label><input type=\"text\" required/></div><div class=\"upload-button\"><button type=\"submit\">Dokument hochladen</button></div><p class=\"validation-message\">Akzeptierte Formate: PDF, JPG, PNG (Maximale Größe: 5MB)</p></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "html",
+        "domain_terms": [
+          "Work Visa",
+          "Work Permit",
+          "Criminal Record Check"
+        ],
+        "context": "Document upload interface",
+        "metadata": {
+          "page_type": "immigration",
+          "section": "document_upload"
+        }
+      },
+      {
+        "source_text": "<div class=\"tax-documents\"><h2>Tax Documentation Center</h2><div class=\"document-checklist\"><h3>Required Tax Documents</h3><form><div class=\"tax-year-select\"><label>Tax Year:</label><select><option>2024</option><option>2023</option></select></div><table class=\"document-list\"><tr><th>Document Type</th><th>Status</th><th>Action</th></tr><tr><td>Form 2555 - Foreign Earned Income</td><td>Pending</td><td><button class=\"upload-btn\">Upload</button></td></tr><tr><td>Foreign Tax Returns</td><td>Pending</td><td><button class=\"upload-btn\">Upload</button></td></tr><tr><td>Certificate of Coverage</td><td>Completed</td><td><button class=\"view-btn\">View</button></td></tr></table><div class=\"metadata-section\"><h4>Document Metadata</h4><div class=\"metadata-fields\"><label>Tax Authority:</label><input type=\"text\" required/><label>Document Reference Number:</label><input type=\"text\" required/><label>Tax Jurisdiction:</label><input type=\"text\" required/><label>Filing Status:</label><select><option>Original</option><option>Amended</option></select></div></div></form></div></div>",
+        "target_text": "<div class=\"tax-documents\"><h2>Centre de Documentation Fiscale</h2><div class=\"document-checklist\"><h3>Documents Fiscaux Requis</h3><form><div class=\"tax-year-select\"><label>Année Fiscale:</label><select><option>2024</option><option>2023</option></select></div><table class=\"document-list\"><tr><th>Type de Document</th><th>Statut</th><th>Action</th></tr><tr><td>Form 2555 - Foreign Earned Income</td><td>En attente</td><td><button class=\"upload-btn\">Télécharger</button></td></tr><tr><td>Foreign Tax Returns</td><td>En attente</td><td><button class=\"upload-btn\">Télécharger</button></td></tr><tr><td>Certificate of Coverage</td><td>Complété</td><td><button class=\"view-btn\">Voir</button></td></tr></table><div class=\"metadata-section\"><h4>Métadonnées du Document</h4><div class=\"metadata-fields\"><label>Autorité Fiscale:</label><input type=\"text\" required/><label>Numéro de Référence du Document:</label><input type=\"text\" required/><label>Juridiction Fiscale:</label><input type=\"text\" required/><label>Statut de Dépôt:</label><select><option>Original</option><option>Modifié</option></select></div></div></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "html",
+        "domain_terms": [
+          "Form 2555",
+          "Foreign Earned Income",
+          "Foreign Tax Returns",
+          "Certificate of Coverage"
+        ],
+        "context": "Tax document upload interface",
+        "metadata": {
+          "page_type": "tax",
+          "section": "document_upload"
+        }
+      },
+      {
+        "source_text": "<div class=\"dependent-documents\"><h2>Family Dependent Documentation</h2><div class=\"family-members\"><form><div class=\"member-details\"><label>Dependent Type:</label><select required><option value=\"\">Select Type</option><option value=\"spouse\">Spouse/Partner</option><option value=\"child\">Child</option><option value=\"parent\">Parent</option></select><div class=\"document-requirements\"><h4>Required Documents</h4><ul class=\"document-list\"><li><input type=\"checkbox\"> Marriage Certificate/Partnership Registration</li><li><input type=\"checkbox\"> Birth Certificate</li><li><input type=\"checkbox\"> Passport Copy</li><li><input type=\"checkbox\"> Visa Application</li><li><input type=\"checkbox\"> Medical Insurance Certificate</li></ul></div><div class=\"document-metadata\"><label>Relationship Status:</label><input type=\"text\" required/><label>Dependent's Full Name:</label><input type=\"text\" required/><label>Date of Birth:</label><input type=\"date\" required/><label>Nationality:</label><input type=\"text\" required/><label>Current Residence:</label><input type=\"text\" required/></div></div><div class=\"upload-section\"><button type=\"submit\">Submit Documents</button><p class=\"note\">All documents must be accompanied by certified translations if not in English</p></div></form></div></div>",
+        "target_text": "<div class=\"dependent-documents\"><h2>家族扶養者関係書類</h2><div class=\"family-members\"><form><div class=\"member-details\"><label>扶養者タイプ:</label><select required><option value=\"\">タイプを選択</option><option value=\"spouse\">配偶者/パートナー</option><option value=\"child\">子供</option><option value=\"parent\">親</option></select><div class=\"document-requirements\"><h4>必要書類</h4><ul class=\"document-list\"><li><input type=\"checkbox\"> 婚姻証明書/パートナーシップ登録証</li><li><input type=\"checkbox\"> 出生証明書</li><li><input type=\"checkbox\"> パスポートコピー</li><li><input type=\"checkbox\"> ビザ申請書</li><li><input type=\"checkbox\"> 医療保険証明書</li></ul></div><div class=\"document-metadata\"><label>関係ステータス:</label><input type=\"text\" required/><label>扶養者氏名:</label><input type=\"text\" required/><label>生年月日:</label><input type=\"date\" required/><label>国籍:</label><input type=\"text\" required/><label>現在の居住地:</label><input type=\"text\" required/></div></div><div class=\"upload-section\"><button type=\"submit\">書類を提出</button><p class=\"note\">英語以外の書類には認証付き翻訳を添付してください</p></div></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "html",
+        "domain_terms": [
+          "Marriage Certificate",
+          "Birth Certificate",
+          "Medical Insurance Certificate",
+          "Partnership Registration"
+        ],
+        "context": "Dependent documentation form",
+        "metadata": {
+          "page_type": "family",
+          "section": "dependent_docs"
+        }
+      },
+      {
+        "source_text": "<div class=\"housing-documents\"><h2>Housing and Accommodation Documentation</h2><div class=\"lease-upload\"><h3>Lease Agreement Processing</h3><form><div class=\"property-details\"><label>Property Type:</label><select required><option value=\"\">Select Property Type</option><option value=\"apartment\">Corporate Apartment</option><option value=\"house\">Single Family Home</option><option value=\"temporary\">Temporary Housing</option></select><div class=\"lease-metadata\"><label>Monthly Rent Amount:</label><input type=\"number\" required/><label>Currency:</label><input type=\"text\" required/><label>Lease Start Date:</label><input type=\"date\" required/><label>Lease End Date:</label><input type=\"date\" required/><label>Property Address:</label><textarea required></textarea><label>Landlord Details:</label><input type=\"text\" required/></div><div class=\"document-checklist\"><h4>Required Documents</h4><ul><li><input type=\"checkbox\"> Signed Lease Agreement</li><li><input type=\"checkbox\"> Property Insurance Certificate</li><li><input type=\"checkbox\"> Utility Setup Confirmation</li><li><input type=\"checkbox\"> Property Inspection Report</li></ul></div></div><div class=\"cost-allocation\"><h4>Cost Allocation</h4><div class=\"allocation-fields\"><label>Cost Center:</label><input type=\"text\" required/><label>Budget Code:</label><input type=\"text\" required/><label>Assignment Reference:</label><input type=\"text\" required/></div></div><button type=\"submit\">Process Lease Documents</button></form></div></div>",
+        "target_text": "<div class=\"housing-documents\"><h2>住房和住宿文件</h2><div class=\"lease-upload\"><h3>租赁协议处理</h3><form><div class=\"property-details\"><label>物业类型:</label><select required><option value=\"\">选择物业类型</option><option value=\"apartment\">公司公寓</option><option value=\"house\">独立住宅</option><option value=\"temporary\">临时住房</option></select><div class=\"lease-metadata\"><label>月租金额:</label><input type=\"number\" required/><label>货币:</label><input type=\"text\" required/><label>租约开始日期:</label><input type=\"date\" required/><label>租约结束日期:</label><input type=\"date\" required/><label>物业地址:</label><textarea required></textarea><label>房东详情:</label><input type=\"text\" required/></div><div class=\"document-checklist\"><h4>所需文件</h4><ul><li><input type=\"checkbox\"> 已签署的租赁协议</li><li><input type=\"checkbox\"> 物业保险证明</li><li><input type=\"checkbox\"> 公用设施安装确认</li><li><input type=\"checkbox\"> 物业检查报告</li></ul></div></div><div class=\"cost-allocation\"><h4>成本分配</h4><div class=\"allocation-fields\"><label>成本中心:</label><input type=\"text\" required/><label>预算代码:</label><input type=\"text\" required/><label>任务参考号:</label><input type=\"text\" required/></div></div><button type=\"submit\">处理租赁文件</button></form></div></div>",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "html",
+        "domain_terms": [
+          "Corporate Apartment",
+          "Property Insurance Certificate",
+          "Utility Setup Confirmation",
+          "Property Inspection Report"
+        ],
+        "context": "Housing documentation form",
+        "metadata": {
+          "page_type": "housing",
+          "section": "lease_processing"
+        }
+      }
+    ]
+  }

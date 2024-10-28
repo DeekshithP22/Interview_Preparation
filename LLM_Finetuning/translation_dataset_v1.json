@@ -1,0 +1,220 @@
+{
+    "translations": [
+      {
+        "source_text": "EY Mobility Pathway Dashboard: GTR approval pending for APAC assignment",
+        "target_text": "イーワイ・モビリティ・パスウェイ ダッシュボード：APACアサインメントのGTR承認待ち",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "header",
+        "domain_terms": ["EY", "Mobility", "Pathway", "GTR", "APAC"],
+        "context": "dashboard_header_notification"
+      },
+      {
+        "source_text": "Welcome to EY Mobility PathFinder. Your GMS portal access for FSO compliance review is ready.",
+        "target_text": "Bienvenido a イーワイ・モビリティ・パスファインダー. Su acceso al portal GMS para la revisión de cumplimiento FSO está listo.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "welcome_message",
+        "domain_terms": ["EY", "Mobility", "PathFinder", "GMS", "FSO"],
+        "context": "portal_welcome"
+      },
+      {
+        "source_text": "Critical Alert: Your ICT visa for EY Mobility APAC assignment expires in 15 days. Contact your GMC immediately.",
+        "target_text": "重要提醒：您的易永移动性APAC任务的ICT签证将在15天内到期。请立即联系您的GMC。",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "alert",
+        "domain_terms": ["EY", "Mobility", "ICT", "APAC", "GMC"],
+        "context": "visa_expiry_alert"
+      },
+      {
+        "source_text": "Your EYMP WorkStream has identified potential PE risks in your STBV assignment. Review required for BEPS compliance and PWC documentation.",
+        "target_text": "Votre WorkStream EYMP a identifié des risques EP potentiels dans votre mission STBV. Révision requise pour la conformité BEPS et la documentation PWC.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "notification",
+        "domain_terms": ["EYMP", "PE", "STBV", "BEPS", "PWC", "WorkStream"],
+        "context": "tax_compliance_alert"
+      },
+      {
+        "source_text": "Complete your GCR onboarding on EY Mobility Pathway. Required documents: HRIS profile, TCN visa details, and FSO clearance.",
+        "target_text": "イーワイ・モビリティ・パスウェイでGCRオンボーディングを完了してください。必要書類：HRISプロファイル、TCNビザの詳細、FSO承認。",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "instruction",
+        "domain_terms": ["GCR", "EY Mobility Pathway", "HRIS", "TCN", "FSO"],
+        "context": "onboarding_process"
+      },
+      {
+        "source_text": "Error: COLA calculation failed for your LTA package. Update your GEMS profile with current HHG shipping status and ITTP review documents.",
+        "target_text": "错误：您的LTA待遇包COLA计算失败。请使用当前HHG运输状态和ITTP审查文件更新您的GEMS个人资料。",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "error_message",
+        "domain_terms": ["COLA", "LTA", "GEMS", "HHG", "ITTP"],
+        "context": "compensation_calculation_error"
+      },
+      {
+        "source_text": "Dear [Name], Your EY Mobility Navigator account settings require immediate attention. Update your GTR preferences and GDPR consents for EMEIA assignments.",
+        "target_text": "Estimado/a [Name], La configuración de su cuenta de EY Mobility Navigator requiere atención inmediata. Actualice sus preferencias de GTR y consentimientos GDPR para asignaciones EMEIA.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "email",
+        "domain_terms": ["EY Mobility Navigator", "GTR", "GDPR", "EMEIA"],
+        "context": "account_settings_update"
+      },
+      {
+        "source_text": "Configure your RMC preferences in the Global Mobility Dashboard. Select preferred vendors for: Immigration Support (ISP), Tax Services (TSP), and Relocation Support (RSP).",
+        "target_text": "Konfigurieren Sie Ihre RMC-Einstellungen im Global Mobility Dashboard. Wählen Sie bevorzugte Anbieter für: Immigrationsunterstützung (ISP), Steuerdienstleistungen (TSP) und Relocation-Support (RSP).",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "settings_page",
+        "domain_terms": ["RMC", "ISP", "TSP", "RSP"],
+        "context": "vendor_preference_setup"
+      },
+      {
+        "source_text": "Critical: Your STA compliance status requires GMC review. Submit TRF and FBAR documentation through GEMS portal before ICT visa processing.",
+        "target_text": "Krytyczne: Twój status zgodności STA wymaga przeglądu GMC. Prześlij dokumentację TRF i FBAR przez portal GEMS przed przetworzeniem wizy ICT.",
+        "source_lang": "en",
+        "target_lang": "pl",
+        "content_type": "alert",
+        "domain_terms": ["STA", "GMC", "TRF", "FBAR", "GEMS", "ICT"],
+        "context": "compliance_review_alert"
+      },
+      {
+        "source_text": "Access your EY Mobility Pathway benefits calculator. Review COLA adjustments, HRA calculations, and IPRS scoring for your GCR position.",
+        "target_text": "Acesse sua calculadora de benefícios EY Mobility Pathway. Revise os ajustes COLA, cálculos HRA e pontuação IPRS para sua posição GCR.",
+        "source_lang": "en",
+        "target_lang": "pt",
+        "content_type": "tool_instruction",
+        "domain_terms": ["EY Mobility Pathway", "COLA", "HRA", "IPRS", "GCR"],
+        "context": "benefits_calculation"
+      },
+      {
+        "source_text": "Your FSO assignment requires immediate BEPS reporting. Update your PE status through EY Mobility PathFinder and submit relevant TSS documentation.",
+        "target_text": "Je FSO-opdracht vereist onmiddellijke BEPS-rapportage. Werk uw PE-status bij via EY Mobility PathFinder en dien de relevante TSS-documentatie in.",
+        "source_lang": "en",
+        "target_lang": "nl",
+        "content_type": "notification",
+        "domain_terms": ["FSO", "BEPS", "PE", "EY Mobility PathFinder", "TSS"],
+        "context": "tax_reporting_reminder"
+      },
+      {
+        "source_text": "Schedule your GMS orientation through the EY Mobility Navigator. Required sessions: STBV protocols, ITTP compliance, and RMC coordination briefing.",
+        "target_text": "GMS 오리엔테이션을 EY 모빌리티 네비게이터를 통해 예약하세요. 필수 세션: STBV 프로토콜, ITTP 컴플라이언스, RMC 조정 브리핑.",
+        "source_lang": "en",
+        "target_lang": "ko",
+        "content_type": "instruction",
+        "domain_terms": ["GMS", "EY Mobility Navigator", "STBV", "ITTP", "RMC"],
+        "context": "orientation_scheduling"
+      },
+      {
+        "source_text": "Update your LTA preferences in the Global Assignment Workbench. Include HHG requirements, IPRS preferences, and TCN visa history for GMC review.",
+        "target_text": "Aggiorna le tue preferenze LTA nel Global Assignment Workbench. Includi i requisiti HHG, le preferenze IPRS e la cronologia dei visti TCN per la revisione GMC.",
+        "source_lang": "en",
+        "target_lang": "it",
+        "content_type": "settings_update",
+        "domain_terms": ["LTA", "HHG", "IPRS", "TCN", "GMC"],
+        "context": "assignment_preferences"
+      },
+      {
+        "source_text": "As per your LTA (Long Term Assignment) requirements, please be advised that your comprehensive mobility package includes COLA adjustments (based on AIRINC indices), educational support for dependents (as per FSO policy guidelines), tax equalization benefits (subject to BEPS compliance), and quarterly HHG allowance, all of which must be reviewed by your designated GMC representative before the commencement of your EMEIA regional transfer.",
+        "target_text": "Conformément aux exigences de votre LTA (Affectation à Long Terme), veuillez noter que votre package de mobilité complet comprend les ajustements COLA (basés sur les indices AIRINC), le soutien éducatif pour les personnes à charge (selon les directives de la politique FSO), les avantages de péréquation fiscale (sous réserve de la conformité BEPS), et l'allocation trimestrielle HHG, qui doivent tous être examinés par votre représentant GMC désigné avant le début de votre transfert régional EMEIA.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "policy_notification",
+        "domain_terms": ["LTA", "COLA", "AIRINC", "FSO", "BEPS", "HHG", "GMC", "EMEIA"],
+        "context": "assignment_package_details"
+      },
+      {
+        "source_text": "According to the latest EY Mobility PathFinder system update, your upcoming STBV (Short Term Business Visitor) status requires immediate attention due to potential PE (Permanent Establishment) risks identified in multiple jurisdictions, particularly concerning your remote work arrangements across APAC regions, which necessitates a comprehensive review of your ITTP (International Tax and Transfer Pricing) documentation, TCN visa compliance, and updated GSS (Global Support Services) registration through the GEMS (Global Employment Management System) portal.",
+        "target_text": "イーワイ・モビリティ・パスファインダー システムの最新のアップデートによると、複数の管轄区域で特定された恒久的施設（PE）リスク、特にAPAC地域全体でのリモートワーク体制に関して、STBVステータスへの即時の対応が必要とされます。これには、ITTP（国際税務および移転価格）文書、TCNビザコンプライアンス、およびGEMS（グローバル雇用管理システム）ポータルを通じた更新されたGSS（グローバルサポートサービス）登録の包括的なレビューが必要です。",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "system_notification",
+        "domain_terms": ["EY Mobility PathFinder", "STBV", "PE", "APAC", "ITTP", "TCN", "GSS", "GEMS"],
+        "context": "compliance_risk_alert"
+      },
+      {
+        "source_text": "Following your recent enrollment in the Global Mobility Program through EY Mobility Navigator, your designated RMC (Relocation Management Company) has initiated the comprehensive onboarding process, which includes coordination with local ISP (Immigration Service Provider) for work permit processing, arrangement of pre-assignment health screenings through approved GMH (Global Medical Health) providers, scheduling of cultural orientation sessions, and establishment of your global payroll profile in accordance with GDPR requirements and host country regulations; please ensure all documentation is submitted through the secure GMS portal within the next 5 business days.",
+        "target_text": "Nach Ihrer kürzlichen Anmeldung zum Global Mobility Program über EY Mobility Navigator hat Ihr zugewiesenes RMC (Relocation Management Company) den umfassenden Onboarding-Prozess eingeleitet, der die Koordination mit dem lokalen ISP (Immigration Service Provider) für die Bearbeitung der Arbeitserlaubnis, die Organisation von Gesundheitsuntersuchungen vor der Entsendung durch zugelassene GMH-Anbieter (Global Medical Health), die Planung von kulturellen Orientierungssitzungen und die Einrichtung Ihres globalen Gehaltsprofils gemäß GDPR-Anforderungen und den Vorschriften des Gastlandes umfasst; bitte stellen Sie sicher, dass alle Unterlagen innerhalb der nächsten 5 Werktage über das sichere GMS-Portal eingereicht werden.",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "email_notification",
+        "domain_terms": ["EY Mobility Navigator", "RMC", "ISP", "GMH", "GDPR", "GMS"],
+        "context": "onboarding_process_initiation"
+      },
+      {
+        "source_text": "The quarterly compliance review of your international assignment has identified several critical action items that require immediate attention: 1) your A1 social security certificate for the EMEIA region needs renewal, 2) the BEPS documentation for your cross-border activities must be updated to reflect recent PE exposure changes, 3) your dependent's international school allowance requires revalidation under the updated FSO policy guidelines, and 4) your split payroll arrangement needs to be reviewed in light of recent changes to host country taxation treaties; please schedule a virtual consultation with your assigned GMS coordinator to address these matters before your next payroll cycle.",
+        "target_text": "La revisión trimestral de cumplimiento de su asignación internacional ha identificado varios elementos críticos que requieren atención inmediata: 1) su certificado de seguridad social A1 para la región EMEIA necesita renovación, 2) la documentación BEPS para sus actividades transfronterizas debe actualizarse para reflejar los cambios recientes en la exposición PE, 3) el subsidio de escuela internacional para sus dependientes requiere revalidación según las pautas actualizadas de la política FSO, y 4) su acuerdo de nómina dividida debe revisarse a la luz de los cambios recientes en los tratados fiscales del país anfitrión; programe una consulta virtual con su coordinador GMS asignado para abordar estos asuntos antes de su próximo ciclo de nómina.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "compliance_review",
+        "domain_terms": ["A1", "EMEIA", "BEPS", "PE", "FSO", "GMS"],
+        "context": "quarterly_review_findings"
+      },
+      {
+        "source_text": "Welcome to EY Mobility Dashboard\nCurrent Assignment Status: Pending GMC Review\nImportant Notices:\n• Tax Documentation Required\n• Update Immigration Status\n• Complete Compliance Training",
+        "target_text": "Bienvenue sur le tableau de bord EY Mobility\nStatut d'affectation actuel : Examen GMC en attente\nAvis importants :\n• Documentation fiscale requise\n• Mettre à jour le statut d'immigration\n• Compléter la formation sur la conformité",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "dashboard_content",
+        "domain_terms": ["EY Mobility", "GMC"],
+        "context": "dashboard_welcome"
+      },
+      {
+        "source_text": "Upload Required Documents:\nWork Permit Application\nTax Residency Certificate\nFamily Member Details\nNote: All documents must be in PDF format and less than 5MB",
+        "target_text": "必要書類のアップロード：\n就労許可申請書\n税務居住証明書\n家族情報\n注：すべての書類はPDF形式で5MB未満である必要があります",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "form_labels",
+        "domain_terms": [],
+        "context": "document_upload"
+      },
+      {
+        "source_text": "Error: Your EY Mobility PathFinder session has expired. Please log in again to continue accessing your STBV application status.",
+        "target_text": "错误：您的易永移动寻路者会话已过期。请重新登录以继续访问您的STBV申请状态。",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "error_message",
+        "domain_terms": ["EY Mobility PathFinder", "STBV"],
+        "context": "session_timeout"
+      },
+      {
+        "source_text": "Global Mobility Settings:\nLanguage Preferences\nNotification Settings\nTime Zone\nDocument Storage Preferences\nPrivacy Settings",
+        "target_text": "Configuración de Movilidad Global:\nPreferencias de idioma\nConfiguración de notificaciones\nZona horaria\nPreferencias de almacenamiento de documentos\nConfiguración de privacidad",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "settings_menu",
+        "domain_terms": ["Global Mobility"],
+        "context": "user_settings"
+      },
+      {
+        "source_text": "Assignment Summary:\nType: Long Term Assignment (LTA)\nHome Country: United States\nHost Country: Singapore\nDuration: 24 months\nBusiness Unit: FSO Advisory",
+        "target_text": "임명 요약:\n유형: 장기 임명 (LTA)\n모국: United States\n수용국: Singapore\n기간: 24개월\n사업부: FSO Advisory",
+        "source_lang": "en",
+        "target_lang": "ko",
+        "content_type": "profile_summary",
+        "domain_terms": ["LTA", "FSO Advisory"],
+        "context": "assignment_details"
+      },
+      {
+        "source_text": "Document Status:\nPassport: Verified ✓\nVisa Application: Pending Review\nWork Permit: Processing\nTax Forms: Action Required\nHealth Insurance: Expired",
+        "target_text": "Documentstatus:\nPaspoort: Geverifieerd ✓\nVisumaanvraag: In afwachting van controle\nWerkvergunning: In behandeling\nBelastingformulieren: Actie vereist\nZorgverzekering: Verlopen",
+        "source_lang": "en",
+        "target_lang": "nl",
+        "content_type": "status_table",
+        "domain_terms": [],
+        "context": "document_status"
+      },
+      {
+        "source_text": "Select Assignment Type:\n• Short Term Business Visitor (STBV)\n• Long Term Assignment (LTA)\n• Permanent Transfer (PT)\n• Global Executive (GE)",
+        "target_text": "Selecione o Tipo de Designação:\n• Visitante de Negócios de Curto Prazo (STBV)\n• Designação de Longo Prazo (LTA)\n• Transferência Permanente (PT)\n• Executivo Global (GE)",
+        "source_lang": "en",
+        "target_lang": "pt",
+        "content_type": "dropdown_options",
+        "domain_terms": ["STBV", "LTA", "PT", "GE"],
+        "context": "assignment_selection"
+      }
+    ]
+  }

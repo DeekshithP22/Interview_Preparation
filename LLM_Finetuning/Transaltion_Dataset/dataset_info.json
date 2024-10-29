@@ -13,6 +13,10 @@
     "output": {
       "dtype": "string",
       "_type": "Value"
+    },
+    "text": {
+      "dtype": "string",
+      "_type": "Value"
     }
   },
   "homepage": "",

@@ -1,1 +1,91 @@
+      {
+        "source_text": "The city is investing in public mobility solutions for a sustainable future.",
+        "target_text": "La ciudad está invirtiendo en soluciones de movilidad pública para un futuro sostenible.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "informational",
+        "domain_terms": ["mobility", "city", "public", "solutions", "sustainable"],
+        "context": "transportation_infrastructure"
+      },
+      {
+        "source_text": "This new technology improves mobility for people with disabilities.",
+        "target_text": "Esta nueva tecnología mejora la movilidad para personas con discapacidades.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "informational",
+        "domain_terms": ["mobility", "technology", "disabilities", "people"],
+        "context": "accessibility"
+      },
+      {
+        "source_text": "Mobile mobility solutions are transforming how businesses operate in the digital age.",
+        "target_text": "Las soluciones de movilidad móvil están transformando cómo operan las empresas en la era digital.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "business_technology",
+        "domain_terms": ["mobility", "mobile", "solutions", "business", "digital"],
+        "context": "technology_innovation"
+      },
+      {
+        "source_text": "Government policies aimed at increasing social mobility have shown positive results.",
+        "target_text": "Las políticas gubernamentales destinadas a aumentar la movilidad social han mostrado resultados positivos.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "social_policy",
+        "domain_terms": ["mobility", "social", "government", "policies"],
+        "context": "economic_mobility"
+      },
+      {
+        "source_text": "Regular stretching exercises can significantly improve joint mobility.",
+        "target_text": "Los ejercicios de estiramiento regulares pueden mejorar significativamente la movilidad articular.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "health_fitness",
+        "domain_terms": ["mobility", "stretching", "exercises", "joint"],
+        "context": "physical_therapy"
+      },
+      {
+        "source_text": "Autonomous robots are increasing mobility in warehouse management systems.",
+        "target_text": "Los robots autónomos están aumentando la movilidad en los sistemas de gestión de almacenes.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "robotics_technology",
+        "domain_terms": ["mobility", "autonomous", "robots", "warehouse", "management"],
+        "context": "robotics"
+      },
+      {
+        "source_text": "The mobility of capital in emerging markets has increased significantly over the last decade.",
+        "target_text": "La movilidad del capital en los mercados emergentes ha aumentado significativamente en la última década.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "financial_analysis",
+        "domain_terms": ["mobility", "capital", "emerging markets", "investment"],
+        "context": "financial_markets"
+      },
+      {
+        "source_text": "Logistics companies are focusing on improving the mobility of goods across borders.",
+        "target_text": "Las empresas logísticas están centradas en mejorar la movilidad de las mercancías a través de las fronteras.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "logistics_management",
+        "domain_terms": ["mobility", "logistics", "goods", "borders"],
+        "context": "logistics"
+      },
+      {
+        "source_text": "The city is implementing new mobility solutions to reduce traffic congestion and pollution.",
+        "target_text": "La ciudad está implementando nuevas soluciones de movilidad para reducir la congestión del tráfico y la contaminación.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "urban_planning",
+        "domain_terms": ["mobility", "city", "solutions", "traffic", "pollution"],
+        "context": "urban_transportation"
+      },
+      {
+        "source_text": "The military is enhancing its mobility capabilities to respond more swiftly to global threats.",
+        "target_text": "El ejército está mejorando sus capacidades de movilidad para responder más rápidamente a las amenazas globales.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "military_operations",
+        "domain_terms": ["mobility", "military", "capabilities", "threats"],
+        "context": "military"
+      }          
 

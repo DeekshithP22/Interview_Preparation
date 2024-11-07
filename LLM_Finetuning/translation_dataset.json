@@ -1,0 +1,788 @@
+{
+    "training_data": [
+      {
+        "source_text": "EY Mobility Pathway Dashboard: GTR approval pending for APAC assignment",
+        "target_text": "イーワイ・モビリティ・パスウェイ ダッシュボード：APACアサインメントのGTR承認待ち",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "header",
+        "domain_terms": ["EY", "Mobility", "Pathway", "GTR", "APAC"],
+        "context": "dashboard_header_notification"
+      },
+      {
+        "source_text": "Welcome to EY Mobility PathFinder. Your GMS portal access for FSO compliance review is ready.",
+        "target_text": "Bienvenido a EY Mobilidad PathFainder. Su acceso al portal GMS para la revisión de cumplimiento FSO está listo.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "welcome_message",
+        "domain_terms": ["EY", "Mobility", "PathFinder", "GMS", "FSO"],
+        "context": "portal_welcome"
+      },
+      {
+        "source_text": "Critical Alert: Your ICT visa for EY Mobility APAC assignment expires in 15 days. Contact your GMC immediately.",
+        "target_text": "重要提醒：您的EY 移动力 APAC任务的ICT签证将在15天内到期。请立即联系您的GMC。",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "alert",
+        "domain_terms": ["EY", "Mobility", "ICT", "APAC", "GMC"],
+        "context": "visa_expiry_alert"
+      },
+      {
+        "source_text": "Your EYMP WorkStream has identified potential PE risks in your STBV assignment. Review required for BEPS compliance and PWC documentation.",
+        "target_text": "Votre EYMP WorkStrim a identifié des risques PE potentiels dans votre mission STBV. Révision requise pour la conformité BEPS et la documentation PWC.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "notification",
+        "domain_terms": ["EYMP", "PE", "STBV", "BEPS", "PWC", "WorkStream"],
+        "context": "tax_compliance_alert"
+      },
+      {
+        "source_text": "Complete your GCR onboarding on EY Mobility Pathway. Required documents: HRIS profile, TCN visa details, and FSO clearance.",
+        "target_text": "EY モビリティ・パスウェイでGCRオンボーディングを完了してください。必要書類：HRISプロファイル、TCNビザの詳細、FSO承認。",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "instruction",
+        "domain_terms": ["GCR", "EY Mobility Pathway", "HRIS", "TCN", "FSO"],
+        "context": "onboarding_process"
+      },
+      {
+        "source_text": "Error: COLA calculation failed for your LTA package. Update your GEMS profile with current HHG shipping status and ITTP review documents.",
+        "target_text": "错误：您的LTA待遇包COLA计算失败。请使用当前HHG运输状态和ITTP审查文件更新您的GEMS个人资料。",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "error_message",
+        "domain_terms": ["COLA", "LTA", "GEMS", "HHG", "ITTP"],
+        "context": "compensation_calculation_error"
+      },
+      {
+        "source_text": "Dear [Name], Your EY Mobility Navigator account settings require immediate attention. Update your GTR preferences and GDPR consents for EMEIA assignments.",
+        "target_text": "Estimado/a [Name], La configuración de su cuenta de EY Mobilidad Navegador requiere atención inmediata. Actualice sus preferencias de GTR y consentimientos GDPR para asignaciones EMEIA.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "email",
+        "domain_terms": ["EY Mobility Navigator", "GTR", "GDPR", "EMEIA"],
+        "context": "account_settings_update"
+      },
+      {
+        "source_text": "Configure your RMC preferences in the Global Mobility Dashboard. Select preferred vendors for: Immigration Support (ISP), Tax Services (TSP), and Relocation Support (RSP).",
+        "target_text": "Konfigurieren Sie Ihre RMC-Einstellungen im Global Mobilität Dashboard. Wählen Sie bevorzugte Anbieter für: Immigrationsunterstützung (ISP), Steuerdienstleistungen (TSP) und Relokation Support (RSP).",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "settings_page",
+        "domain_terms": ["RMC", "ISP", "TSP", "RSP"],
+        "context": "vendor_preference_setup"
+      },
+      {
+        "source_text": "Critical: Your STA compliance status requires GMC review. Submit TRF and FBAR documentation through GEMS portal before ICT visa processing.",
+        "target_text": "Krytyczne: Twój status zgodności STA wymaga przeglądu GMC. Prześlij dokumentację TRF i FBAR przez portal GEMS przed przetworzeniem wizy ICT.",
+        "source_lang": "en",
+        "target_lang": "pl",
+        "content_type": "alert",
+        "domain_terms": ["STA", "GMC", "TRF", "FBAR", "GEMS", "ICT"],
+        "context": "compliance_review_alert"
+      },
+      {
+        "source_text": "Access your EY Mobility Pathway benefits calculator. Review COLA adjustments, HRA calculations, and IPRS scoring for your GCR position.",
+        "target_text": "Acesse sua calculadora de benefícios EY Mobilidade Pathway. Revise os ajustes COLA, cálculos HRA e pontuação IPRS para sua posição GCR.",
+        "source_lang": "en",
+        "target_lang": "pt",
+        "content_type": "tool_instruction",
+        "domain_terms": ["EY Mobility Pathway", "COLA", "HRA", "IPRS", "GCR"],
+        "context": "benefits_calculation"
+      },
+      {
+        "source_text": "Your FSO assignment requires immediate BEPS reporting. Update your PE status through EY Mobility PathFinder and submit relevant TSS documentation.",
+        "target_text": "Je FSO-opdracht vereist onmiddellijke BEPS-rapportage. Werk uw PE-status bij via EY Mobiliteit Pathfinder en dien de relevante TSS-documentatie in.",
+        "source_lang": "en",
+        "target_lang": "nl",
+        "content_type": "notification",
+        "domain_terms": ["FSO", "BEPS", "PE", "EY Mobility PathFinder", "TSS"],
+        "context": "tax_reporting_reminder"
+      },
+      {
+        "source_text": "Schedule your GMS orientation through the EY Mobility Navigator. Required sessions: STBV protocols, ITTP compliance, and RMC coordination briefing.",
+        "target_text": "GMS 오리엔테이션을 EY 모빌리티 내비게이터를 통해 예약하세요. 필수 세션: STBV 프로토콜, ITTP 컴플라이언스, RMC 조정 브리핑.",
+        "source_lang": "en",
+        "target_lang": "ko",
+        "content_type": "instruction",
+        "domain_terms": ["GMS", "EY Mobility Navigator", "STBV", "ITTP", "RMC"],
+        "context": "orientation_scheduling"
+      },
+      {
+        "source_text": "Update your LTA preferences in the Global Assignment Workbench. Include HHG requirements, IPRS preferences, and TCN visa history for GMC review.",
+        "target_text": "Aggiorna le tue preferenze LTA nel Globale Assegnazione Workbench. Includi i requisiti HHG, le preferenze IPRS e la cronologia dei visti TCN per la revisione GMC.",
+        "source_lang": "en",
+        "target_lang": "it",
+        "content_type": "settings_update",
+        "domain_terms": ["LTA", "Global Assignment Workbench", "HHG", "IPRS", "TCN", "GMC"],
+        "context": "assignment_preferences"
+      },
+      {
+        "source_text": "As per your LTA (Long Term Assignment) requirements, please be advised that your comprehensive mobility package includes COLA adjustments (based on AIRINC indices), educational support for dependents (as per FSO policy guidelines), tax equalization benefits (subject to BEPS compliance), and quarterly HHG allowance, all of which must be reviewed by your designated GMC representative before the commencement of your EMEIA regional transfer.",
+        "target_text": "Conformément aux exigences de votre LTA (Affectation à Long Terme), veuillez noter que votre package de mobilité complet comprend les ajustements COLA (basés sur les indices AIRINC), le soutien éducatif pour les personnes à charge (selon les directives de la politique FSO), les avantages de péréquation fiscale (sous réserve de la conformité BEPS), et l'allocation trimestrielle HHG, qui doivent tous être examinés par votre représentant GMC désigné avant le début de votre transfert régional EMEIA.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "policy_notification",
+        "domain_terms": ["LTA", "COLA", "AIRINC", "FSO", "BEPS", "HHG", "GMC", "EMEIA"],
+        "context": "assignment_package_details"
+      },
+      {
+        "source_text": "According to the latest EY Mobility PathFinder system update, your upcoming STBV (Short Term Business Visitor) status requires immediate attention due to potential PE (Permanent Establishment) risks identified in multiple jurisdictions, particularly concerning your remote work arrangements across APAC regions, which necessitates a comprehensive review of your ITTP (International Tax and Transfer Pricing) documentation, TCN visa compliance, and updated GSS (Global Support Services) registration through the GEMS (Global Employment Management System) portal.",
+        "target_text": "EY モビリティ・パスファインダー システムの最新のアップデートによると、複数の管轄区域で特定された恒久的施設（PE）リスク、特にAPAC地域全体でのリモートワーク体制に関して、STBVステータスへの即時の対応が必要とされます。これには、ITTP（国際税務および移転価格）文書、TCNビザコンプライアンス、およびGEMS（グローバル雇用管理システム）ポータルを通じた更新されたGSS（グローバルサポートサービス）登録の包括的なレビューが必要です。",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "system_notification",
+        "domain_terms": ["EY Mobility PathFinder", "STBV", "PE", "APAC", "ITTP", "TCN", "GSS", "GEMS"],
+        "context": "compliance_risk_alert"
+      },
+      {
+        "source_text": "Following your recent enrollment in the Global Mobility Program through EY Mobility Navigator, your designated RMC (Relocation Management Company) has initiated the comprehensive onboarding process, which includes coordination with local ISP (Immigration Service Provider) for work permit processing, arrangement of pre-assignment health screenings through approved GMH (Global Medical Health) providers, scheduling of cultural orientation sessions, and establishment of your global payroll profile in accordance with GDPR requirements and host country regulations; please ensure all documentation is submitted through the secure GMS portal within the next 5 business days.",
+        "target_text": "Nach Ihrer kürzlichen Anmeldung zum Global Mobilität Program über EY Mobilität Navigator hat Ihr zugewiesenes RMC (Relocation Management Company) den umfassenden Einführungs-Prozess eingeleitet, der die Koordination mit dem lokalen ISP (Immigration Service Provider) für die Bearbeitung der Arbeitserlaubnis, die Organisation von Gesundheitsuntersuchungen vor der Entsendung durch zugelassene GMH-Anbieter (Global Medical Health), die Planung von kulturellen Orientierungssitzungen und die Einrichtung Ihres globalen Gehaltsprofils gemäß GDPR-Anforderungen und den Vorschriften des Gastlandes umfasst; bitte stellen Sie sicher, dass alle Unterlagen innerhalb der nächsten 5 Werktage über das sichere GMS-Portal eingereicht werden.",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["Global Mobility Program", "EY Mobility Navigator", "RMC", "ISP", "GMH", "GDPR", "GMS"],
+        "context": "onboarding_process_initiation"
+      },
+      {
+        "source_text": "The quarterly compliance review of your international assignment has identified several critical action items that require immediate attention: 1) your A1 social security certificate for the EMEIA region needs renewal, 2) the BEPS documentation for your cross-border activities must be updated to reflect recent PE exposure changes, 3) your dependent's international school allowance requires revalidation under the updated FSO policy guidelines, and 4) your split payroll arrangement needs to be reviewed in light of recent changes to host country taxation treaties; please schedule a virtual consultation with your assigned GMS coordinator to address these matters before your next payroll cycle.",
+        "target_text": "La revisión trimestral de cumplimiento de su asignación internacional ha identificado varios elementos críticos que requieren atención inmediata: 1) su certificado de seguridad social A1 para la región EMEIA necesita renovación, 2) la documentación BEPS para sus actividades transfronterizas debe actualizarse para reflejar los cambios recientes en la exposición PE, 3) el subsidio de escuela internacional para sus dependientes requiere revalidación según las pautas actualizadas de la política FSO, y 4) su acuerdo de nómina dividida debe revisarse a la luz de los cambios recientes en los tratados fiscales del país anfitrión; programe una consulta virtual con su coordinador GMS asignado para abordar estos asuntos antes de su próximo ciclo de nómina.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "compliance_review",
+        "domain_terms": ["A1", "EMEIA", "BEPS", "PE", "FSO", "GMS"],
+        "context": "quarterly_review_findings"
+      },
+      {
+        "source_text": "Welcome to EY Mobility Dashboard\nCurrent Assignment Status: Pending GMC Review\nImportant Notices:\n• Tax Documentation Required\n• Update Immigration Status\n• Complete Compliance Training",
+        "target_text": "Bienvenue sur le tableau de bord EY Mobilité\nStatut d'affectation actuel : Examen GMC en attente\nAvis importants :\n• Documentation fiscale requise\n• Mettre à jour le statut d'immigration\n• Compléter la formation sur la conformité",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "dashboard_content", 
+        "domain_terms": ["EY Mobility", "GMC"],
+        "context": "dashboard_welcome"
+      },
+      {
+        "source_text": "Upload Required Documents:\nWork Permit Application\nTax Residency Certificate\nFamily Member Details\nNote: All documents must be in PDF format and less than 5MB",
+        "target_text": "必要書類のアップロード：\n就労許可申請書\n税務居住証明書\n家族情報\n注：すべての書類はPDF形式で5MB未満である必要があります",
+        "source_lang": "en",
+        "target_lang": "ja",
+        "content_type": "form_labels",
+        "domain_terms": [],
+        "context": "document_upload"
+      },
+      {
+        "source_text": "Error: Your EY Mobility PathFinder session has expired. Please log in again to continue accessing your STBV application status.",
+        "target_text": "错误：您的EY 移动力 寻路者会话已过期。请重新登录以继续访问您的STBV申请状态。",
+        "source_lang": "en",
+        "target_lang": "zh",
+        "content_type": "error_message",
+        "domain_terms": ["EY Mobility PathFinder", "STBV"],
+        "context": "session_timeout"
+      },
+      {
+        "source_text": "Global Mobility Settings:\nLanguage Preferences\nNotification Settings\nTime Zone\nDocument Storage Preferences\nPrivacy Settings",
+        "target_text": "Configuración de Movilidad Global:\nPreferencias de idioma\nConfiguración de notificaciones\nZona horaria\nPreferencias de almacenamiento de documentos\nConfiguración de privacidad",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "settings_menu",
+        "domain_terms": ["Global Mobility"],
+        "context": "user_settings"
+      },
+      {
+        "source_text": "Assignment Summary:\nType: Long Term Assignment (LTA)\nHome Country: United States\nHost Country: Singapore\nDuration: 24 months\nBusiness Unit: FSO Advisory",
+        "target_text": "임명 요약:\n유형: 장기 임명 (LTA)\n모국: 미국\n수용국: 싱가포르\n기간: 24개월\n사업부: FSO アドバイザリー",
+        "source_lang": "en",
+        "target_lang": "ko",
+        "content_type": "profile_summary",
+        "domain_terms": ["LTA", "FSO Advisory"],
+        "context": "assignment_details"
+      },
+      {
+        "source_text": "Document Status:\nPassport: Verified ✓\nVisa Application: Pending Review\nWork Permit: Processing\nTax Forms: Action Required\nHealth Insurance: Expired",
+        "target_text": "Documentstatus:\nPaspoort: Geverifieerd ✓\nVisumaanvraag: In afwachting van controle\nWerkvergunning: In behandeling\nBelastingformulieren: Actie vereist\nZorgverzekering: Verlopen",
+        "source_lang": "en",
+        "target_lang": "nl",
+        "content_type": "status_table",
+        "domain_terms": [],
+        "context": "document_status"
+      },
+      {
+        "source_text": "Select Assignment Type:\n• Short Term Business Visitor (STBV)\n• Long Term Assignment (LTA)\n• Permanent Transfer (PT)\n• Global Executive (GE)",
+        "target_text": "Selecione o Tipo de Designação:\n• Visitante de Negócios de Curto Prazo (STBV)\n• Designação de Longo Prazo (LTA)\n• Transferência Permanente (PT)\n• Executivo Global (GE)",
+        "source_lang": "en",
+        "target_lang": "pt",
+        "content_type": "dropdown_options",
+        "domain_terms": ["STBV", "LTA", "PT", "GE"],
+        "context": "assignment_selection"
+      },
+      {
+        "source_text": "Access DealManagement Hub through GlobalStream Portal. Required: MultiAuth verification and SecureTrack setup.",
+        "target_text": "Accédez au Gestion des Affaires Hub via Flux Global Portail. Requis: MultiAuth vérification et SecureTrack configuration.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["DealManagement Hub", "GlobalStream", "MultiAuth", "SecureTrack"],
+        "context": "portal_access"
+      },
+      {
+        "source_text": "Update your CrossRegion Planner settings in TalentSync Dashboard. Status: pending WorldView validation.",
+        "target_text": "Aktualisieren Sie Ihre CrossRegion Planner Einstellungen im TalentSync Dashbord. Status: WorldView Validierung ausstehend.",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["CrossRegion Planner", "TalentSync", "WorldView"],
+        "context": "settings_update"
+      },
+      {
+        "source_text": "Onboard to SmartHub Workspace through GlobalConnect platform. Check AssignmentTracker and MobilitySync status.",
+        "target_text": "Intégration au SmartHub Workspace via la plateforme GlobalConnect. Vérifiez le statut de AssignmentTracker et MobilitySync.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["SmartHub", "Workspace", "GlobalConnect", "AssignmentTracker", "MobilitySync"],
+        "context": "system_access"
+      },
+      {
+        "source_text": "Your ProfileManager indicates pending WorkStream updates. Review CrossBorder settings via ResourceCenter.",
+        "target_text": "Ihr ProfileManager zeigt ausstehende WorkStream Aktualisierungen an. Überprüfen Sie CrossBorder Einstellungen über ResourceCenter.",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["ProfileManager", "WorkStream", "CrossBorder", "ResourceCenter"],
+        "context": "profile_update"
+      },
+      {
+        "source_text": "Dear Associate,\n\nYour AssignmentPathway profile in GlobalTalent Hub requires immediate attention. The WorkflowManager has identified missing documentation in your MobilityPortal submission. Please update the following:\n\n1. Complete your RelocateSync preferences\n2. Update TalentPassport details\n3. Review CrossMarket assignment options\n\nYour dedicated ResourceNavigator will assist with DocumentFlow processing. Access the ComplianceWorkbench through your PersonalDashboard for updates.\n\nBest regards,\nGlobal Mobility Team",
+        "target_text": "Cher/Chère associé(e),\n\nVotre profil AssignmentPathway dans GlobalTalent Hub nécessite une attention immédiate. Le WorkflowManager a identifié des documents manquants dans votre soumission MobilityPortal. Veuillez mettre à jour les éléments suivants:\n\n1. Complétez vos préférences RelocateSync\n2. Mettez à jour les détails TalentPassport\n3. Examinez les options d'affectation CrossMarket\n\nVotre ResourceNavigator dédié vous assistera dans le traitement DocumentFlow. Accédez au ComplianceWorkbench via votre PersonalDashboard pour les mises à jour.\n\nCordialement,\nGlobal Mobility Team",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["AssignmentPathway", "GlobalTalent Hub", "WorkflowManager", "MobilityPortal", "RelocateSync", "TalentPassport", "CrossMarket", "ResourceNavigator", "DocumentFlow", "ComplianceWorkbench", "PersonalDashboard"],
+        "context": "notification_email"
+      },
+      {
+        "source_text": "Subject: Important Updates to Your TalentMobility Status\n\nDear Team Member,\n\nOur ServiceTracker system has detected pending actions in your GlobalAssign profile. According to the WorkforceNavigator guidelines, your CrossRegion transfer requires validation in the following areas:\n\n- Update your BenefitCenter preferences through the PolicyHub portal\n- Complete outstanding TaskManager items in your AssignmentConsole\n- Schedule a consultation with your ProfileAdvisor for MarketPlace orientation\n\nPlease access the GlobalWorkbench platform within 48 hours to maintain your mobility status.\n\nRegards,\nInternational Assignment Team",
+        "target_text": "Betreff: Wichtige Updates zu Ihrem TalentMobility Status\n\nLiebes Teammitglied,\n\nUnser ServiceTracker System hat ausstehende Aktionen in Ihrem GlobalAssign Profil erkannt. Gemäß den WorkforceNavigator Richtlinien erfordert Ihre CrossRegion Übertragung eine Validierung in folgenden Bereichen:\n\n- Aktualisieren Sie Ihre BenefitCenter Einstellungen über das PolicyHub Portal\n- Vervollständigen Sie ausstehende TaskManager Elemente in Ihrer AssignmentConsole\n- Planen Sie eine Beratung mit Ihrem ProfileAdvisor für MarketPlace Orientierung\n\nBitte greifen Sie innerhalb von 48 Stunden auf die GlobalWorkbench Plattform zu, um Ihren Mobilitätsstatus zu erhalten.\n\nMit freundlichen Grüßen,\nInternational Assignment Team",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["TalentMobility", "ServiceTracker", "GlobalAssign", "WorkforceNavigator", "CrossRegion", "BenefitCenter", "PolicyHub", "TaskManager", "AssignmentConsole", "ProfileAdvisor", "MarketPlace", "GlobalWorkbench"],
+        "context": "status_update_email"
+      },
+      {
+        "source_text": "Subject: SmartOnboard Profile Update Required\n\nDear Team Member,\n\nThe AssignmentHub Portal requires updates to your ProfileSync records. According to the TalentView system, please complete:\n\n1. Verify WorkConnect access settings\n2. Update GlobalTrak preferences\n3. Complete TeamSpace orientation\n4. Review MoveGuide settings\n\nYour ResourcePath specialist will guide you through DocumentSync processing.\n\nBest regards,\nGlobal Mobility Team",
+        "target_text": "Objet: Mise à jour du profil SmartOnboard requise\n\nCher membre de l'équipe,\n\nLe AssignmentHub Portal nécessite des mises à jour de vos données ProfileSync. Selon le système TalentView, veuillez compléter:\n\n1. Vérifier les paramètres d'accès WorkConnect\n2. Mettre à jour les préférences GlobalTrak\n3. Compléter l'orientation TeamSpace\n4. Examiner les paramètres MoveGuide\n\nVotre spécialiste ResourcePath vous guidera à travers le traitement DocumentSync.\n\nCordialement,\nGlobal Mobility Team",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["SmartOnboard", "AssignmentHub", "ProfileSync", "TalentView", "WorkConnect", "GlobalTrak", "TeamSpace", "MoveGuide", "ResourcePath", "DocumentSync"],
+        "context": "profile_update_notification"
+      },
+      {
+        "source_text": "Update: CrossMarket Assignment Status\n\nDear Associate,\n\nYour ServiceDesk dashboard shows pending items in the MobilityTracker system:\n\n• Complete TaskFlow verification in ProjectHub\n• Update LocationGuide preferences\n• Schedule BenefitSync consultation\n• Review WorkerPort access settings\n\nAccess these through your PersonalSpace portal or contact your AssignmentGuide representative.\n\nRegards,\nGlobal Mobility Team",
+        "target_text": "Update: CrossMarket Auftragsstatus\n\nSehr geehrte Mitarbeiter,\n\nIhr ServiceDesk Dashboard zeigt ausstehende Elemente im MobilityTracker System:\n\n• TaskFlow Verifizierung in ProjectHub vervollständigen\n• LocationGuide Einstellungen aktualisieren\n• BenefitSync Beratung planen\n• WorkerPort Zugriffseinstellungen überprüfen\n\nZugriff über Ihr PersonalSpace Portal oder kontaktieren Sie Ihren AssignmentGuide Vertreter.\n\nMit freundlichen Grüßen,\nGlobal Mobility Team",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["CrossMarket", "ServiceDesk", "MobilityTracker", "TaskFlow", "ProjectHub", "LocationGuide", "BenefitSync", "WorkerPort", "PersonalSpace", "AssignmentGuide"],
+        "context": "status_update"
+      },
+      {
+        "source_text": "EYMP Assignment Questionnaire\n\nSection 1: WorkProfile Assessment\n\n1. Select your MarketZone location:\n   □ Primary WorkHub\n   □ Remote TaskCenter\n   □ Hybrid SpacePort\n\n2. Rate your experience with:\n   - TalentSpace Portal\n   - AssignFlow System\n   - MobileWork Platform\n\n3. Specify your TeamConnect preferences:\n   □ DirectSync enabled\n   □ GroupFlow access\n   □ SpeedTask alerts\n\nNote: Submit via ServicePoint dashboard",
+        "target_text": "EYMP Fragebogen zur Auftragsbeurteilung\n\nAbschnitt 1: WorkProfile Bewertung\n\n1. Wählen Sie Ihren MarketZone Standort:\n   □ Primary WorkHub\n   □ Remote TaskCenter\n   □ Hybrid SpacePort\n\n2. Bewerten Sie Ihre Erfahrung mit:\n   - TalentSpace Portal\n   - AssignFlow System\n   - MobileWork Platform\n\n3. Spezifizieren Sie Ihre TeamConnect Einstellungen:\n   □ DirectSync aktiviert\n   □ GroupFlow Zugang\n   □ SpeedTask Benachrichtigungen\n\nHinweis: Über ServicePoint Dashboard einreichen",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["WorkProfile", "MarketZone", "WorkHub", "TaskCenter", "SpacePort", "TalentSpace", "AssignFlow", "MobileWork", "TeamConnect", "DirectSync", "GroupFlow", "SpeedTask", "ServicePoint"],
+        "context": "questionnaire_form"
+      },
+      {
+        "source_text": "Digital Assignment Survey\n\nPart A: RemoteWork Configuration\n\n1. Current ProjectSpace status:\n   □ TaskFlow active\n   □ TeamPort connected\n   □ WorkGuide updated\n\n2. Select MobileSync preferences:\n   □ AutoFlow enabled\n   □ QuickTask notifications\n   □ SpeedConnect alerts\n\n3. Rate SmartDesk features:\n   - ResourceHub access\n   - TeamFlow tools\n   - WorkSpace settings\n\nSubmit through CompliancePort",
+        "target_text": "Digitale Aufgabenumfrage\n\nTeil A: RemoteWork Konfiguration\n\n1. Aktueller ProjectSpace Status:\n   □ TaskFlow aktiv\n   □ TeamPort verbunden\n   □ WorkGuide aktualisiert\n\n2. MobileSync Präferenzen wählen:\n   □ AutoFlow aktiviert\n   □ QuickTask Benachrichtigungen\n   □ SpeedConnect Alarme\n\n3. SmartDesk Funktionen bewerten:\n   - ResourceHub Zugang\n   - TeamFlow Tools\n   - WorkSpace Einstellungen\n\nÜber CompliancePort einreichen",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["RemoteWork", "ProjectSpace", "TaskFlow", "TeamPort", "WorkGuide", "MobileSync", "AutoFlow", "QuickTask", "SpeedConnect", "SmartDesk", "ResourceHub", "TeamFlow", "WorkSpace", "CompliancePort"],
+        "context": "digital_survey"
+      },
+      {
+        "source_text": "Database Error: WorkflowSync Failed\n\nError Details:\n- DataStream connection to AssignmentBase interrupted\n- TaskFlow process ID: #45678\n- SystemLink status: inactive\n\nRecommended Actions:\n1. Restart ProfileSync service\n2. Verify WorkConnect access\n3. Check ResourceFlow logs\n\nContact DataSupport through ServiceDesk portal if error persists.",
+        "target_text": "Datenbankfehler: WorkflowSync fehlgeschlagen\n\nFehlerdetails:\n- DataStream Verbindung zu AssignmentBase unterbrochen\n- TaskFlow Prozess-ID: #45678\n- SystemLink Status: inaktiv\n\nEmpfohlene Maßnahmen:\n1. ProfileSync Dienst neu starten\n2. WorkConnect Zugriff überprüfen\n3. ResourceFlow Protokolle prüfen\n\nKontaktieren Sie DataSupport über ServiceDesk Portal, wenn der Fehler weiterhin besteht.",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["WorkflowSync", "DataStream", "AssignmentBase", "TaskFlow", "SystemLink", "ProfileSync", "WorkConnect", "ResourceFlow", "DataSupport", "ServiceDesk"],
+        "context": "error_message"
+      },
+      {
+        "source_text": "Application Error: ProcessFlow Timeout\n\nCritical Alerts:\n- MobilityBase connection failed\n- UserSync validation error\n- TaskPortal access denied\n\nSystem Status:\n- DatabaseLink: offline\n- WorkerSpace: locked\n- DataFlow: interrupted\n\nError Code: EYMP-DB-4590\nContact TechSupport immediately.",
+        "target_text": "Erreur d'application: ProcessFlow expiration\n\nAlertes critiques:\n- MobilityBase connexion échouée\n- UserSync erreur de validation\n- TaskPortal accès refusé\n\nStatut du système:\n- DatabaseLink: hors ligne\n- WorkerSpace: verrouillé\n- DataFlow: interrompu\n\nCode d'erreur: EYMP-DB-4590\nContactez TechSupport immédiatement.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["ProcessFlow", "MobilityBase", "UserSync", "TaskPortal", "DatabaseLink", "WorkerSpace", "DataFlow", "TechSupport"],
+        "context": "system_error"
+      },
+      {
+        "source_text": "Workflow Alert: StatusSync Error\n\nFailed Components:\n- ProjectFlow initialization\n- TeamSpace connection\n- AssignmentLink sync\n\nImpacted Services:\n• DataPortal access\n• WorkerHub functions\n• ResourceSync updates\n\nTemporary workaround: Access through BackupFlow system\nReference: EYMP-WF-7823",
+        "target_text": "Workflow Alert: StatusSync Fehler\n\nFehlgeschlagene Komponenten:\n- ProjectFlow Initialisierung\n- TeamSpace Verbindung\n- AssignmentLink Synchronisierung\n\nBetroffene Dienste:\n• DataPortal Zugriff\n• WorkerHub Funktionen\n• ResourceSync Aktualisierungen\n\nVorübergehende Lösung: Zugriff über BackupFlow System\nReferenz: EYMP-WF-7823",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["StatusSync", "ProjectFlow", "TeamSpace", "AssignmentLink", "DataPortal", "WorkerHub", "ResourceSync", "BackupFlow"],
+        "context": "workflow_error"
+      },
+      {
+        "source_text": "<!DOCTYPE html>\n<html>\n<head>\nWelcome to WorkStream Portal\n</head>\n<body>\n<h1>GlobalTask Dashboard</h1>\n<nav>\n• TeamSpace Access\n• MobileConnect Status\n• ResourceFlow Updates\n</nav>\n<main>\n<section>Quick Links:\n- ProjectSync Overview\n- TaskGuide Directory\n- WorkerPort Settings\n</section>\n</main>\n</body>\n</html>",
+        "target_text": "<!DOCTYPE html>\n<html>\n<head>\nWillkommen beim WorkStream Portal\n</head>\n<body>\n<h1>GlobalTask Dashboard</h1>\n<nav>\n• TeamSpace Zugang\n• MobileConnect Status\n• ResourceFlow Aktualisierungen\n</nav>\n<main>\n<section>Schnellzugriff:\n- ProjectSync Übersicht\n- TaskGuide Verzeichnis\n- WorkerPort Einstellungen\n</section>\n</main>\n</body>\n</html>",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["WorkStream", "GlobalTask", "TeamSpace", "MobileConnect", "ResourceFlow", "ProjectSync", "TaskGuide", "WorkerPort"],
+        "context": "html_content"
+      },
+      {
+        "source_text": "<div class='header'>\n<h2>AssignmentHub Navigation</h2>\n</div>\n<div class='menu'>\n<ul>\n<li>SmartDesk Overview</li>\n<li>WorkerSync Status</li>\n<li>TaskFlow Manager</li>\n<li>ResourcePoint Access</li>\n</ul>\n</div>\n<div class='footer'>\nPowered by MobileWork Platform\n</div>",
+        "target_text": "<div class='header'>\n<h2>AssignmentHub Navigation</h2>\n</div>\n<div class='menu'>\n<ul>\n<li>SmartDesk Übersicht</li>\n<li>WorkerSync Status</li>\n<li>TaskFlow Manager</li>\n<li>ResourcePoint Zugang</li>\n</ul>\n</div>\n<div class='footer'>\nBetrieben von MobileWork Platform\n</div>",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["AssignmentHub", "SmartDesk", "WorkerSync", "TaskFlow", "ResourcePoint", "MobileWork"],
+        "context": "html_menu"
+      },
+      {
+        "source_text": "<section class='main'>\n<h1>DataSpace Console</h1>\n<div class='navigation'>\n<span>QuickFlow Access</span>\n<span>TeamPort Status</span>\n<span>WorkGuide Tools</span>\n</div>\n<div class='content'>\nAccess your ProjectSync dashboard\n</div>\n<div class='alerts'>\nServiceDesk notifications\n</div>\n</section>",
+        "target_text": "<section class='main'>\n<h1>DataSpace Console</h1>\n<div class='navigation'>\n<span>QuickFlow Accès</span>\n<span>TeamPort Statut</span>\n<span>WorkGuide Outils</span>\n</div>\n<div class='content'>\nAccédez à votre ProjectSync tableau de bord\n</div>\n<div class='alerts'>\nServiceDesk notifications\n</div>\n</section>",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["DataSpace", "QuickFlow", "TeamPort", "WorkGuide", "ProjectSync", "ServiceDesk"],
+        "context": "html_section"
+      },
+      {
+        "source_text": "EYMP Assignment Evaluation\n\nSection A: WorkSpace Preferences\n1. Rate your TalentSync access:\n    Premium TaskFlow\n    Standard WorkPort\n    Basic ResourceHub\n\n2. MobileWork requirements:\n    RemoteAccess setup\n   TeamFlow enabled\n    SpacePort connection\n\n3. Select ProjectGuide tools used:\n    QuickSync features\n    TaskManager tools\n    SpeedFlow options\n\nSubmit via AssignmentPortal",
+        "target_text": "EYMP Auftragsbewertung\n\nAbschnitt A: WorkSpace Einstellungen\n1. Bewerten Sie Ihren TalentSync Zugang:\n   Premium TaskFlow\n   Standard WorkPort\n   Basic ResourceHub\n\n2. MobileWork Anforderungen:\n   RemoteAccess Setup\n   TeamFlow aktiviert\n   SpacePort Verbindung\n\n3. Verwendete ProjectGuide Tools auswählen:\n   QuickSync Funktionen\n   TaskManager Tools\n   SpeedFlow Optionen\n\nÜber AssignmentPortal einreichen",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["WorkSpace", "TalentSync", "TaskFlow", "WorkPort", "ResourceHub", "MobileWork", "RemoteAccess", "TeamFlow", "SpacePort", "ProjectGuide", "QuickSync", "TaskManager", "SpeedFlow", "AssignmentPortal"],
+        "context": "questionnaire_form"
+      },
+      {
+        "source_text": "Digital Work Assessment\n\nPart 1: SystemAccess Review\n\nSelect current GlobalWork tools:\n□ SmartDesk Premium\n□ TaskFlow Basic\n□ MobilePort Standard\n\nRate usage frequency:\n DataSync Tools\n TeamSpace Portal\n WorkGuide Access\n\nPreferred notification method:\n QuickAlert System\n SpeedNotify\n TaskMessenger\n\nSubmit through ProfilePortal",
+        "target_text": "Évaluation du travail numérique\n\nPartie 1: SystemAccess Review\n\nSélectionnez les outils GlobalWork actuels:\n□ SmartDesk Premium\n□ TaskFlow Basic\n□ MobilePort Standard\n\nÉvaluez la fréquence d'utilisation:\n DataSync Tools\n TeamSpace Portal\n WorkGuide Access\n\nMéthode de notification préférée:\n QuickAlert System\n SpeedNotify\n TaskMessenger\n\nSoumettre via ProfilePortal",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["SystemAccess", "GlobalWork", "SmartDesk", "TaskFlow", "MobilePort", "DataSync", "TeamSpace", "WorkGuide", "QuickAlert", "SpeedNotify", "TaskMessenger", "ProfilePortal"],
+        "context": "assessment_form"
+      },
+      {
+        "source_text": "Performance Module Survey\n\nRate your experience:\n\n1. WorkerHub Access:\n   [1] [2] [3] [4] [5]\n\n2. TaskStream Usage:\n   [Low] [Medium] [High]\n\n3. MobileSync Features:\n   ✓ TeamPort\n   ✓ QuickFlow\n   ✓ SpaceGuide\n\n4. ResourceTools preference:\n   ○ DataFlow Basic\n   ○ ProjectSync Pro\n   ○ WorkSpace Premium\n\nSubmit via FeedbackPortal",
+        "target_text": "Évaluation du Module de Performance\n\nÉvaluez votre expérience:\n\n1. WorkerHub Access:\n   [1] [2] [3] [4] [5]\n\n2. TaskStream Usage:\n   [Faible] [Moyen] [Élevé]\n\n3. MobileSync Features:\n   TeamPort\n   QuickFlow\n   SpaceGuide\n\n4. ResourceTools préférence:\n   DataFlow Basic\n   ProjectSync Pro\n   WorkSpace Premium\n\nSoumettre via FeedbackPortal",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["WorkerHub", "TaskStream", "MobileSync", "TeamPort", "QuickFlow", "SpaceGuide", "ResourceTools", "DataFlow", "ProjectSync", "WorkSpace", "FeedbackPortal"],
+        "context": "survey_form"
+      },
+      {
+        "source_text": "Pre-Departure Checklist\n\n1. Immigration Status:\n   ICT Processing\n   STBV Review\n   GMC Clearance\n\n2. Tax Compliance:\n   BEPS Documentation\n   PE Risk Check\n   FSO Approval\n\n3. Benefits Selection:\n   COLA Setup\n   HRA Processing\n   IPRS Review\n\n4. System Access:\n   GMS Portal\n   GTR Database\n   RMC Platform",
+        "target_text": "Liste de contrôle pré-départ\n\n1. Statut d'immigration:\n   ICT Processing\n   STBV Review\n   GMC Clearance\n\n2. Conformité fiscale:\n   BEPS Documentation\n   PE Risk Check\n   FSO Approval\n\n3. Sélection des avantages:\n   COLA Setup\n   HRA Processing\n   IPRS Review\n\n4. Accès système:\n   GMS Portal\n   GTR Database\n   RMC Platform",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["ICT", "STBV", "GMC", "BEPS", "PE", "FSO", "COLA", "HRA", "IPRS", "GMS", "GTR", "RMC"],
+        "context": "departure_checklist"
+      },
+      {
+        "source_text": "EYMP Tax Assessment Questionnaire\n\n1. Assignment Type\nA. STBV Assignment\nB. LTA Transfer\nC. FSO Rotation\n\n2. Compliance Status\nA. BEPS Documentation\nB. PE Risk Review\nC. GTR Approval\n\n3. Benefits Package\nA. COLA Adjustment\nB. HRA Benefits\nC. RMC Services\n\n4. System Access\nA. GMS Portal Access\nB. ICT Processing Status\nC. TCN Documentation",
+        "target_text": "EYMP Fragebogen zur Steuereinschätzung\n\n1. Art der Entsendung\nA. STBV Assignment\nB. LTA Transfer\nC. FSO Rotation\n\n2. Compliance-Status\nA. BEPS Documentation\nB. PE Risk Review\nC. GTR Approval\n\n3. Leistungspaket\nA. COLA Adjustment\nB. HRA Benefits\nC. RMC Services\n\n4. Systemzugang\nA. GMS Portal Access\nB. ICT Processing Status\nC. TCN Documentation",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["STBV", "LTA", "FSO", "BEPS", "PE", "GTR", "COLA", "HRA", "RMC", "GMS", "ICT", "TCN"],
+        "context": "tax_questionnaire"
+      },
+      {
+        "source_text": "Global Mobility Assignment Notice\n\nYour upcoming LTA assignment requires completion of the following compliance procedures:\n\nDue to recent changes in cross-border regulations, all assignments involving STBV status must undergo enhanced PE risk assessment. Please ensure your WorkStream profile reflects current ICT documentation and BEPS reporting requirements. Your GMC representative will assist with FSO clearance and GTR approvals.\n\nCritical Requirements:\n- Update tax residency declarations in all applicable jurisdictions\n- Complete IPRS validation for dependent benefits\n- Submit HRA calculations for COLA adjustments\n- Verify RMC coordination for household goods transport\n\nYour prompt attention to these requirements will ensure smooth transition and TCN visa processing.",
+        "target_text": "Avis d'affectation de mobilité mondiale\n\nVotre affectation LTA à venir nécessite l'achèvement des procédures de conformité suivantes:\n\nEn raison des changements récents dans les réglementations transfrontalières, toutes les affectations impliquant le statut STBV doivent faire l'objet d'une évaluation renforcée des risques PE. Veuillez vous assurer que votre profil WorkStream reflète la documentation ICT actuelle et les exigences de déclaration BEPS. Votre représentant GMC vous assistera pour l'autorisation FSO et les approbations GTR.\n\nExigences critiques:\n- Mettre à jour les déclarations de résidence fiscale dans toutes les juridictions applicables\n- Effectuer la validation IPRS pour les prestations des personnes à charge\n- Soumettre les calculs HRA pour les ajustements COLA\n- Vérifier la coordination RMC pour le transport des effets personnels\n\nVotre attention rapide à ces exigences assurera une transition en douceur et le traitement des visas TCN.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["LTA", "STBV", "PE", "WorkStream", "ICT", "BEPS", "GMC", "FSO", "GTR", "IPRS", "HRA", "COLA", "RMC", "TCN"],
+        "context": "assignment_notice"
+      },
+      {
+        "source_text": "International Assignment Policy Update\n\nIn accordance with revised mobility guidelines, please note significant changes to long-term assignment protocols:\n\nThe GlobalWork system now requires enhanced documentation for assignments exceeding 183 days. Your MobilitySync profile must reflect current tax treaties and PE thresholds. The WorkSpace platform has been updated to accommodate new BEPS requirements and FSO compliance standards.\n\nKey Updates:\n1. Extended assignments require quarterly GTR reviews\n2. Updated COLA calculations based on AIRINC indices\n3. Revised HRA framework for family relocations\n4. Enhanced ICT processing for dependent visas\n\nPlease schedule a consultation with your assigned GMC coordinator to review these changes.",
+        "target_text": "Aktualisierung der internationalen Entsendungsrichtlinien\n\nGemäß den überarbeiteten Mobilitätsrichtlinien beachten Sie bitte wichtige Änderungen bei Langzeitentsendungsprotokollen:\n\nDas GlobalWork System erfordert nun erweiterte Dokumentation für Entsendungen über 183 Tage. Ihr MobilitySync Profil muss aktuelle Steuerabkommen und PE Schwellenwerte widerspiegeln. Die WorkSpace Plattform wurde aktualisiert, um neue BEPS Anforderungen und FSO Compliance-Standards zu berücksichtigen.\n\nWichtige Updates:\n1. Verlängerte Entsendungen erfordern vierteljährliche GTR Überprüfungen\n2. Aktualisierte COLA Berechnungen basierend auf AIRINC Indices\n3. Überarbeiteter HRA Rahmen für Familienumzüge\n4. Erweitertes ICT Processing für Dependent Visa\n\nBitte vereinbaren Sie einen Beratungstermin mit Ihrem zugewiesenen GMC Koordinator, um diese Änderungen zu besprechen.",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["GlobalWork", "MobilitySync", "WorkSpace", "PE", "BEPS", "FSO", "GTR", "COLA", "AIRINC", "HRA", "ICT", "GMC"],
+        "context": "policy_update"
+      },
+      {
+        "source_text": "Tax Compliance Advisory for Cross-Border Assignments\n\nFollowing recent updates to international mobility regulations, your attention is required for the following critical compliance matters:\n\nYour current assignment portfolio in the GlobalTalent system indicates potential PE exposure risks that require immediate assessment. The ResourceFlow platform has flagged discrepancies in your WorkSpace documentation, specifically relating to BEPS reporting requirements and TCN visa classifications. Your assigned MobilityManager has scheduled a mandatory review of your CrossBorder profile.\n\nRequired Actions:\n1. Complete GTR verification through AssignmentPortal\n2. Update IPRS submissions for dependent benefits\n3. Review FSO compliance documentation\n4. Verify COLA adjustments in TalentSync system\n\nFailure to complete these requirements may impact your ICT processing status.",
+        "target_text": "Steuerlicher Compliance-Hinweis für grenzüberschreitende Entsendungen\n\nNach aktuellen Änderungen der internationalen Mobilitätsvorschriften ist Ihre Aufmerksamkeit für folgende kritische Compliance-Angelegenheiten erforderlich:\n\nIhr aktuelles Entsendungsportfolio im GlobalTalent System zeigt potenzielle PE Expositionsrisiken, die eine sofortige Bewertung erfordern. Die ResourceFlow Plattform hat Unstimmigkeiten in Ihrer WorkSpace Dokumentation markiert, insbesondere in Bezug auf BEPS Berichtspflichten und TCN Visa-Klassifizierungen. Ihr zugewiesener MobilityManager hat eine verpflichtende Überprüfung Ihres CrossBorder Profils angesetzt.\n\nErforderliche Maßnahmen:\n1. GTR Verifizierung über AssignmentPortal durchführen\n2. IPRS Einreichungen für Angehörigenleistungen aktualisieren\n3. FSO Compliance-Dokumentation überprüfen\n4. COLA Anpassungen im TalentSync System verifizieren\n\nDie Nichterfüllung dieser Anforderungen kann Ihren ICT Bearbeitungsstatus beeinflussen.",
+        "source_lang": "en",
+        "target_lang": "de",
+        "domain_terms": ["GlobalTalent", "PE", "ResourceFlow", "WorkSpace", "BEPS", "TCN", "MobilityManager", "CrossBorder", "GTR", "AssignmentPortal", "IPRS", "FSO", "COLA", "TalentSync", "ICT"],
+        "context": "compliance_notice"
+      },
+      {
+        "source_text": "Global Mobility Benefits Review\n\nAs part of your international assignment package with duration exceeding 12 months, please review the following benefit entitlements and compliance requirements:\n\nYour MobilitySync dashboard indicates pending updates for long-term assignment benefits. The WorkerPortal requires validation of your ResourceTracker profile, particularly regarding HRA calculations and COLA adjustments. Additionally, your GMC representative has noted outstanding documentation for dependent services covered under the FSO policy framework.\n\nPriority Actions Required:\n- Confirm IPRS eligibility through BenefitHub\n- Complete RMC household goods assessment\n- Update GTR documentation for tax equalization\n- Verify AIRINC index applications\n\nPlease access CompliancePortal to process these updates within 5 business days.",
+        "target_text": "Révision des avantages de mobilité mondiale\n\nDans le cadre de votre package d'affectation internationale d'une durée supérieure à 12 mois, veuillez examiner les droits aux prestations et les exigences de conformité suivants:\n\nVotre tableau de bord MobilitySync indique des mises à jour en attente pour les prestations d'affectation à long terme. Le WorkerPortal nécessite la validation de votre profil ResourceTracker, particulièrement concernant les calculs HRA et les ajustements COLA. De plus, votre représentant GMC a noté une documentation en suspens pour les services aux personnes à charge couverts par le cadre politique FSO.\n\nActions prioritaires requises:\n- Confirmer l'éligibilité IPRS via BenefitHub\n- Compléter l'évaluation des effets personnels RMC\n- Mettre à jour la documentation GTR pour la péréquation fiscale\n- Vérifier les applications d'indices AIRINC\n\nVeuillez accéder au CompliancePortal pour traiter ces mises à jour sous 5 jours ouvrables.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["MobilitySync", "WorkerPortal", "ResourceTracker", "HRA", "COLA", "GMC", "FSO", "IPRS", "BenefitHub", "RMC", "GTR", "AIRINC", "CompliancePortal"],
+        "context": "benefits_review"
+      },
+      {
+        "source_text": "Assignment Location Change Notice\n\nThis notification concerns critical updates to your international assignment profile following recent changes to your host location designation:\n\nThe ProjectSync system has identified necessary modifications to your MobilityTrack status based on new cross-border requirements. Your WorkflowManager must validate updated documentation through the AssignmentHub, including revised STBV classifications and PE risk assessments. The ResourceConnect platform requires immediate updates to reflect changes in ICT processing requirements.\n\nCritical Updates Required:\n1. Revalidate TCN documentation status\n2. Update BEPS reporting structures\n3. Adjust FSO compliance parameters\n4. Review GMC clearance status\n\nPlease schedule an urgent consultation with your TalentManager to process these changes.",
+        "target_text": "Avis de changement de lieu d'affectation\n\nCette notification concerne des mises à jour critiques de votre profil d'affectation internationale suite aux récents changements de désignation de votre lieu d'accueil:\n\nLe système ProjectSync a identifié des modifications nécessaires à votre statut MobilityTrack basées sur les nouvelles exigences transfrontalières. Votre WorkflowManager doit valider la documentation mise à jour via l'AssignmentHub, y compris les classifications STBV révisées et les évaluations des risques PE. La plateforme ResourceConnect nécessite des mises à jour immédiates pour refléter les changements dans les exigences de traitement ICT.\n\nMises à jour critiques requises:\n1. Revalider le statut de la documentation TCN\n2. Mettre à jour les structures de reporting BEPS\n3. Ajuster les paramètres de conformité FSO\n4. Examiner le statut d'autorisation GMC\n\nVeuillez programmer une consultation urgente avec votre TalentManager pour traiter ces changements.",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "domain_terms": ["ProjectSync", "MobilityTrack", "WorkflowManager", "AssignmentHub", "STBV", "PE", "ResourceConnect", "ICT", "TCN", "BEPS", "FSO", "GMC", "TalentManager"],
+        "context": "location_change"
+      },
+
+      {
+        "source_text": "The city is investing in public mobility solutions for a sustainable future.",
+        "target_text": "La ciudad está invirtiendo en soluciones de movilidad pública para un futuro sostenible.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "informational",
+        "domain_terms": "",
+        "context": "transportation_infrastructure"
+      },
+      {
+        "source_text": "This new technology improves mobility for people with disabilities.",
+        "target_text": "Esta nueva tecnología mejora la movilidad para personas con discapacidades.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "informational",
+        "domain_terms": "",
+        "context": "accessibility"
+      },
+      {
+        "source_text": "Mobile mobility solutions are transforming how businesses operate in the digital age.",
+        "target_text": "Las soluciones de movilidad móvil están transformando cómo operan las empresas en la era digital.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "business_technology",
+        "domain_terms": "",
+        "context": "technology_innovation"
+      },
+      {
+        "source_text": "Government policies aimed at increasing social mobility have shown positive results.",
+        "target_text": "Las políticas gubernamentales destinadas a aumentar la movilidad social han mostrado resultados positivos.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "social_policy",
+        "domain_terms": "",
+        "context": "economic_mobility"
+      },
+      {
+        "source_text": "Regular stretching exercises can significantly improve joint mobility.",
+        "target_text": "Los ejercicios de estiramiento regulares pueden mejorar significativamente la movilidad articular.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "health_fitness",
+        "domain_terms": "",
+        "context": "physical_therapy"
+      },
+      {
+        "source_text": "Autonomous robots are increasing mobility in warehouse management systems.",
+        "target_text": "Los robots autónomos están aumentando la movilidad en los sistemas de gestión de almacenes.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "robotics_technology",
+        "domain_terms": "",
+        "context": "robotics"
+      },
+      {
+        "source_text": "The mobility of capital in emerging markets has increased significantly over the last decade.",
+        "target_text": "La movilidad del capital en los mercados emergentes ha aumentado significativamente en la última década.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "financial_analysis",
+        "domain_terms": "",
+        "context": "financial_markets"
+      },
+      {
+        "source_text": "Logistics companies are focusing on improving the mobility of goods across borders.",
+        "target_text": "Las empresas logísticas están centradas en mejorar la movilidad de las mercancías a través de las fronteras.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "logistics_management",
+        "domain_terms": "",
+        "context": "logistics"
+      },
+      {
+        "source_text": "The city is implementing new mobility solutions to reduce traffic congestion and pollution.",
+        "target_text": "La ciudad está implementando nuevas soluciones de movilidad para reducir la congestión del tráfico y la contaminación.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "urban_planning",
+        "domain_terms": "",
+        "context": "urban_transportation"
+      },
+      {
+        "source_text": "The military is enhancing its mobility capabilities to respond more swiftly to global threats.",
+        "target_text": "El ejército está mejorando sus capacidades de movilidad para responder más rápidamente a las amenazas globales.",
+        "source_lang": "en",
+        "target_lang": "es",
+        "content_type": "military_operations",
+        "domain_terms": "",
+        "context": "military"
+      },
+      {
+        "source_text": "EYMP Dashboard: Your GTR immigration status needs attention",
+        "target_text": "EY मोबिलिटी पाथवे डैशबोर्ड: आपकी GTR इमिग्रेशन स्थिति पर ध्यान देने की आवश्यकता है",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "alert",
+        "domain_terms": "GTR",
+        "context": "immigration_alert"
+      },
+      {
+        "source_text": "Your FSO tax compliance documents for APAC assignment are pending review",
+        "target_text": "APAC असाइनमेंट के लिए आपके FSO टैक्स कंप्लायंस दस्तावेज़ समीक्षा के लिए लंबित हैं",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "notification",
+        "domain_terms": ["FSO", "APAC"],
+        "context": "tax_compliance"
+      },
+      {
+        "source_text": "Complete your GMS profile setup in EY PathFinder portal",
+        "target_text": "EY पाथफाइंडर पोर्टल में अपनी GMS प्रोफाइल सेटअप पूरी करें",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "task",
+        "domain_terms": ["EY", "PathFinder", "GMS"],
+        "context": "profile_setup"
+      },
+      {
+        "source_text": "Your EYMP relocation package for Singapore assignment has been approved",
+        "target_text": "सिंगापुर असाइनमेंट के लिए आपका EYMP रीलोकेशन पैकेज स्वीकृत कर दिया गया है",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "status_update",
+        "domain_terms": ["EYMP"],
+        "context": "relocation_approval"
+      },
+      {
+        "source_text": "Schedule your pre-departure briefing with EY Mobility team",
+        "target_text": "ईवाई मोबिलिटी टीम के साथ अपनी प्री-डिपार्चर ब्रीफिंग शेड्यूल करें",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "action_item",
+        "domain_terms": ["EY", "Mobility"],
+        "context": "pre_departure"
+      },
+      {
+        "source_text": "Career Pathway Navigator: Update your skill profile",
+        "target_text": "करियर विकास मार्गदर्शक: अपनी कौशल प्रोफाइल अपडेट करें",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "reminder",
+        "domain_terms":"",
+        "context": "profile_update"
+      },
+      {
+        "source_text": "Employee Mobility Program: New opportunities in Asia Region",
+        "target_text": "कर्मचारी स्थानांतरण कार्यक्रम: एशिया क्षेत्र में नए अवसर",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "announcement",
+        "domain_terms": "",
+        "context": "opportunities"
+      },
+      {
+        "source_text": "Learning Pathway Status: Complete your pending technical courses",
+        "target_text": "सीखने का मार्ग स्थिति: अपने लंबित तकनीकी पाठ्यक्रम पूरे करें",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "notification",
+        "domain_terms":"",
+        "context": "course_completion"
+      },
+      {
+        "source_text": "Internal Job Mobility: Your transfer request is under review",
+        "target_text": "आंतरिक कार्य स्थानांतरण: आपका स्थानांतरण अनुरोध समीक्षाधीन है",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "status_update",
+        "domain_terms": "",
+        "context": "transfer_request"
+      },
+      {
+        "source_text": "Professional Development Pathway: Leadership Training Module",
+        "target_text": "व्यावसायिक विकास मार्ग: नेतृत्व प्रशिक्षण मॉड्यूल",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "training",
+        "domain_terms": "",
+        "context": "leadership_training"
+      },
+      {
+        "source_text": "Career Mobility Options: Explore cross-departmental opportunities",
+        "target_text": "करियर स्थानांतरण विकल्प: विभाग-पार अवसरों का पता लगाएं",
+        "source_lang": "en",
+        "target_lang": "hi",
+        "content_type": "guidance",
+        "domain_terms": "",
+        "context": "career_options"
+      },
+      {
+        "source_text": "Career Pathway Guide: Next steps in your development",
+        "target_text": "Karriereweg-Leitfaden: Nächste Schritte in Ihrer Entwicklung",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "guidance",
+        "domain_terms": "",
+        "context": "career_development"
+      },
+      {
+        "source_text": "Employee Mobility Update: Office transfer process begins next week",
+        "target_text": "Mitarbeitermobilität Update: Büroumzugsprozess beginnt nächste Woche",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "notification",
+        "domain_terms": "",
+        "context": "office_transfer"
+      },
+      {
+        "source_text": "Learning Pathway Status: Your technical certification progress",
+        "target_text": "Lernweg-Status: Ihr Fortschritt bei der technischen Zertifizierung",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "status",
+        "domain_terms": "",
+        "context": "certification"
+      },
+      {
+        "source_text": "Career Pathway Overview: Available growth opportunities",
+        "target_text": "Aperçu du parcours professionnel : Opportunités de croissance disponibles",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "overview",
+        "domain_terms": "",
+        "context": "opportunities"
+      },
+      {
+        "source_text": "Internal Mobility Program: Department transfer requests",
+        "target_text": "Programme de mobilité interne : Demandes de transfert de service",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "program_info",
+        "domain_terms": "",
+        "context": "transfers"
+      },
+      {
+        "source_text": "Development Pathway Alert: Complete your quarterly assessment",
+        "target_text": "Alerte parcours de développement : Complétez votre évaluation trimestrielle",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "reminder",
+        "domain_terms": "",
+        "context": "assessment"
+      },
+      {
+        "source_text": "Skills Enhancement Path: New courses available in your field",
+        "target_text": "Voie d'amélioration des compétences : Nouveaux cours disponibles dans votre domaine",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "course_update",
+        "domain_terms": "",
+        "context": "skill_development"
+      },
+      {
+        "source_text": "Skill Development Map: Schedule your mentor meeting",
+        "target_text": "Kompetenzentwicklungsplan: Planen Sie Ihr Mentoren-Gespräch",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "",
+        "domain_terms":"",
+        "context": "mentorship"
+      },
+      {
+        "source_text": "Growth Journey Tracker: Update your quarterly milestones",
+        "target_text": "Wachstumsweg-Tracker: Aktualisieren Sie Ihre vierteljährlichen Meilensteine",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "progress_update",
+        "domain_terms": "",
+        "context": "milestone_tracking"
+      },
+      {
+        "source_text": "Global Assignment Notification: Your host location details are ready",
+        "target_text": "Globale Entsendungsmitteilung: Ihre Einsatzort-Details sind bereit",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "notification",
+        "domain_terms": ["Global Assignment", "Host Location"],
+        "context": "assignment_details"
+      },
+      {
+        "source_text": "Relocation Benefits Overview: Update your dependent information",
+        "target_text": "Übersicht der Umzugsleistungen: Aktualisieren Sie Ihre Angehörigeninformationen",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "benefits",
+        "domain_terms": ["Relocation Benefits", "Dependent"],
+        "context": "benefits_update"
+      },
+      {
+        "source_text": "Home Location Tax Advisory: Annual filing requirements",
+        "target_text": "Steuerberatung für Heimatstandort: Jährliche Einreichungspflichten",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "",
+        "domain_terms": ["Home Location", "Tax Advisory"],
+        "context": "tax_filing"
+      },
+      {
+        "source_text": "International Transfer Policy: Review your assignment terms",
+        "target_text": "Politique de transfert international : Examinez vos conditions d'affectation",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "policy",
+        "domain_terms": "",
+        "context": "policy_review"
+      },
+      {
+        "source_text": "Host Country Documentation: Submit your work permit application",
+        "target_text": "Documentation du pays d'accueil : Soumettez votre demande de permis de travail",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "documentation",
+        "domain_terms": "",
+        "context": "permit_application"
+      },
+      {
+        "source_text": "Assignment Duration Update: Extension request process",
+        "target_text": "Mise à jour de la durée d'affectation : Processus de demande de prolongation",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "duration_update",
+        "domain_terms": "",
+        "context": "assignment_extension"
+      },
+      {
+        "source_text": "Career Mobility Guide: Cross-departmental opportunities",
+        "target_text": "Guide de mobilité professionnelle : Opportunités interdépartementales",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "guide",
+        "domain_terms": "",
+        "context": "opportunities"
+      },
+      {
+        "source_text": "Career PathFinder Alert: New role matches your profile",
+        "target_text": "Alerte du guide de carrière : Nouveau poste correspondant à votre profil",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "alert",
+        "domain_terms": "",
+        "context": "job_match"
+      },
+      {
+        "source_text": "Talent Mobility Tracker: Your transfer timeline",
+        "target_text": "Personalbewegungsverfolger: Ihr Versetzungszeitplan",
+        "source_lang": "en",
+        "target_lang": "de",
+        "content_type": "timeline",
+        "domain_terms": ["Mobility Tracker"],
+        "context": "transfer_timeline"
+      },
+      {
+        "source_text": "Career Path Navigator: Skills assessment due",
+        "target_text": "Navigateur de parcours professionnel : Évaluation des compétences à effectuer",
+        "source_lang": "en",
+        "target_lang": "fr",
+        "content_type": "assessment",
+        "domain_terms": ["Path Navigator"],
+        "context": "skills_assessment"
+      }    
+  ]
+}

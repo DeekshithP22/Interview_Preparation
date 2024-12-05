@@ -36,7 +36,10 @@ class JSONEmailTemplateTranslator:
 
     def is_translatable_key(self, key: str) -> bool:
         """
-        Determine if a key should be translated.
+        Determine if a key is associated with translatable content.
+        
+        :param key: Key to check
+        :return: Boolean indicating if the key is associated with translatable content
         """
         # Ignore technical keys
         ignore_patterns = [
@@ -47,13 +50,10 @@ class JSONEmailTemplateTranslator:
         key_lower = key.lower()
 
         # Check if key contains any translatable patterns
-        is_translatable = any(
+        return any(
             pattern in key_lower
             for pattern in self.translatable_key_patterns
-        )
-
-        # Ensure it's not an ignored pattern
-        return is_translatable and not any(
+        ) and not any(
             pattern in key_lower
             for pattern in ignore_patterns
         )
@@ -70,15 +70,6 @@ class JSONEmailTemplateTranslator:
         if isinstance(obj, dict):
             translated_dict = {}
             for key, value in obj.items():
-                # Translate dictionary keys if they are translatable
-                if self.is_translatable_key(key):
-                    # If technique supports source language detection
-                    if self.technique == "azure_openai" and isinstance(value, str):
-                        source_lang = self.translator.detect_language(value)
-                        key = self.translator.translate(key, target_language, source_lang)
-                    else:
-                        key = self.translator.translate(key, target_language)
-                
                 # Recursively translate value
                 translated_value = self._translate_recursive(value, target_language)
                 translated_dict[key] = translated_value

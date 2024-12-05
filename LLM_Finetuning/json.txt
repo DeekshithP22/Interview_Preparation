@@ -2,76 +2,68 @@ class JSONEmailTemplateTranslator:
     """Translates JSON files while preserving structure"""
 
     def __init__(self, content_str: str, azure_translator, technique=None):
-        """
-        Initialize the JSON translator
-
-        :param content_str: JSON content as a string
-        :param azure_translator: Translator instance
-        :param technique: Translation technique (azure_translator, azure_openai, etc.)
-        """
         self.content = content_str
         self.translator = azure_translator
         self.technique = technique
         self.data = json.loads(content_str)
-        
-        # Initialize translatable key patterns
-        self.translatable_key_patterns = [
-            'title', 'description', 'name', 'label',
-            'section', 'question', 'option', 'header', 
-            'text', 'content', 'subject', 'message'
-        ]
 
-    def is_text_like(self, value: Any) -> bool:
+    def is_text_like(self, key: str, value: Any) -> bool:
         """
         Determine if a value should be considered translatable text.
+        
+        :param key: The key associated with the value
+        :param value: The value to check for translatability
+        :return: Boolean indicating if the value should be translated
         """
+        # Immediately reject non-string values
         if not isinstance(value, str):
             return False
-        value = value.strip()
-        if not value:
-            return False
-        if value.isnumeric() or len(value) < 3:
-            return False
-        return True
-
-    def is_translatable_key(self, key: str) -> bool:
-        """
-        Determine if a key is associated with translatable content.
         
-        :param key: Key to check
-        :return: Boolean indicating if the key is associated with translatable content
-        """
-        # Ignore technical keys
-        ignore_patterns = [
-            'id', 'uuid', 'code', 'type',
-            '_', 'timestamp', 'version'
+        value = value.strip()
+        
+        # Reject empty or short strings
+        if not value or len(value) < 3:
+            return False
+        
+        # Reject numeric strings
+        if value.isnumeric():
+            return False
+        
+        # Reject values that look like IDs, codes, or technical identifiers
+        id_patterns = ['id', 'code', '_', 'version']
+        if any(pattern in key.lower() for pattern in id_patterns):
+            return False
+        
+        # Specific content-related keys that are good for translation
+        translatable_key_patterns = [
+            'title', 'description', 'name', 'label',
+            'section', 'question', 'option', 'header', 
+            'text', 'content', 'subject', 'message', 
+            'question_text'  # Added this for questionnaire translation
         ]
-
-        key_lower = key.lower()
-
-        # Check if key contains any translatable patterns
-        return any(
-            pattern in key_lower
-            for pattern in self.translatable_key_patterns
-        ) and not any(
-            pattern in key_lower
-            for pattern in ignore_patterns
-        )
+        
+        # Check if the key contains any translatable patterns
+        return any(pattern in key.lower() for pattern in translatable_key_patterns)
 
     def _translate_recursive(self, obj: Any, target_language: str) -> Any:
         """
         Recursively translate JSON content while preserving structure
-        
-        :param obj: JSON object (dict, list, or primitive)
-        :param target_language: Target language code
-        :return: Translated JSON object
         """
         # Handle dictionaries
         if isinstance(obj, dict):
             translated_dict = {}
             for key, value in obj.items():
-                # Recursively translate value
-                translated_value = self._translate_recursive(value, target_language)
+                # Translate only text-like values that meet our criteria
+                if self.is_text_like(key, value):
+                    if self.technique == "azure_openai":
+                        source_lang = self.translator.detect_language(value)
+                        translated_value = self.translator.translate(value, target_language, source_lang)
+                    else:
+                        translated_value = self.translator.translate(value, target_language)
+                else:
+                    # Recursively process or keep the value as-is
+                    translated_value = self._translate_recursive(value, target_language)
+                
                 translated_dict[key] = translated_value
             return translated_dict
         
@@ -79,33 +71,104 @@ class JSONEmailTemplateTranslator:
         elif isinstance(obj, list):
             return [self._translate_recursive(item, target_language) for item in obj]
         
-        # Handle text-like strings
-        elif isinstance(obj, str) and self.is_text_like(obj):
-            # If technique supports source language detection
-            if self.technique == "azure_openai":
-                source_lang = self.translator.detect_language(obj)
-                return self.translator.translate(obj, target_language, source_lang)
-            else:
-                return self.translator.translate(obj, target_language)
-        
         # For other types, return as-is
         return obj
 
     def translate_template(self, target_language: str, output_path: str = None) -> None:
         """
         Translate the entire JSON template to the target language and save to a new file
-        
-        :param target_language: Target language code
-        :param output_path: Path to save the translated file
         """
-        # Create a deep copy of the original data to avoid modifying the original
         translated_data = copy.deepcopy(self.data)
-        
-        # Translate the entire JSON content
         translated_data = self._translate_recursive(translated_data, target_language)
         
-        # Save the translated template
-        with open(output_path, 'w', encoding='utf-8') as f:
-            json.dump(translated_data, f, ensure_ascii=False, indent=2)
+        if output_path:
+            with open(output_path, 'w', encoding='utf-8') as f:
+                json.dump(translated_data, f, ensure_ascii=False, indent=2)
+            print(f"Translated template saved to: {output_path}")
         
-        print(f"Translated template saved to: {output_path}")
+        return translated_data
+
+
+===============================================================================================================================================================================
+
+
+def translate_json_azure(file: File, lang='es', technique='azure_translator'):
+    """
+    Translate JSON file using Azure translation services
+    
+    :param file: Input file
+    :param lang: Target language code
+    :param technique: Translation technique
+    :return: Translated JSON content
+    """
+    # Read file content
+    content = file.file.read()
+    content_str = content.decode('utf-8')
+
+    # Select translator based on technique
+    if technique == "azure_translator":
+        transltr = translator.AzureTranslator()
+        transltr.set_domain_words(DOMAIN_WORDS)
+        transltr.set_placeholders(PLACEHOLDERS)
+    elif technique == 'azure_openai':
+        transltr = translator.AzureOpenAITranslator()
+        transltr.set_domain_words(DOMAIN_WORDS)
+        transltr.set_placeholders(PLACEHOLDERS)
+
+    # Create translator instance
+    template_translator = JSONEmailTemplateTranslator(content_str, transltr, technique)
+    
+    # Generate output path
+    timestamp = datetime.now().strftime("%d%m%Y%H%M")
+    output_path = f"transJSON_{lang}_{technique}_{timestamp}.json"
+    output_path = os.path.join(TRANSLATE_OUTPUT_PATH, output_path)
+    
+    # Translate and save
+    print(f"\nTranslating JSON Template to {lang}...")
+    template_translator.translate_template(lang, output_path)
+    print(f"Translation completed: {output_path}")
+    
+    # Read and return the translated JSON content
+    with open(output_path, "r", encoding='utf-8') as f:
+        translated_json = json.load(f)
+    
+    return translated_json
+
+===============================================================================================================================================================================
+
+
+        elif file_type == "json":
+            final_response = json_parser.translate_json_azure(
+                file, language.value, "azure_translator")
+            logger.info("Translation completed successfully")
+            
+            # Convert the response to a JSON string explicitly
+            json_content = json.dumps(
+                final_response, 
+                ensure_ascii=False,  # Allows non-ASCII characters
+                indent=4  # Optional: pretty-printing
+            )
+            
+            return JSONResponse(
+                content=json_content,  # Now explicitly a string
+                media_type='application/json',
+                status_code=200
+            )
+
+
+
+
+
+
+
+within try block of azure open ai
+
+                    response = self.azure_openai.invoke([
+                        {"role": "system", "content": f"""You are a professional translator. Translate the following text from {source_language} to {target_language}. 
+                                                          Preserve the original tone, context, target language sentiments and grammar and any domain-specific terminology or phrases. 
+                                                          Do not add any explanations or notes. I do not need any extraneous details or your explanations 
+                                                          just the translation of the source text that's all i need. If you get any numerical values, Id's, technical terms for translation
+                                                          you must keep them as is, do not give explanation for this as well"""},
+                        {"role": "user", "content": text}
+                    ])
+                    part["content"] = response.content.strip()

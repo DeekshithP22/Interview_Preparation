@@ -286,3 +286,18 @@ Here are the **advantages** and **disadvantages** of building and using a custom
 ### **Summary**
 
 The custom Azure AI Translation model offers significant advantages, particularly in terms of tailored, high-quality translations for specific use cases, scalability, and integration with other Azure services. However, there are challenges, such as the need for substantial upfront investment in data preparation, the potential for high ongoing costs, and reliance on external cloud infrastructure. The success of this approach depends on the quality of the training data, ongoing maintenance, and monitoring for accuracy and bias.
+
+
+
+==========================================================================================================================================================================
+
+
+
+Initial Setup Complexity: Requires time and expertise for setup, data preparation, and training.
+Cost of Training and Maintenance: High costs for training, retraining, and maintaining the model.
+Limited by Data Quality: The model's performance is dependent on the quality and quantity of the training data.
+Model Drift: Over time, the model may lose accuracy without regular updates.
+Potential for Bias: Training data bias can affect translation quality and fairness.
+Latency and Processing Time: Training and real-time translations may have delays.
+Dependency on Azure: Reliance on Azure's infrastructure may result in vendor lock-in and outages.
+Data Privacy Concerns: Storing sensitive data on the cloud may raise security and compliance issues.

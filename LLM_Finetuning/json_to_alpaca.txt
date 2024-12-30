@@ -1,0 +1,111 @@
+import json
+import os
+
+def convert_to_openai_format(input_file_path, output_file_path):
+    """
+    Reads JSON from file path and converts to OpenAI's fine-tuning format
+    
+    Args:
+        input_file_path (str): Path to input JSON file
+        output_file_path (str): Path where output JSONL file will be saved
+    """
+    try:
+        # Read JSON file
+        with open(input_file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            
+        openai_format = []
+        
+        # Define essential translation instructions
+        base_instructions = (
+            "You are an expert in corporate, technical, business and web applications content translations, specializing in maintaining precise business communication across languages.\n\n"
+            "Translation Requirements:\n"
+            "1. Context and Intent:\n"
+            "   - Deeply understand the business context and corporate intent\n"
+            "   - Preserve formal business tone and professional language\n"
+            "   - Maintain the original message's urgency and importance level\n\n"
+            "2. Technical and Domain Specifics:\n"
+            "   - Keep all technical abbreviations (e.g., ICT, STBV, PE) unchanged\n"
+            "   - Transliterate company-specific terms into target script while maintaining recognition\n"
+            "   - Preserve numerical data, codes, and reference numbers exactly\n\n"
+            "3. Language Adaptation:\n"
+            "   - Follow target language's formal business writing conventions\n"
+            "   - Adapt corporate terminology to local business practices\n"
+            "   - Maintain proper honorifics and formal address forms\n\n"
+            "4. Quality Standards:\n"
+            "   - Ensure consistency in terminology throughout related communications\n"
+            "   - Preserve formatting and structural elements\n"
+            "   - Maintain clarity in complex technical concepts"
+        )
+        
+        training_data = data.get('training_data', [])
+        
+        # Print first item for debugging
+        if training_data:
+            print("First item structure:")
+            print(json.dumps(training_data[0], indent=2))
+        
+        for item in training_data:
+            # Create conversation format with instructions
+            system_message = {
+                "role": "system",
+                "content": (
+                    f"{base_instructions}\n\n"
+                    f"content_type: {item.get('content_type', '')}\n"
+                    f"context: {item.get('context', '')}\n"
+                    f"source_lang: {item.get('source_lang', '')}\n"
+                    f"target_lang: {item.get('target_lang', '')}\n"
+                    f"domain_terms: {', '.join(item.get('domain_terms', []))}"
+                )
+            }
+            
+            user_message = {
+                "role": "user",
+                "content": item['source_text']
+            }
+            
+            assistant_message = {
+                "role": "assistant",
+                "content": item['target_text']
+            }
+            
+            conversation = {
+                "messages": [
+                    system_message,
+                    user_message,
+                    assistant_message
+                ]
+            }
+            
+            openai_format.append(conversation)
+            
+        # Ensure output path has .jsonl extension
+        if not output_file_path.endswith('.jsonl'):
+            output_file_path = os.path.join(output_file_path, 'training_data.jsonl')
+            
+        # Save to JSONL file
+        with open(output_file_path, 'w', encoding='utf-8') as f:
+            for item in openai_format:
+                json.dump(item, f, ensure_ascii=False)
+                f.write('\n')
+                
+        print(f"\nSuccessfully converted {len(openai_format)} examples")
+        print(f"Input file: {input_file_path}")
+        print(f"Output file: {output_file_path}")
+        
+    except FileNotFoundError:
+        print(f"Error: Input file not found at {input_file_path}")
+    except json.JSONDecodeError as e:
+        print(f"Error: Invalid JSON format in input file {input_file_path}")
+        print(f"JSON Error details: {str(e)}")
+    except Exception as e:
+        print(f"Error during conversion: {str(e)}")
+        import traceback
+        traceback.print_exc()
+
+# Example usage
+if __name__ == "__main__":
+    input_path = r"C:\Interview_Preparation\LLM_Finetuning\translation_dataset_hindi.json"
+    output_path = r"C:\Interview_Preparation\LLM_Finetuning"
+    
+    convert_to_openai_format(input_path, output_path)

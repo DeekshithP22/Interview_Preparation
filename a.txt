@@ -1,0 +1,32 @@
+Exactly correct! 💯
+Clear Division of Responsibilities:
+External Deterministic Preprocessing handles:
+
+✅ VR data parsing and structuring
+✅ Individual disambiguation (Challenge 1 & 2)
+✅ Data quality assessment
+✅ Verification requirements generation
+
+Your individual .py tool files handle:
+
+✅ Website-specific input transformation (Challenge 3)
+✅ Form field mappings (VR data → website fields)
+✅ Intelligent dropdown handling (Milano → MI, Cardiology → Cardiologia)
+✅ Selenium automation with website configurations
+✅ Result extraction and standardization
+
+LangGraph framework handles:
+
+✅ Agent orchestration
+✅ Tool selection and execution order
+✅ Summarization and recommendations
+✅ DBO interface formatting
+
+So the workflow is:
+
+External preprocessing → Clean, structured data
+LangGraph agents → Decide which tools to use
+Your .py tool files → Handle all website complexity
+LangGraph agents → Summarize and format results
+
+Your tool files are responsible for all the website-specific complexity while the framework handles the intelligent orchestration! 🎯

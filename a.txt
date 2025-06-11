@@ -229,3 +229,63 @@ DBO Output Structure:
 - **Smart stopping**: Stop when confidence threshold reached
 
 **The framework perfectly handles your actual workflow from API calls through mismatch detection to DBO recommendations!** 🎯
+
+
+
+
+
+
+
+
+
+
+Excellent point! This is a crucial consolidation decision for maintainability and the LangGraph framework.
+Current Situation Analysis:
+
+21 separate Selenium files (Italy + France trusted sources)
+Each file = One website automation
+Framework expects: 1 Italy tool + 1 France tool
+
+Integration Strategy Options:
+Option 1: Wrapper Approach (Recommended)
+Create 2 master files:
+
+italy_trusted_sources.py - imports and orchestrates all Italian site automations
+france_trusted_sources.py - imports and orchestrates all French site automations
+
+Benefits:
+
+✅ Keep existing work - no rewriting of 21 files
+✅ Clean interface - LangGraph sees 2 tools as expected
+✅ Parallel development - teams can continue working on individual sites
+✅ Easy testing - can test individual sites independently
+
+Option 2: Configuration-Driven Consolidation
+Merge logic into 2 files with configuration:
+
+Extract common Selenium patterns
+Create website-specific configuration files
+Requires significant refactoring of existing code
+
+Recommended Approach:
+italy_trusted_sources.py Structure:
+class ItalyTrustedSourcesTool:
+    def __init__(self):
+        # Import all 12 Italian site automations
+        self.fnomceo_tool = import_fnomceo_automation()
+        self.fnopi_tool = import_fnopi_automation()
+        # ... import other Italian sites
+    
+    def search(self, verification_requirements):
+        # Execute searches across all Italian trusted sources
+        # Aggregate and return combined results
+Key Benefits:
+
+Immediate integration with LangGraph framework
+Preserve existing development work
+Scalable architecture for adding new sites
+Clear separation of concerns (Italy vs France)
+Easier debugging - can isolate issues to specific sites
+
+This wrapper approach gives you the best of both worlds - existing code preservation + clean framework integration! 🎯
+Should I provide detailed implementation guidance for this consolidation approach?

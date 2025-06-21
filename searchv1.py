@@ -394,3 +394,561 @@ async def run_standalone_search_test():
 
 if __name__ == "__main__":
     asyncio.run(run_standalone_search_test())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### test_search_agent.py
+
+"""
+Test script for standalone Search & Summarize Agent
+Updated to include VR data for summarization
+"""
+
+import asyncio
+import json
+from main import process_search_request
+
+async def test_basic_search():
+    """Test basic search functionality with VR data"""
+    
+    # Test Case 1: Italian Medical Professional
+    italian_search = {
+        "verification_needed": True,
+        "primary_objectives": [
+            "verify_employment_status",
+            "confirm_medical_license",
+            "validate_workplace_affiliation"
+        ],
+        "geographic_region": "IT",
+        "confidence_threshold": 0.85,
+        "entity_details": {
+            "firstName": "PAOLO",
+            "lastName": "CORVISIERI", 
+            "workplaceName": "DISTRETTO SANITARIO FIUMICINO",
+            "specialtyCode": "18",
+            "country": "IT",
+            "city": "VELLETRI"
+        },
+        "search_context": {
+            "entity_type": "ENT_ACTIVITY",
+            "verification_type": "medical_professional",
+            "urgency": "standard"
+        }
+    }
+    
+    # VR data for Italian case
+    italian_vr_data = {
+        "validation.refAreaEid": "RAR_ITALY",
+        "validation.id": 1019001316927770,
+        "validation.customerId": 7433,
+        "validation.externalId": "47064408",
+        "validation.customerRequestEid": "1-ALD8GCL/1-ALD8GE2",
+        "validation.vrTypeCode": "VMR",
+        "validation.countryCode": "IT",
+        "validation.entityTypeIco": "ENT_ACTIVITY",
+        "validation.integrationDate": "2025-06-02T07:16:43Z",
+        "validation.requestDate": "2025-06-02T07:16:43Z",
+        "validation.requestComment": "Automatically Created",
+        "validation.statusIco": "VAS_NOT_PROCESSED",
+        "validation.isForced": False,
+        "validation.businessStatusCode": "C",
+        "validation.statusDate": "2025-06-02T07:16:43Z",
+        "validation.requesterId": "97433",
+        "validation.requesterLastName": "fathimathsireen.ma@iqvia.com",
+        "validation.slaRemainingNumDays": 4,
+        "validation.slaDate": "2025-06-12",
+        "validation.slaNumDays": 8,
+        "validation.slaWorkInstructionsFileUrl": "nullVMR_WORK_INST_01",
+        "validation.slaWorkInstructionsSummaryCode": "WORK_INSTRUCTION_DEFAULT",
+        "validation.individualWithoutActivityAccepted": False,
+        "individual.firstName": "Marcello",
+        "individual.lastName": "Marchetti",
+        "workplace.usualName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+        "address.country": "IT",
+        "address.city": "Milano",
+        "address.postalCity": "Milano",
+        "matchingCandidatesKeys": [
+            "WIT10546253201",
+            "WIT10546253202"
+        ]
+    }
+    
+    print("=== Testing Italian Medical Professional ===")
+    result = await process_search_request(italian_search, italian_vr_data)
+    print(f"Status: {result['workflow_status'].value}")
+    print(f"Tools: {result.get('selected_tools', [])}")
+    print(f"Confidence: {result.get('search_confidence', 0.0)}")
+    print()
+    
+    # Test Case 2: French Healthcare Professional
+    french_search = {
+        "verification_needed": True,
+        "primary_objectives": [
+            "verify_professional_registration",
+            "confirm_current_workplace",
+            "validate_specialty_credentials"
+        ],
+        "geographic_region": "FR",
+        "confidence_threshold": 0.80,
+        "entity_details": {
+            "firstName": "MARIE",
+            "lastName": "DUBOIS",
+            "workplaceName": "HOPITAL SAINT-ANTOINE",
+            "specialtyCode": "22",
+            "country": "FR",
+            "city": "PARIS"
+        },
+        "search_context": {
+            "entity_type": "ENT_ACTIVITY",
+            "verification_type": "medical_professional",
+            "urgency": "high"
+        }
+    }
+    
+    # VR data for French case
+    french_vr_data = {
+        "validation.refAreaEid": "RAR_FRANCE",
+        "validation.id": 1019001316927771,
+        "validation.customerId": 7434,
+        "validation.externalId": "47064409",
+        "validation.customerRequestEid": "1-FR_HOSPITAL/1-FR_DOC",
+        "validation.vrTypeCode": "VMR",
+        "validation.countryCode": "FR",
+        "validation.entityTypeIco": "ENT_ACTIVITY",
+        "validation.integrationDate": "2025-06-02T08:20:15Z",
+        "validation.requestDate": "2025-06-02T08:20:15Z",
+        "validation.requestComment": "French medical professional verification",
+        "validation.statusIco": "VAS_NOT_PROCESSED",
+        "validation.isForced": False,
+        "validation.businessStatusCode": "C",
+        "validation.statusDate": "2025-06-02T08:20:15Z",
+        "validation.requesterId": "97434",
+        "validation.requesterLastName": "marie.verification@iqvia.com",
+        "validation.slaRemainingNumDays": 5,
+        "validation.slaDate": "2025-06-15",
+        "validation.slaNumDays": 10,
+        "validation.individualWithoutActivityAccepted": False,
+        "individual.firstName": "Marie",
+        "individual.lastName": "Dubois",
+        "workplace.usualName": "Hopital Saint-Antoine",
+        "address.country": "FR",
+        "address.city": "Paris",
+        "address.postalCity": "Paris",
+        "matchingCandidatesKeys": [
+            "WITFR10546253301",
+            "WITFR10546253302"
+        ]
+    }
+    
+    print("=== Testing French Healthcare Professional ===")
+    result = await process_search_request(french_search, french_vr_data)
+    print(f"Status: {result['workflow_status'].value}")
+    print(f"Tools: {result.get('selected_tools', [])}")
+    print(f"Confidence: {result.get('search_confidence', 0.0)}")
+    print()
+    
+    # Test Case 3: No Verification Needed
+    no_verification = {
+        "verification_needed": False,
+        "primary_objectives": [],
+        "geographic_region": "IT",
+        "confidence_threshold": 1.0
+    }
+    
+    print("=== Testing No Verification Needed ===")
+    result = await process_search_request(no_verification, None)
+    print(f"Status: {result['workflow_status'].value}")
+    print(f"Summary: {result.get('intelligent_summary', {})}")
+    print()
+
+async def test_error_cases():
+    """Test error handling"""
+    
+    # Test Case 1: Invalid search requirements
+    invalid_search = {
+        "verification_needed": True,
+        # Missing primary_objectives
+        "geographic_region": "IT"
+    }
+    
+    print("=== Testing Invalid Search Requirements ===")
+    try:
+        result = await process_search_request(invalid_search, None)
+        print(f"Status: {result['workflow_status'].value}")
+        print(f"Error: {result.get('error_context', {})}")
+    except Exception as e:
+        print(f"Exception caught: {str(e)}")
+    print()
+
+async def test_with_vr_comparison():
+    """Test VR data comparison in summarization"""
+    
+    # Test with VR data that has potential mismatches
+    search_requirements = {
+        "verification_needed": True,
+        "primary_objectives": [
+            "verify_employment_status",
+            "confirm_medical_license",
+            "validate_contact_information"
+        ],
+        "geographic_region": "IT",
+        "confidence_threshold": 0.85,
+        "entity_details": {
+            "firstName": "Marcello",
+            "lastName": "Marchetti",
+            "workplaceName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+            "country": "IT",
+            "city": "Milano"
+        }
+    }
+    
+    # VR data with specific details for comparison
+    vr_data_for_comparison = {
+        "validation.refAreaEid": "RAR_ITALY",
+        "validation.id": 1019001316927770,
+        "validation.entityTypeIco": "ENT_ACTIVITY",
+        "validation.statusIco": "VAS_NOT_PROCESSED",
+        "individual.firstName": "Marcello",
+        "individual.lastName": "Marchetti",
+        "workplace.usualName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+        "address.country": "IT",
+        "address.city": "Milano",
+        "address.postalCity": "Milano"
+    }
+    
+    print("=== Testing VR Data Comparison in Summarization ===")
+    result = await process_search_request(search_requirements, vr_data_for_comparison)
+    print(f"Status: {result['workflow_status'].value}")
+    
+    if result.get("intelligent_summary"):
+        summary = result["intelligent_summary"]
+        print(f"Summary includes VR comparison: {summary}")
+    print()
+
+if __name__ == "__main__":
+    asyncio.run(test_basic_search())
+    asyncio.run(test_error_cases())
+    asyncio.run(test_with_vr_comparison())
+
+
+### batch_search_processor.py
+
+"""
+Batch processor for multiple search requests
+Updated to handle VR data along with search requirements
+"""
+
+import asyncio
+import json
+import logging
+from datetime import datetime
+from typing import List, Dict, Any
+from main import process_search_request
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+async def process_search_batch(search_requests_with_vr: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+    """
+    Process a batch of search requests with VR data
+    
+    Args:
+        search_requests_with_vr: List of dictionaries containing both search requirements and VR data
+    
+    Returns:
+        List of search results
+    """
+    batch_id = datetime.now().strftime('%Y%m%d_%H%M%S')
+    
+    try:
+        logger.info(f"Processing batch of {len(search_requests_with_vr)} search requests with VR data")
+        
+        results = []
+        for idx, request_data in enumerate(search_requests_with_vr):
+            request_id = request_data.get("request_id", f"request_{idx}")
+            search_requirements = request_data.get("search_requirements", {})
+            vr_data = request_data.get("vr_data", {})
+            
+            logger.info(f"Processing search request {idx + 1}/{len(search_requests_with_vr)} - ID: {request_id}")
+            
+            try:
+                result = await process_search_request(search_requirements, vr_data)
+                results.append({
+                    "request_id": request_id,
+                    "status": "success",
+                    "search_result": result
+                })
+                logger.info(f"Search request {request_id} completed successfully")
+                
+            except Exception as e:
+                logger.error(f"Error processing search request {request_id}: {str(e)}")
+                results.append({
+                    "request_id": request_id,
+                    "status": "error",
+                    "error": str(e),
+                    "vr_id": vr_data.get("validation.id", "unknown")
+                })
+        
+        # Save batch results
+        output_filename = f"search_batch_results_{batch_id}.json"
+        with open(output_filename, 'w', encoding='utf-8') as f:
+            json.dump(results, f, indent=2, ensure_ascii=False)
+        
+        success_count = len([r for r in results if r["status"] == "success"])
+        error_count = len([r for r in results if r["status"] == "error"])
+        
+        logger.info(f"Batch processing complete. Results saved to: {output_filename}")
+        logger.info(f"Summary: {success_count} successful, {error_count} failed")
+        
+        return results
+        
+    except Exception as e:
+        logger.error(f"Batch processing error: {str(e)}")
+        raise
+
+async def process_vr_batch_from_file(vr_records_file: str) -> List[Dict[str, Any]]:
+    """
+    Process VR records from a JSON file
+    
+    Args:
+        vr_records_file: Path to JSON file containing VR records
+    
+    Returns:
+        List of search results
+    """
+    try:
+        # Load VR records from file
+        with open(vr_records_file, 'r', encoding='utf-8') as f:
+            vr_records = json.load(f)
+        
+        logger.info(f"Loaded {len(vr_records)} VR records from {vr_records_file}")
+        
+        # Convert VR records to search requests
+        search_requests_with_vr = []
+        for idx, vr_record in enumerate(vr_records):
+            # Generate search requirements based on VR record
+            search_requirements = generate_search_requirements_from_vr(vr_record)
+            
+            search_requests_with_vr.append({
+                "request_id": f"VR_{vr_record.get('validation.id', idx)}",
+                "search_requirements": search_requirements,
+                "vr_data": vr_record
+            })
+        
+        # Process the batch
+        return await process_search_batch(search_requests_with_vr)
+        
+    except Exception as e:
+        logger.error(f"Error processing VR batch from file: {str(e)}")
+        raise
+
+def generate_search_requirements_from_vr(vr_record: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Generate search requirements from VR record
+    
+    Args:
+        vr_record: VR record data
+    
+    Returns:
+        Search requirements dictionary
+    """
+    entity_type = vr_record.get("validation.entityTypeIco", "")
+    country_code = vr_record.get("validation.countryCode", "")
+    
+    # Base search requirements
+    search_requirements = {
+        "verification_needed": True,
+        "geographic_region": country_code,
+        "confidence_threshold": 0.85,
+        "search_context": {
+            "entity_type": entity_type,
+            "verification_type": "medical_professional" if entity_type == "ENT_ACTIVITY" else "workplace",
+            "urgency": "standard"
+        }
+    }
+    
+    # Set objectives based on entity type
+    if entity_type == "ENT_ACTIVITY":
+        search_requirements["primary_objectives"] = [
+            "verify_employment_status",
+            "confirm_medical_license",
+            "validate_workplace_affiliation",
+            "verify_professional_credentials"
+        ]
+        
+        # Add individual details
+        search_requirements["entity_details"] = {
+            "firstName": vr_record.get("individual.firstName", ""),
+            "lastName": vr_record.get("individual.lastName", ""),
+            "workplaceName": vr_record.get("workplace.usualName", ""),
+            "country": vr_record.get("address.country", ""),
+            "city": vr_record.get("address.city", "")
+        }
+        
+    elif entity_type == "ENT_WORKPLACE":
+        search_requirements["primary_objectives"] = [
+            "verify_workplace_existence",
+            "confirm_workplace_status",
+            "validate_workplace_registration",
+            "verify_contact_information"
+        ]
+        
+        # Add workplace details
+        search_requirements["entity_details"] = {
+            "workplaceName": vr_record.get("workplace.usualName", ""),
+            "country": vr_record.get("address.country", ""),
+            "city": vr_record.get("address.city", ""),
+            "postalCity": vr_record.get("address.postalCity", "")
+        }
+    
+    return search_requirements
+
+if __name__ == "__main__":
+    # Example batch of search requests with VR data
+    sample_batch = [
+        {
+            "request_id": "IT_001",
+            "search_requirements": {
+                "verification_needed": True,
+                "primary_objectives": [
+                    "verify_employment_status", 
+                    "confirm_medical_license",
+                    "validate_workplace_affiliation"
+                ],
+                "geographic_region": "IT",
+                "confidence_threshold": 0.85,
+                "entity_details": {
+                    "firstName": "Marcello",
+                    "lastName": "Marchetti",
+                    "workplaceName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+                    "country": "IT",
+                    "city": "Milano"
+                },
+                "search_context": {
+                    "entity_type": "ENT_ACTIVITY",
+                    "verification_type": "medical_professional",
+                    "urgency": "standard"
+                }
+            },
+            "vr_data": {
+                "validation.refAreaEid": "RAR_ITALY",
+                "validation.id": 1019001316927770,
+                "validation.customerId": 7433,
+                "validation.externalId": "47064408",
+                "validation.entityTypeIco": "ENT_ACTIVITY",
+                "validation.countryCode": "IT",
+                "individual.firstName": "Marcello",
+                "individual.lastName": "Marchetti",
+                "workplace.usualName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+                "address.country": "IT",
+                "address.city": "Milano",
+                "address.postalCity": "Milano"
+            }
+        },
+        {
+            "request_id": "FR_001", 
+            "search_requirements": {
+                "verification_needed": True,
+                "primary_objectives": [
+                    "verify_professional_registration",
+                    "confirm_current_workplace",
+                    "validate_specialty_credentials"
+                ],
+                "geographic_region": "FR",
+                "confidence_threshold": 0.80,
+                "entity_details": {
+                    "firstName": "Marie",
+                    "lastName": "Dubois",
+                    "workplaceName": "Hopital Saint-Antoine",
+                    "country": "FR",
+                    "city": "Paris"
+                },
+                "search_context": {
+                    "entity_type": "ENT_ACTIVITY",
+                    "verification_type": "medical_professional",
+                    "urgency": "high"
+                }
+            },
+            "vr_data": {
+                "validation.refAreaEid": "RAR_FRANCE",
+                "validation.id": 1019001316927771,
+                "validation.customerId": 7434,
+                "validation.externalId": "47064409",
+                "validation.entityTypeIco": "ENT_ACTIVITY",
+                "validation.countryCode": "FR",
+                "individual.firstName": "Marie",
+                "individual.lastName": "Dubois",
+                "workplace.usualName": "Hopital Saint-Antoine",
+                "address.country": "FR",
+                "address.city": "Paris",
+                "address.postalCity": "Paris"
+            }
+        }
+    ]
+    
+    asyncio.run(process_search_batch(sample_batch))

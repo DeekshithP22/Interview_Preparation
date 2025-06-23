@@ -343,3 +343,27 @@ print("DEBUG: Result received")
 print(f"DEBUG: Status = {result['workflow_status'].value}")
 print(f"DEBUG: Tools = {result.get('selected_tools', [])}")
 print(f"DEBUG: Summary = {result.get('intelligent_summary', {})}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+    self.llm = AzureChatOpenAI(
+        azure_ad_token=token.token,
+        azure_endpoint=Config.AZURE_OPENAI_ENDPOINT,
+        azure_deployment=Config.AZURE_OPENAI_DEPLOYMENT,
+        api_version=Config.AZURE_OPENAI_API_VERSION,
+        temperature=0.1
+    ).with_structured_output(
+        LLMExtractionResponse,
+        method="json_mode",
+        strict=True
+    )

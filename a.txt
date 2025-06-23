@@ -289,3 +289,39 @@ Easier debugging - can isolate issues to specific sites
 
 This wrapper approach gives you the best of both worlds - existing code preservation + clean framework integration! 🎯
 Should I provide detailed implementation guidance for this consolidation approach?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def __init__(self):
+        # Get Azure AD token
+        credential = ClientSecretCredential(
+            tenant_id=Config.AZURE_TENANT_ID,
+            client_id=Config.AZURE_CLIENT_ID,
+            client_secret=Config.AZURE_CLIENT_SECRET
+        )
+        
+        # Get token for Azure OpenAI
+        token = credential.get_token("https://cognitiveservices.azure.com/.default")
+        
+        self.llm = AzureChatOpenAI(
+            azure_ad_token=token.token,  # Use token instead of API key
+            azure_endpoint=Config.AZURE_OPENAI_ENDPOINT,
+            azure_deployment=Config.AZURE_OPENAI_DEPLOYMENT_NAME,
+            api_version=Config.AZURE_OPENAI_API_VERSION,
+            temperature=0.1
+        )

@@ -1,0 +1,146 @@
+.
+├── app/
+│   └── backend/
+│       ├── .dockerignore
+│       ├── .env.example
+│       ├── Dockerfile
+│       ├── langgraph.json
+│       ├── openapi.json
+│       ├── README.md
+│       ├── azure_search_token_provider.py
+│       ├── rag/
+│       │   └── api/
+│       │       └── routes/
+│       │           └── rag_app.py
+│       ├── tests/
+│       │   ├── test_integration.py
+│       │   ├── test_rag.py
+│       │   ├── test_similar_docs.py
+│       │   └── __init__.py
+│       ├── docs/
+│       │   ├── api-docs.md
+│       │   ├── logging.md
+│       │   └── testing.md
+│       └── app/
+│           ├── api/
+│           │   ├── openapi.py
+│           │   ├── routes/
+│           │   │   ├── agent_rest.py
+│           │   │   ├── dependencies.py
+│           │   │   ├── health.py
+│           │   │   ├── model_utils.py
+│           │   │   ├── storage.py
+│           │   │   └── __init__.py
+│           │   └── __init__.py
+│           ├── config.py
+│           ├── core/
+│           │   ├── __init__.py
+│           │   ├── db/
+│           │   │   ├── mongo_repository.py
+│           │   │   └── repository.py
+│           │   ├── documents.py
+│           │   ├── evaluation.py
+│           │   ├── security/
+│           │   │   ├── authorization/
+│           │   │   │   ├── base.py
+│           │   │   │   ├── langgraph_auth.py
+│           │   │   │   └── __init__.py
+│           │   │   └── __init__.py
+│           │   └── storage/
+│           │       ├── azure.py
+│           │       ├── base.py
+│           │       └── __init__.py
+│           ├── dependencies.py
+│           ├── log_config.yaml
+│           ├── main.py
+│           ├── models.py
+│           ├── my_agent/
+│           │   ├── agent.py
+│           │   ├── utils/
+│           │   │   ├── nodes.py
+│           │   │   ├── state.py
+│           │   │   ├── tools.py
+│           │   │   └── __init__.py
+│           │   └── __init__.py
+│           ├── tests/
+│           │   ├── test_authorization.py
+│           │   ├── test_documents.py
+│           │   ├── test_evaluation.py
+│           │   ├── test_langgraph_flows.py
+│           │   ├── test_storage_views.py
+│           │   └── __init__.py
+│           └── __init__.py
+├── .devcontainer/
+│   └── devcontainer.json
+├── .gitattributes
+├── .gitignore
+├── .gitlab-ci.yml
+├── .pre-commit-config.yaml
+├── .vscode/
+│   ├── extensions.json
+│   ├── launch.json
+│   ├── settings.json
+│   └── tasks.json
+├── bin/
+│   └── register_azure_app.py
+├── docs/
+│   ├── authorization.md
+│   ├── DOCS.md
+│   ├── entraid-application-registration.md
+│   └── images/
+│       ├── agent_diagram.png
+│       ├── azure_resources_layer_dependencies_white_bg.png
+│       ├── scalar-hostname.png
+│       ├── scalar-PKCE-scopes.png
+│       └── scalar-post-authn.png
+├── guards/
+│   └── validators/
+│       ├── toxic_words.py
+│       └── __init__.py
+├── infra/
+│   ├── .terraform.lock.hcl
+│   ├── .tflint.hcl
+│   ├── build_publish_image.sh
+│   ├── modules/
+│   │   ├── container-app/
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   ├── providers.tf
+│   │   │   └── variables.tf
+│   │   ├── cosmos/
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   └── variables.tf
+│   │   ├── security/
+│   │   │   └── role/
+│   │   │       ├── main.tf
+│   │   │       └── variables.tf
+│   │   └── storage/
+│   │       ├── main.tf
+│   │       ├── outputs.tf
+│   │       └── variables.tf
+│   ├── cicd-scripts/
+│   │   ├── img/
+│   │   │   └── container-apps-blue-green-deployment.png
+│   │   ├── azd_extra_setup.sh
+│   │   └── azd_setup.sh
+│   ├── test_deployment.sh
+│   ├── tf_backend.sh
+│   └── traffic_switch.sh
+├── main.tf
+├── main.tfvars.json
+├── output.tf
+├── provider.tf
+├── shared_services.tf
+├── variables.tf
+├── LICENSE
+├── package-lock.json
+├── pyproject.toml
+├── README.md
+├── resources/
+│   ├── .spectral.yaml
+│   └── chat_contract_openapi.yaml
+├── uv.lock
+├── app_registration.json
+├── azure.yaml
+└── temp.ipynb

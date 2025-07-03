@@ -607,3 +607,68 @@ def search(search_input):
         print(f"❌ Error: {str(e)}")
         return {"debug": "failed", "error": str(e)}
 
+
+
+
+
+
+
+
+
+
+def search(search_input):
+    try:
+        print("=== WebDriver Manager Debug ===")
+        from webdriver_manager.chrome import ChromeDriverManager
+        from selenium import webdriver
+        from selenium.webdriver.chrome.options import Options
+        from selenium.webdriver.chrome.service import Service
+        
+        print("Step 1: Getting ChromeDriver...")
+        driver_path = ChromeDriverManager().install()
+        print(f"✅ ChromeDriver downloaded to: {driver_path}")
+        
+        print("Step 2: Creating Chrome options...")
+        chrome_options = Options()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-dev-shm-usage')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--window-size=1920,1080')
+        print("✅ Chrome options created")
+        
+        print("Step 3: Creating Chrome service...")
+        service = Service(driver_path)
+        print("✅ Chrome service created")
+        
+        print("Step 4: Starting Chrome browser...")
+        driver = webdriver.Chrome(service=service, options=chrome_options)
+        print("✅ Chrome browser started successfully")
+        
+        print("Step 5: Testing navigation to Google...")
+        driver.get("https://www.google.com")
+        page_title = driver.title
+        print(f"✅ Navigation successful! Page title: {page_title}")
+        
+        print("Step 6: Closing browser...")
+        driver.quit()
+        print("✅ Browser closed successfully")
+        
+        print("=== All Selenium steps completed successfully ===")
+        return {
+            "debug": "selenium_fully_working",
+            "driver_path": driver_path,
+            "test_title": page_title,
+            "status": "success"
+        }
+        
+    except Exception as e:
+        print(f"❌ Selenium failed with error: {str(e)}")
+        import traceback
+        print("Full traceback:")
+        print(traceback.format_exc())
+        return {
+            "debug": "selenium_failed", 
+            "error": str(e),
+            "status": "failed"
+        }

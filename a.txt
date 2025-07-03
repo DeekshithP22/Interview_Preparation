@@ -801,3 +801,15 @@ for script in scripts_to_run:
         
     except Exception as e:
         print(f"EXCEPTION in subprocess: {script} - {str(e)}")  # Add this
+
+
+
+
+
+    except FileNotFoundError:
+        print(f"Error: The script '{script_path}' was not found.")
+    except Exception as e:
+        print(f"SUBPROCESS CREATION FAILED for {script}: {str(e)}")
+        print(f"Exception type: {type(e).__name__}")
+        import traceback
+        print(f"Full traceback: {traceback.format_exc()}")

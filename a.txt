@@ -730,3 +730,26 @@ print(f"Config path: {self.config_path}")
 print(f"Config exists: {os.path.exists(self.config_path)}")
 print(f"Scripts to run: {scripts_to_run}")
 print(f"=== END DEBUG ===")
+
+
+
+
+
+stdout, stderr = await process.communicate()
+
+# ENHANCED DEBUG OUTPUT
+print(f"=== DEBUG: {script} ===")
+print(f"Return code: {process.returncode}")
+print(f"STDOUT ({len(stdout)} bytes):")
+if stdout.strip():
+    print(stdout.decode().strip())
+else:
+    print("(No stdout output)")
+    
+print(f"STDERR ({len(stderr)} bytes):")
+if stderr.strip():
+    print("ERROR DETAILS:")
+    print(stderr.decode().strip())
+else:
+    print("(No stderr output)")
+print(f"=== END DEBUG: {script} ===")

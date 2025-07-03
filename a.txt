@@ -826,3 +826,20 @@ for script in scripts_to_run:
         print(f"Exception type: {type(e).__name__}")
         import traceback
         print(f"Full traceback: {traceback.format_exc()}")
+
+
+
+
+
+
+# FIXED CODE (works everywhere):
+import subprocess
+result = subprocess.run(
+    [sys.executable, script_path],
+    capture_output=True,
+    text=True,
+    timeout=300  # 5 minute timeout per script
+)
+stdout = result.stdout.encode()  # Convert to bytes for compatibility
+stderr = result.stderr.encode()
+process = result  # For returncode compatibility

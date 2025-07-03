@@ -672,3 +672,39 @@ def search(search_input):
             "error": str(e),
             "status": "failed"
         }
+
+
+
+
+
+
+
+
+
+
+
+
+# In your master script's search function, find this section:
+# 2. Execute each Python script sequentially
+print("--- Starting Script Execution ---")
+for script in scripts_to_run:
+    script_path = os.path.join(self.scripts_folder, script)
+    print(f"Running {script_path}...")
+    try:
+        process = await asyncio.create_subprocess_exec(
+            sys.executable,
+            script_path,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        stdout, stderr = await process.communicate()
+        
+        # ADD THESE DEBUG LINES:
+        print(f"=== DEBUG: {script} ===")
+        print(f"STDOUT: {stdout.decode().strip()}")
+        print(f"STDERR: {stderr.decode().strip()}")
+        print(f"Return code: {process.returncode}")
+        print(f"=== END DEBUG ===")
+        
+        if process.returncode != 0:
+            # Keep your existing error handling

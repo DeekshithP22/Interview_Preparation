@@ -708,3 +708,25 @@ for script in scripts_to_run:
         
         if process.returncode != 0:
             # Keep your existing error handling
+
+
+
+
+
+
+
+
+
+
+
+
+print(f"=== ENVIRONMENT DEBUG ===")
+print(f"Current working directory: {os.getcwd()}")
+print(f"Scripts folder path: {self.scripts_folder}")
+print(f"Scripts folder exists: {os.path.exists(self.scripts_folder)}")
+if os.path.exists(self.scripts_folder):
+    print(f"Files in scripts folder: {os.listdir(self.scripts_folder)}")
+print(f"Config path: {self.config_path}")
+print(f"Config exists: {os.path.exists(self.config_path)}")
+print(f"Scripts to run: {scripts_to_run}")
+print(f"=== END DEBUG ===")

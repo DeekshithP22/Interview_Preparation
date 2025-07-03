@@ -753,3 +753,45 @@ if stderr.strip():
 else:
     print("(No stderr output)")
 print(f"=== END DEBUG: {script} ===")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Add this RIGHT before the for loop
+print(f"BEFORE FOR LOOP: scripts_to_run = {scripts_to_run}")
+print(f"Number of scripts to run: {len(scripts_to_run)}")
+
+for script in scripts_to_run:
+    print(f"LOOP START: Processing script: {script}")  # Add this
+    script_path = os.path.join(self.scripts_folder, script)
+    print(f"SCRIPT PATH: {script_path}")  # Add this
+    print(f"Running {script_path}...")
+    try:
+        print(f"BEFORE SUBPROCESS: About to start {script}")  # Add this
+        process = await asyncio.create_subprocess_exec(
+            sys.executable,
+            script_path,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+        )
+        print(f"AFTER SUBPROCESS CREATION: {script}")  # Add this
+        stdout, stderr = await process.communicate()
+        print(f"AFTER COMMUNICATE: {script}")  # Add this
+        
+        # Your debug output here...
+        print(f"=== DEBUG: {script} ===")
+        # ... rest of debug code
+        
+    except Exception as e:
+        print(f"EXCEPTION in subprocess: {script} - {str(e)}")  # Add this

@@ -773,6 +773,19 @@ print(f"=== END DEBUG: {script} ===")
 
 
 
+# FIXED CODE (works everywhere):
+import subprocess
+result = subprocess.run(
+    [sys.executable, script_path],
+    capture_output=True,
+    text=True,
+    timeout=300  # 5 minute timeout per script
+)
+stdout = result.stdout.encode()  # Convert to bytes for compatibility
+stderr = result.stderr.encode()
+process = result  # For returncode compatibility
+
+
 
 # Add this RIGHT before the for loop
 print(f"BEFORE FOR LOOP: scripts_to_run = {scripts_to_run}")

@@ -559,3 +559,10 @@ logging.basicConfig(
         logging.StreamHandler()     # Also show in terminal
     ]
 )
+
+
+
+
+
+    import subprocess; print("Chrome check:", subprocess.run(['which', 'google-chrome'], capture_output=True, text=True).stdout)
+

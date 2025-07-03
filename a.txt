@@ -762,7 +762,13 @@ print(f"=== END DEBUG: {script} ===")
 
 
 
-
+    except FileNotFoundError:
+        print(f"Error: The script '{script_path}' was not found.")
+    except Exception as e:
+        print(f"SUBPROCESS CREATION FAILED for {script}: {str(e)}")
+        print(f"Exception type: {type(e).__name__}")
+        import traceback
+        print(f"Full traceback: {traceback.format_exc()}")
 
 
 

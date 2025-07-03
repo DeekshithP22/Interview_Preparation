@@ -525,3 +525,37 @@ def search_healthcare_professionals(
     """
     agent = HealthcareSearchAgent(tavily_api_key, google_api_key)
     return agent.search(doctor_info)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import logging
+from logging.handlers import RotatingFileHandler
+import os
+
+# Create logs directory if it doesn't exist
+os.makedirs('logs', exist_ok=True)
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        RotatingFileHandler(
+            'logs/search_agent.log',
+            maxBytes=10*1024*1024,  # 10MB per file
+            backupCount=5           # Keep 5 backup files
+        ),
+        logging.StreamHandler()     # Also show in terminal
+    ]
+)

@@ -23,6 +23,25 @@ name_parts = cast(List[str], professional_name.lower().split())
 
 ```python
 def _format_search_results_for_llm(self, search_results: Dict[str, Any]) -> str:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 
 **And ensure the response structure is properly typed:**
@@ -878,3 +897,27 @@ include = ["app*"]
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["app*"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+packages = [
+    {include = "app"},
+    {include = "app/my_agent"},
+    {include = "app/core"}, 
+    {include = "app/api"}
+]

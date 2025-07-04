@@ -817,7 +817,9 @@ for script in scripts_to_run:
 
 
 
-
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
 
     except FileNotFoundError:
         print(f"Error: The script '{script_path}' was not found.")

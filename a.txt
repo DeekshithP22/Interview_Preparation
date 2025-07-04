@@ -852,3 +852,17 @@ RUN python -c "import sys; sys.path.append('/deps/backend'); from app.my_agent.a
 
 
 ENV PYTHONPATH=/deps/backend:/deps/backend/app:$PYTHONPATH
+
+
+
+
+
+# BUILD SYSTEM - Makes 'app' directory a proper package
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+# Tell setuptools to include the 'app' directory as a package
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]

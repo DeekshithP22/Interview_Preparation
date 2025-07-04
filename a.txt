@@ -847,3 +847,8 @@ process = result  # For returncode compatibility
 
 RUN ls -la /deps/backend/app/my_agent/
 RUN python -c "import sys; sys.path.append('/deps/backend'); from app.my_agent.agent import graph; print('Import successful')"
+
+
+
+
+ENV PYTHONPATH=/deps/backend:/deps/backend/app:$PYTHONPATH

@@ -716,7 +716,7 @@ for script in scripts_to_run:
 
 
 
-
+ENV PYTHONPATH=/deps/backend:/deps/backend/app:$PYTHONPATH
 
 
 

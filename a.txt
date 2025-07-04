@@ -843,3 +843,7 @@ result = subprocess.run(
 stdout = result.stdout.encode()  # Convert to bytes for compatibility
 stderr = result.stderr.encode()
 process = result  # For returncode compatibility
+
+
+RUN ls -la /deps/backend/app/my_agent/
+RUN python -c "import sys; sys.path.append('/deps/backend'); from app.my_agent.agent import graph; print('Import successful')"

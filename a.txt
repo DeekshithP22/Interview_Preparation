@@ -956,3 +956,29 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["app*"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+RUN apt-get update && apt-get install -y \
+    wget curl unzip gnupg2 software-properties-common \
+    fonts-liberation libappindicator3-1 libasound2 \
+    xdg-utils libatk-bridge2.0-0 libgtk-3-0 libnss3 \
+    libxss1 libxtst6 ca-certificates --no-install-recommends && \
+    curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | apt-key add - && \
+    echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
+        > /etc/apt/sources.list.d/google-chrome.list && \
+    apt-get update && apt-get install -y google-chrome-stable && \
+    rm -rf /var/lib/apt/lists/*

@@ -981,4 +981,98 @@ RUN apt-get update && apt-get install -y \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" \
         > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && apt-get install -y google-chrome-stable && \
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Install dependencies (required by Chrome)
+apt-get update && apt-get install -y \
+  wget unzip curl gnupg \
+  libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 libx11-xcb1 \
+  libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxrandr2 \
+  libxss1 libxtst6 libappindicator3-1 libasound2 libatk-bridge2.0-0 \
+  libatk1.0-0 libcups2 libdbus-1-3 libgtk-3-0 libx11-data \
+  && rm -rf /var/lib/apt/lists/*
+
+# -----------------------------
+# Install Google Chrome 138
+# -----------------------------
+cd /tmp && \
+wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chrome-linux64.zip && \
+unzip chrome-linux64.zip
+
+# Move chrome binary to /usr/local/bin
+mv chrome-linux64/chrome /usr/local/bin/google-chrome
+chmod +x /usr/local/bin/google-chrome
+
+# Clean up
+rm -rf chrome-linux64 chrome-linux64.zip
+
+# -----------------------------
+# Install ChromeDriver 138
+# -----------------------------
+cd /tmp && \
+wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chromedriver-linux64.zip && \
+unzip chromedriver-linux64.zip
+
+# Move chromedriver to /usr/local/bin
+mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+chmod +x /usr/local/bin/chromedriver
+
+# Clean up
+rm -rf chromedriver-linux64 chromedriver-linux64.zip
+
     rm -rf /var/lib/apt/lists/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+FROM python:3.10-slim
+
+# Install Chrome dependencies
+RUN apt-get update && apt-get install -y \
+    wget unzip curl gnupg \
+    libglib2.0-0 libnss3 libgconf-2-4 libfontconfig1 libx11-xcb1 \
+    libxcomposite1 libxcursor1 libxdamage1 libxext6 libxi6 libxrandr2 \
+    libxss1 libxtst6 libappindicator3-1 libasound2 libatk-bridge2.0-0 \
+    libatk1.0-0 libcups2 libdbus-1-3 libgtk-3-0 libx11-data \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Google Chrome to /usr/local/bin
+RUN cd /tmp && \
+    wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chrome-linux64.zip && \
+    unzip chrome-linux64.zip && \
+    mv chrome-linux64/chrome /usr/local/bin/google-chrome && \
+    chmod +x /usr/local/bin/google-chrome && \
+    rm -rf chrome-linux64 chrome-linux64.zip
+
+# Install ChromeDriver to /usr/local/bin
+RUN cd /tmp && \
+    wget https://storage.googleapis.com/chrome-for-testing-public/138.0.7204.92/linux64/chromedriver-linux64.zip && \
+    unzip chromedriver-linux64.zip && \
+    mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver && \
+    chmod +x /usr/local/bin/chromedriver && \
+    rm -rf chromedriver-linux64 chromedriver-linux64.zip
+
+# Optional environment setup
+ENV DISPLAY=:99
+CMD ["python3"]

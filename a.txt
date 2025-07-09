@@ -1125,3 +1125,57 @@ workplace_search_input = {
 result = await agent.search(hcp_search_input)
 print("Search completed!")
 print(result)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ASYNC EXAMPLE USAGE
+async def example_usage_async():
+    """Async example of how to use the enhanced search agent"""
+    
+    # HCP Search Example
+    hcp_search_input = {
+        "entity_typ#e": "ent_activity",
+        "verification_needed": True,
+        "geographic_region": "IT",
+        "firstName": "Marcello",
+        "lastName": "Marchetti",
+        "workplaceName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+        "address": "Milano",
+        "specialtyCode": "18"
+    }
+    
+    # Workplace Search Example
+    workplace_search_input = {
+        "entity_type": "ent_workplace",
+        "verification_needed": True,
+        "geographic_region": "IT",
+        "workplaceName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+        "address": "Milano"
+    }
+    
+    # Initialize agent
+    agent = WebSearchAgent()
+    
+    # Perform async searches concurrently
+    hcp_task = agent.search(hcp_search_input)
+    workplace_task = agent.search(workplace_search_input)
+    
+    # Wait for both searches to complete
+    hcp_results, workplace_results = await asyncio.gather(hcp_task, workplace_task)
+    
+    return hcp_results, workplace_results

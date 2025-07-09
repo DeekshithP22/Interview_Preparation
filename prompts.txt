@@ -1,0 +1,60 @@
+from typing import List, Optional
+from pydantic import BaseModel, Field
+
+# ============================================================================
+# PYDANTIC MODELS
+# ============================================================================
+
+class ReferenceSection(BaseModel):
+    url: Optional[str] = Field(default=None)
+    content: str = Field(description="Reference source content")
+
+class OnlineSource(BaseModel):
+    url: str = Field(description="URL from online search")
+    content: str = Field(description="Content from online search")
+
+class LinkedinSection(BaseModel):
+    url: str = Field(description="URL from LinkedIn search")
+    content: str = Field(description="Content from LinkedIn search")
+
+class WorkplaceSection(BaseModel):
+    url: str = Field(description="URL from workplace search")
+    content: str = Field(description="Content from workplace search")
+
+class SummaryResponse(BaseModel):
+    reference_source: List[ReferenceSection]
+    online_source: List[OnlineSource]
+    linkedin_search: List[LinkedinSection]
+    workplace_search: List[WorkplaceSection]
+    ai_summary: str
+
+# ============================================================================
+# PROMPT
+# ============================================================================
+
+SUMMARIZATION_PROMPT = """You are validating and summarizing the search results for healthcare professional verification.
+
+Input sources:
+1. VR Data: Basic information to be validated
+2. Reference_source: First index of search_results(search_results[0])
+3. Tavily_search: Second index containing online search, LinkedIn search, and workplace search
+
+CRITICAL RULES:
+1. NEVER change which category a result belongs to
+2. NEVER modify URLs or content from search results
+3. If reference_source is empty in input, keep it empty in output
+
+TASK:
+1. Map results to correct categories:
+   - reference_source → reference_source
+   - online_search → online_source
+   - linkedin_search → linkedin_search
+   - workplace_search → workplace_search
+
+2. Create AI summary analyzing all results vs VR data
+
+Search Input: {search_input}
+Search Results: {search_results}
+VR Data: {vr_data}
+
+OUTPUT: Valid JSON following SummaryResponse schema."""

@@ -1212,3 +1212,47 @@ if __name__ == "__main__":
             logger.error(f"Error in async example usage: {str(e)}")
     
     asyncio.run(main())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Add validated workplace results - ONLY FROM OFFICIAL DOMAIN
+if official_domain:
+    # Filter results to only include official workplace domain URLs
+    for result in validated_workplace:
+        validation = result.get("validation", {})
+        if validation.get("is_valid", False):
+            # Extract domain from result URL
+            result_url = result.get("url", "")
+            if result_url:
+                result_domain = urlparse(result_url).netloc
+                # Remove www. prefix if present
+                if result_domain.startswith("www."):
+                    result_domain = result_domain[4:]
+                
+                # Only add if result is from official workplace domain
+                if result_domain == official_domain or result_domain.endswith(f".{official_domain}"):
+                    clean_response["search_results"]["workplace_search"]["results"].append({
+                        "url": result.get("url", ""),
+                        "title": result.get("title", ""),
+                        "content": result.get("content", ""),
+                        "score": result.get("score", 0.0)
+                    })
+                    logger.info(f"Added official workplace URL: {result_url}")
+                else:
+                    logger.info(f"Rejected non-official URL: {result_url} (not from {official_domain})")
+else:
+    # If no official domain found, don't add any workplace results
+    logger.warning("No official domain found - no workplace results added for safety")

@@ -1179,3 +1179,36 @@ async def example_usage_async():
     hcp_results, workplace_results = await asyncio.gather(hcp_task, workplace_task)
     
     return hcp_results, workplace_results
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# MAIN EXECUTION
+if __name__ == "__main__":
+    async def main():
+        try:
+            start_time = asyncio.get_event_loop().time()
+            hcp_results, workplace_results = await example_usage_async()
+            end_time = asyncio.get_event_loop().time()
+            
+            print("ASYNC HCP Search completed successfully")
+            print("ASYNC Workplace Search completed successfully")
+            print(f"Total execution time: {end_time - start_time:.2f} seconds")
+            print(f"HCP Results: {len(hcp_results['search_results']['online_search']['results'])} main results")
+            print(f"Workplace Results: {len(workplace_results['search_results']['workplace_validation']['results'])} validation results")
+        except Exception as e:
+            print(f"Error in async example usage: {str(e)}")
+            logger.error(f"Error in async example usage: {str(e)}")
+    
+    asyncio.run(main())

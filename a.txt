@@ -1076,3 +1076,52 @@ RUN cd /tmp && \
 # Optional environment setup
 ENV DISPLAY=:99
 CMD ["python3"]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Alternative approach - create agent and use it
+agent = WebSearchAgent()
+
+
+hcp_search_input = {
+    "entity_type": "ent_activity",
+    "verification_needed": True,
+    "geographic_region": "IT",
+    "firstName": "Marcello",
+    "lastName": "Marchetti",
+    "workplaceName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+    "address": "Milano",
+    "specialtyCode": "18"
+}
+
+
+workplace_search_input = {
+    "entity_type": "ent_workplace",
+    "verification_needed": True,
+    "geographic_region": "IT",
+    "workplaceName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+    "address": "Milano"
+}
+
+# Direct search
+result = await agent.search(hcp_search_input)
+print("Search completed!")
+print(result)

@@ -421,3 +421,61 @@ async def _validate_results_async(self, results: List[Dict[str, Any]], search_in
 8. Update _validate_results_async method
 
 **Follow these 8 steps in order after integrating get_codes and you'll have intelligent LLM-based medical validation!** 🚀
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#!/usr/bin/env python3
+"""
+Simple test script for Enhanced Web Search Agent
+"""
+
+import asyncio
+from websearch_agent_get_code import EnhancedWebSearchAgent
+
+async def test_agent():
+    """Simple test of the search agent"""
+    
+    # Create agent
+    agent = EnhancedWebSearchAgent()
+    
+    # Test HCP search
+    hcp_input = {
+        "entity_type": "ent_activity",
+        "firstName": "Marcello",
+        "lastName": "Marchetti", 
+        "workplaceName": "Fondazione IRCCS Istituto Neurologico Carlo Besta",
+        "address": "Milano",
+        "specialtyCode": "01",
+        "geographic_region": "IT"
+    }
+    
+    print("Testing HCP search...")
+    result = await agent.search(hcp_input)
+    
+    # Print results
+    print(f"Online results: {len(result['search_results']['online_search']['results'])}")
+    print(f"LinkedIn results: {len(result['search_results']['linkedin_search']['results'])}")
+    print(f"Workplace results: {len(result['search_results']['workplace_search']['results'])}")
+    
+    print("\nFirst online result:")
+    if result['search_results']['online_search']['results']:
+        first_result = result['search_results']['online_search']['results'][0]
+        print(f"URL: {first_result['url']}")
+        print(f"Title: {first_result['title']}")
+    
+    print(f"\nTavily answer: {result['tavily_answer']}")
+
+if __name__ == "__main__":
+    asyncio.run(test_agent())

@@ -481,3 +481,38 @@
 ├── app_registration.json
 ├── azure.yaml
 └── temp.ipynb
+
+
+
+
+
+
+
+
+
+
+
+
+import logging
+import os
+from datetime import datetime
+
+# FORCE RESET all existing loggers
+for handler in logging.root.handlers[:]:
+    logging.root.removeHandler(handler)
+
+os.makedirs("logs", exist_ok=True)
+log_filename = f"logs/search_agent_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(log_filename, mode='w'),
+        logging.StreamHandler()
+    ],
+    force=True  # ← This overrides ALL other basicConfig calls
+)
+
+logger = logging.getLogger(__name__)
+logger.info("=== CLIENT DEMO STARTED ===")

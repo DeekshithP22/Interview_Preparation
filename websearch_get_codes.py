@@ -173,3 +173,251 @@ hcp_search_input = {
 4. **Uses**: "Medic. generica" in search queries
 
 **This ensures region-specific specialty mapping with proper JSON structure handling!** 🚀
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You're absolutely right! Let me give you the complete 7-step instructions with the Pydantic model and OpenAI compatibility:
+
+## 🔧 **Complete Step-by-Step Instructions:**
+
+### **STEP 1: Add Pydantic Model**
+
+**Location**: At the top of the file, add this model after the existing models (`LLMSummaryResponse`, `ValidationResult`):
+
+```python
+class MedicalValidationResponse(BaseModel):
+    """Model for LLM medical validation response"""
+    is_medical_professional: bool = Field(description="True if content describes a healthcare professional, False otherwise")
+    specialty_detected: Optional[str] = Field(description="Medical specialty detected in content, if any")
+    confidence: float = Field(description="Confidence score between 0.0 and 1.0")
+    reasoning: str = Field(description="Brief explanation of the validation decision")
+```
+
+### **STEP 2: Add LLM Validation Method**
+
+**Location**: In the `ResultValidator` class, add this method **after** the `validate_professional_context` method:
+
+```python
+async def llm_validate_medical_context(self, content: str, specialty_name: str = None, llm_wrapper=None) -> bool:
+    """LLM-based medical professional context validation with structured output"""
+    if not llm_wrapper:
+        return self._fallback_medical_check(content)
+    
+    try:
+        # Prepare specialty context
+        specialty_context = f" Expected specialty: {specialty_name}." if specialty_name else ""
+        
+        prompt = f"""Analyze this content to determine if it describes a healthcare professional.
+
+Content: "{content[:800]}"
+{specialty_context}
+
+Consider these indicators of healthcare professionals:
+- Medical degrees, certifications, specializations
+- Medical job titles (doctor, physician, surgeon, oncologist, etc.)
+- Employment at medical institutions (hospitals, clinics, medical centers)
+- Medical research, publications, clinical work
+- Medical specialties (cardiology, neurology, dermatology, radiation oncology, etc.)
+
+Respond in this exact JSON format:
+{{
+    "is_medical_professional": true/false,
+    "specialty_detected": "detected specialty or null",
+    "confidence": 0.0-1.0,
+    "reasoning": "brief explanation"
+}}"""
+
+        # Get response from your OpenAI LLM
+        response = await llm_wrapper.invoke_async(prompt)
+        
+        # Parse response text to extract JSON
+        if hasattr(response, 'llm_final_answer'):
+            response_text = response.llm_final_answer
+        else:
+            response_text = str(response)
+        
+        # Try to parse JSON response
+        import json
+        try:
+            response_json = json.loads(response_text)
+            
+            is_medical = response_json.get('is_medical_professional', False)
+            confidence = response_json.get('confidence', 0.5)
+            specialty_detected = response_json.get('specialty_detected', '')
+            reasoning = response_json.get('reasoning', '')
+            
+            logger.info(f"LLM Medical Validation - Result: {is_medical}, Confidence: {confidence:.2f}, "
+                       f"Specialty: {specialty_detected}, Reasoning: {reasoning[:100]}")
+            
+            # Use confidence threshold for decision
+            return is_medical and confidence >= 0.7
+            
+        except json.JSONDecodeError:
+            logger.warning(f"Could not parse LLM JSON response: {response_text[:100]}, using fallback")
+            return self._fallback_medical_check(content)
+            
+    except Exception as e:
+        logger.error(f"LLM medical validation failed: {str(e)}")
+        return self._fallback_medical_check(content)
+
+def _fallback_medical_check(self, content: str) -> bool:
+    """Fallback keyword-based medical validation"""
+    content_lower = content.lower()
+    basic_medical_terms = [
+        "medical", "medicine", "doctor", "physician", "hospital", "clinic",
+        "medico", "dottore", "medicina", "ospedale", "clinica", "radiation",
+        "oncologist", "neurosurgeon", "chirurgo", "specialista"
+    ]
+    result = any(term in content_lower for term in basic_medical_terms)
+    logger.info(f"Fallback medical validation: {result}")
+    return result
+```
+
+### **STEP 3: Update ResultValidator Constructor**
+
+**Location**: In the `ResultValidator` class `__init__` method
+
+**Find this:**
+```python
+def __init__(self, geographic_config: Dict[str, Any]):
+    self.geo_config = geographic_config
+```
+
+**Replace with:**
+```python
+def __init__(self, geographic_config: Dict[str, Any], llm_wrapper=None):
+    self.geo_config = geographic_config
+    self.llm_wrapper = llm_wrapper
+```
+
+### **STEP 4: Update validate_url Method Signature**
+
+**Location**: In the `ResultValidator` class
+
+**Find this:**
+```python
+def validate_url(self, result: Dict[str, Any], search_input: Dict[str, Any]) -> ValidationResult:
+```
+
+**Replace with:**
+```python
+async def validate_url(self, result: Dict[str, Any], search_input: Dict[str, Any]) -> ValidationResult:
+```
+
+### **STEP 5: Update Professional Context Call in validate_url**
+
+**Location**: In the `validate_url` method in `ResultValidator` class
+
+**Find this line:**
+```python
+professional_context = self.validate_professional_context(full_content, region)
+```
+
+**Replace with:**
+```python
+# Get specialty name for LLM context
+specialty_code = search_input.get("specialtyCode")
+region = search_input.get("geographic_region", "IT")
+specialty_name = None
+if specialty_code:
+    region_mapping = load_specialty_mapping(region)
+    specialty_name = region_mapping.get(specialty_code)
+
+# Use LLM-based validation for professional context
+professional_context = await self.llm_validate_medical_context(full_content, specialty_name, self.llm_wrapper)
+```
+
+### **STEP 6: Update _validate_results Method**
+
+**Location**: In the `EnhancedWebSearchAgent` class
+
+**Find this method:**
+```python
+def _validate_results(self, results: List[Dict[str, Any]], search_input: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Validate search results - STRICT FILTERING"""
+    validated_results = []
+    
+    for result in results:
+        validation = self.validator.validate_url(result, search_input)
+        # ... rest of method
+```
+
+**Replace with:**
+```python
+async def _validate_results(self, results: List[Dict[str, Any]], search_input: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Validate search results - STRICT FILTERING"""
+    validated_results = []
+    
+    for result in results:
+        validation = await self.validator.validate_url(result, search_input)
+        # ... rest of method stays exactly the same
+```
+
+### **STEP 7: Update EnhancedWebSearchAgent Constructor**
+
+**Location**: In the `EnhancedWebSearchAgent` class `__init__` method
+
+**Find this line:**
+```python
+self.validator = ResultValidator(self.geo_config)
+```
+
+**Replace with:**
+```python
+self.validator = ResultValidator(self.geo_config, self.async_llm)
+```
+
+### **STEP 8: Update _validate_results_async Method**
+
+**Location**: In the `EnhancedWebSearchAgent` class
+
+**Find this method:**
+```python
+async def _validate_results_async(self, results: List[Dict[str, Any]], search_input: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Async validation of search results - STRICT FILTERING"""
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, self._validate_results, results, search_input)
+```
+
+**Replace with:**
+```python
+async def _validate_results_async(self, results: List[Dict[str, Any]], search_input: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Async validation of search results - STRICT FILTERING"""
+    return await self._validate_results(results, search_input)
+```
+
+## ✅ **Complete List - 8 Steps Total:**
+
+1. Add Pydantic model
+2. Add LLM validation method  
+3. Update ResultValidator constructor
+4. Make validate_url async
+5. Update professional context call
+6. Make _validate_results async
+7. Update EnhancedWebSearchAgent constructor
+8. Update _validate_results_async method
+
+**Follow these 8 steps in order after integrating get_codes and you'll have intelligent LLM-based medical validation!** 🚀

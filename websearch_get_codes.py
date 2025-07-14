@@ -780,3 +780,133 @@ python simple_test.py
 
 **This structure is production-ready and follows best practices!** 🚀
     asyncio.run(test_agent())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    Perfect! I can see your directory structure. You have the config files in the right place under `tools/websearch_config/`. Let me fix the path resolution.
+
+## 🔧 **The Issue:**
+
+Your files are in:
+```
+app/backend/app/my_agent/tools/websearch_config/
+├── specialty_mappings/
+│   ├── GET_CODES_FRANCE_SP.json
+│   └── GET_CODES_ITALY_SP.json
+└── geographic_config.yaml
+```
+
+But you're running from `app/backend/`, so the relative paths need to be adjusted.
+
+## 🔧 **STEP 1: Update load_specialty_mapping Function**
+
+**In your `websearch_agent_get_code.py`, find and replace the `load_specialty_mapping` function:**
+
+```python
+def load_specialty_mapping(region: str = "IT") -> Dict[str, str]:
+    """Load specialty code mapping from JSON file based on region"""
+    
+    # Get the directory where this script is located
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    
+    # Path to config directory (websearch_config is in same folder as this script)
+    config_dir = os.path.join(current_dir, "websearch_config", "specialty_mappings")
+    
+    # Map region to JSON file names
+    json_files = {
+        "IT": "GET_CODES_ITALY_SP.json",
+        "FR": "GET_CODES_FRANCE_SP.json",
+        "US": "GET_CODES_US_SP.json", 
+        "UK": "GET_CODES_UK_SP.json"
+    }
+    
+    filename = json_files.get(region, json_files["IT"])
+    json_file_path = os.path.join(config_dir, filename)
+    
+    print(f"🔍 Looking for specialty mapping at: {json_file_path}")
+    
+    try:
+        with open(json_file_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            
+        # Extract specialty mapping from the JSON structure
+        specialty_mapping = {}
+        
+        if "response" in data and "results" in data["response"]:
+            for specialty in data["response"]["results"]:
+                eid = specialty.get("eid", "")
+                long_localized_label = specialty.get("longLocalizedLabel", "")
+                
+                if eid and long_localized_label:
+                    specialty_mapping[eid] = long_localized_label
+        
+        print(f"✅ Loaded {len(specialty_mapping)} specialties for region {region}")
+        return specialty_mapping
+        
+    except FileNotFoundError:
+        print(f"❌ Specialty mapping file {json_file_path} not found. Using empty mapping.")
+        return {}
+    except json.JSONDecodeError:
+        print(f"❌ Invalid JSON in specialty mapping file {json_file_path}")
+        return {}
+    except Exception as e:
+        print(f"❌ Error loading specialty mapping: {str(e)}")
+        return {}
+```
+
+## 🔧 **STEP 2: Update GeographicConfig._load_config Method**
+
+**In the `GeographicConfig` class, update the `_load_config` method:**
+
+```python
+@classmethod
+def _load_config(cls) -> Dict[str, Any]:
+    """Load configuration from YAML file"""
+    try:
+        # Get the directory where this script is located
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        
+        # Path to config file (websearch_config is in same folder as this script)
+        config_file = os.path.join(current_dir, "websearch_config", "geographic_config.yaml")
+        
+        print(f"🔍 Looking for geographic config at: {config_file}")
+        
+        with open(config_file, 'r', encoding='utf-8') as file:
+            config = yaml.safe_load(file)
+        
+        print(f"✅ Loaded geographic configuration from {config_file}")
+        return config
+        
+    except FileNotFoundError:
+        print(f"❌ Geographic config file not found. Using default config.")
+        return cls._get_default_config()
+    except yaml.YAMLError as e:
+        print(f"❌ Error parsing YAML config: {e}. Using default config.")
+        return cls._get_default_config()
+    except Exception as e:
+        print(f"❌ Error loading geographic config: {e}. Using default config.")
+        return cls._get_default_config()
+```
+
+## 🎯 **What This Does:**
+
+- Uses `os.path.dirname(os.path.abspath(__file__))` to get the directory where `websearch_agent_get_code.py` is located
+- Looks for `websearch_config` folder in the same directory as the script
+- Finds your files: `tools/websearch_config/specialty_mappings/` and `tools/websearch_config/geographic_config.yaml`
+
+**This will work regardless of where you run the script from (app/backend)!** 🚀
+
+Now test it again and the file not found errors should be resolved!

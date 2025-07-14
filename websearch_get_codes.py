@@ -478,4 +478,305 @@ async def test_agent():
     print(f"\nTavily answer: {result['tavily_answer']}")
 
 if __name__ == "__main__":
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Perfect! Let's organize everything properly. Here's the complete step-by-step reorganization:
+
+## 📁 **STEP 1: Create the Directory Structure**
+
+**Navigate to your current location and create these folders:**
+
+```
+your_current_directory/
+├── websearch_agent_get_code.py  (your existing file)
+├── config/                      👈 CREATE THIS FOLDER
+│   ├── geographic_config.yaml   👈 CREATE THIS FILE
+│   └── specialty_mappings/      👈 CREATE THIS FOLDER
+│       ├── GET_CODES_ITALY_SP.json    👈 MOVE/CREATE
+│       ├── GET_CODES_FRANCE_SP.json   👈 MOVE/CREATE
+│       ├── GET_CODES_US_SP.json       👈 CREATE (optional)
+│       └── GET_CODES_UK_SP.json       👈 CREATE (optional)
+```
+
+## 📝 **STEP 2: Create geographic_config.yaml**
+
+**Create `config/geographic_config.yaml` with this content:**
+
+```yaml
+# Geographic Configuration for Healthcare Professional Search
+
+IT:
+  region_name: "Italy"
+  language_code: "it"
+  professional_terms:
+    - "medico"
+    - "dottore"
+    - "specialista"
+    - "chirurgo" 
+    - "oncologo"
+    - "neurologo"
+    - "radiologo"
+    - "cardiologo"
+    - "dermatologo"
+    - "pediatra"
+    - "ginecologo"
+  professional_domains:
+    - "ospedale"
+    - "clinica"
+    - "università"
+    - "irccs"
+    - "asl"
+    - "ao"
+  medical_institutions:
+    - ".it"
+    - "ospedale"
+    - "clinica"
+    - "università"
+
+FR:
+  region_name: "France"
+  language_code: "fr"
+  professional_terms:
+    - "médecin"
+    - "docteur"
+    - "spécialiste"
+    - "chirurgien"
+    - "oncologue"
+    - "neurologue"
+    - "radiologue"
+    - "cardiologue"
+    - "dermatologue"
+    - "pédiatre"
+  professional_domains:
+    - "hôpital"
+    - "clinique"
+    - "université"
+    - "chu"
+    - "chru"
+  medical_institutions:
+    - ".fr"
+    - "hopital"
+    - "clinique"
+    - "université"
+
+US:
+  region_name: "United States"
+  language_code: "en"
+  professional_terms:
+    - "doctor"
+    - "physician"
+    - "specialist"
+    - "surgeon"
+    - "oncologist"
+    - "neurologist"
+    - "radiologist"
+    - "cardiologist"
+    - "dermatologist"
+    - "pediatrician"
+  professional_domains:
+    - "hospital"
+    - "clinic"
+    - "university"
+    - "medical"
+    - "health"
+  medical_institutions:
+    - ".edu"
+    - ".org"
+    - "hospital"
+    - "clinic"
+    - "university"
+
+UK:
+  region_name: "United Kingdom" 
+  language_code: "en"
+  professional_terms:
+    - "doctor"
+    - "physician"
+    - "consultant"
+    - "surgeon"
+    - "oncologist"
+    - "neurologist"
+    - "radiologist"
+    - "cardiologist"
+    - "dermatologist"
+    - "paediatrician"
+  professional_domains:
+    - "hospital"
+    - "clinic"
+    - "university"
+    - "nhs"
+  medical_institutions:
+    - ".uk"
+    - ".ac.uk"
+    - "hospital"
+    - "clinic"
+    - "university"
+```
+
+## 🔧 **STEP 3: Update websearch_agent_get_code.py - Replace GeographicConfig Class**
+
+**Find the `GeographicConfig` class in your file and replace it entirely with:**
+
+```python
+import yaml
+import os
+from typing import Dict, Any
+
+class GeographicConfig:
+    """Manages geographic configuration from YAML file"""
+    
+    _config = None
+    
+    @classmethod
+    def get_config(cls) -> Dict[str, Any]:
+        """Load configuration from YAML file"""
+        if cls._config is None:
+            cls._config = cls._load_config()
+        return cls._config
+    
+    @classmethod
+    def _load_config(cls) -> Dict[str, Any]:
+        """Load configuration from YAML file"""
+        try:
+            # Get the directory where this script is located
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            config_file = os.path.join(current_dir, "config", "geographic_config.yaml")
+            
+            with open(config_file, 'r', encoding='utf-8') as file:
+                config = yaml.safe_load(file)
+            
+            logger.info(f"Loaded geographic configuration from {config_file}")
+            return config
+            
+        except FileNotFoundError:
+            logger.warning(f"Geographic config file not found at {config_file}. Using default config.")
+            return cls._get_default_config()
+        except yaml.YAMLError as e:
+            logger.error(f"Error parsing YAML config: {e}. Using default config.")
+            return cls._get_default_config()
+        except Exception as e:
+            logger.error(f"Error loading geographic config: {e}. Using default config.")
+            return cls._get_default_config()
+    
+    @classmethod
+    def _get_default_config(cls) -> Dict[str, Any]:
+        """Fallback default configuration"""
+        return {
+            "IT": {
+                "region_name": "Italy",
+                "professional_terms": ["medico", "dottore", "specialista"],
+                "professional_domains": ["ospedale", "clinica"],
+                "medical_institutions": [".it"]
+            }
+        }
+```
+
+## 🔧 **STEP 4: Update load_specialty_mapping Function**
+
+**Find the `load_specialty_mapping` function and replace it with:**
+
+```python
+def load_specialty_mapping(region: str = "IT") -> Dict[str, str]:
+    """Load specialty code mapping from JSON file based on region"""
+    
+    # Get the directory where this script is located
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    config_dir = os.path.join(current_dir, "config", "specialty_mappings")
+    
+    # Map region to JSON file names
+    json_files = {
+        "IT": "GET_CODES_ITALY_SP.json",
+        "FR": "GET_CODES_FRANCE_SP.json",
+        "US": "GET_CODES_US_SP.json", 
+        "UK": "GET_CODES_UK_SP.json"
+    }
+    
+    filename = json_files.get(region, json_files["IT"])  # Default to Italy
+    json_file_path = os.path.join(config_dir, filename)
+    
+    try:
+        with open(json_file_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            
+        # Extract specialty mapping from the JSON structure
+        specialty_mapping = {}
+        
+        if "response" in data and "results" in data["response"]:
+            for specialty in data["response"]["results"]:
+                eid = specialty.get("eid", "")
+                long_localized_label = specialty.get("longLocalizedLabel", "")
+                
+                if eid and long_localized_label:
+                    specialty_mapping[eid] = long_localized_label
+        
+        logger.info(f"Loaded {len(specialty_mapping)} specialties for region {region} from {json_file_path}")
+        return specialty_mapping
+        
+    except FileNotFoundError:
+        logger.warning(f"Specialty mapping file {json_file_path} not found. Using empty mapping.")
+        return {}
+    except json.JSONDecodeError:
+        logger.error(f"Invalid JSON in specialty mapping file {json_file_path}")
+        return {}
+    except Exception as e:
+        logger.error(f"Error loading specialty mapping: {str(e)}")
+        return {}
+```
+
+## 📦 **STEP 5: Add Required Imports**
+
+**At the top of your websearch_agent_get_code.py file, make sure you have:**
+
+```python
+import os
+import yaml
+import json
+```
+
+**If you don't have PyYAML installed, install it:**
+```bash
+pip install PyYAML
+```
+
+## 📄 **STEP 6: Move Your JSON Files**
+
+**Move your existing JSON files to the new location:**
+- Move `GET_CODES_ITALY_SP.json` to `config/specialty_mappings/`
+- Move `GET_CODES_FRANCE_SP.json` to `config/specialty_mappings/`
+
+## ✅ **STEP 7: Test the New Structure**
+
+**Run your test to make sure everything works:**
+```bash
+python simple_test.py
+```
+
+## 🎯 **Benefits of This Organization:**
+
+1. **Clean Separation** - Code vs Configuration
+2. **Easy Updates** - Just update YAML/JSON files
+3. **Version Control** - Track config changes separately
+4. **Multi-Environment** - Different configs for dev/prod
+5. **Maintainable** - Non-technical people can update configs
+
+**This structure is production-ready and follows best practices!** 🚀
     asyncio.run(test_agent())

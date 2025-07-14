@@ -910,3 +910,164 @@ def _load_config(cls) -> Dict[str, Any]:
 **This will work regardless of where you run the script from (app/backend)!** 🚀
 
 Now test it again and the file not found errors should be resolved!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Geographic Configuration - Exact replica of original hardcoded config
+
+IT:
+  country: "italy"
+  professional_domains:
+    - "salute.gov.it"
+    - "fnomceo.it"
+    - "quotidianosanita.it"
+    - "doctor33.it"
+    - "sanitainformazione.it"
+    - "ministerosalute.gov.it"
+    - "iss.it"
+    - "agenziafarmaco.gov.it"
+    - "policlinicogemelli.it"
+    - "humanitas.it"
+    - "sanraffaele.it"
+    - "ieo.it"
+    - "auxologico.it"
+  professional_terms:
+    - "dottore"
+    - "medico"
+    - "specialista"
+    - "primario"
+    - "dirigente medico"
+    - "professore"
+    - "ricercatore"
+    - "clinico"
+    - "chirurgo"
+  institution_domains:
+    - ".it"
+  exclude_domains:
+    - "miodottore.it"
+    - "dottori.it"
+    - "paginegialle.it"
+    - "linkedin.com/jobs"
+    - "indeed.it"
+    - "subito.it"
+
+US:
+  country: "United States"
+  professional_domains:
+    - "ama-assn.org"
+    - "cms.gov"
+    - "nih.gov"
+    - "cdc.gov"
+    - "mayoclinic.org"
+    - "clevelandclinic.org"
+    - "johnshopkins.edu"
+    - "harvard.edu"
+    - "stanford.edu"
+    - "ucsf.edu"
+    - "upenn.edu"
+  professional_terms:
+    - "MD"
+    - "physician"
+    - "doctor"
+    - "attending"
+    - "resident"
+    - "professor"
+    - "researcher"
+    - "clinician"
+    - "surgeon"
+  institution_domains:
+    - ".edu"
+    - ".gov"
+    - ".org"
+  exclude_domains:
+    - "healthgrades.com"
+    - "vitals.com"
+    - "zocdoc.com"
+    - "linkedin.com/jobs"
+    - "indeed.com"
+    - "monster.com"
+
+UK:
+  country: "United Kingdom"
+  professional_domains:
+    - "nhs.uk"
+    - "gmc-uk.org"
+    - "bma.org.uk"
+    - "rcplondon.ac.uk"
+    - "rcseng.ac.uk"
+    - "ox.ac.uk"
+    - "cam.ac.uk"
+    - "imperial.ac.uk"
+  professional_terms:
+    - "consultant"
+    - "registrar"
+    - "GP"
+    - "professor"
+    - "researcher"
+    - "clinician"
+    - "surgeon"
+    - "physician"
+  institution_domains:
+    - ".nhs.uk"
+    - ".gov.uk"
+    - ".ac.uk"
+  exclude_domains:
+    - "privatehealth.co.uk"
+    - "linkedin.com/jobs"
+    - "indeed.co.uk"
+
+FR:
+  country: "france"
+  professional_domains:
+    - "sante.gouv.fr"
+    - "conseil-national.medecin.fr"
+    - "ordre-medecins.fr"
+    - "hopital.fr"
+    - "aphp.fr"
+    - "chu-toulouse.fr"
+    - "chu-lyon.fr"
+    - "pasteur.fr"
+    - "inserm.fr"
+    - "cnrs.fr"
+    - "gustaveroussy.fr"
+    - "curie.fr"
+    - "igr.fr"
+    - "fondation-arc.org"
+  professional_terms:
+    - "docteur"
+    - "médecin"
+    - "spécialiste"
+    - "chef de service"
+    - "praticien hospitalier"
+    - "professeur"
+    - "chercheur"
+    - "clinicien"
+    - "chirurgien"
+    - "interne"
+    - "externe"
+  institution_domains:
+    - ".fr"
+  exclude_domains:
+    - "doctolib.fr"
+    - "lequotidiendumedecin.fr"
+    - "emploi.fr"
+    - "linkedin.com/jobs"
+    - "indeed.fr"
+    - "pole-emploi.fr"

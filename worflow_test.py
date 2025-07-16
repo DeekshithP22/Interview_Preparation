@@ -109,3 +109,61 @@ if __name__ == "__main__":
     
     # Run minimal test
     # asyncio.run(test_minimal())
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from langchain_core.messages import AIMessage
+
+class SupervisorAgent:
+    
+    async def execute_okdb_search(self, state: AgentState) -> AgentState:
+        vr_id = state["vr_record"].get("id")
+        logger.info(f"Starting OK DB search for VR ID: {vr_id}")
+        
+        try:
+            # Your OK DB search logic...
+            
+            # Add message for tracing
+            state["messages"].append(AIMessage(
+                content=f"OK DB search completed for VR {vr_id}. Found {len(results)} results."
+            ))
+            
+        except Exception as e:
+            state["messages"].append(AIMessage(
+                content=f"OK DB search failed: {str(e)}"
+            ))
+        
+        return state
+    
+    async def analyze_vr_vs_okdb(self, state: AgentState) -> AgentState:
+        # Your analysis logic...
+        
+        # Add message with analysis summary
+        state["messages"].append(AIMessage(
+            content=f"Analysis complete: {state.get('record_status', 'unknown status')}"
+        ))
+        
+        return state
+    
+    async def make_dbo_decision(self, state: AgentState) -> AgentState:
+        # Your decision logic...
+        
+        # Add final decision message
+        state["messages"].append(AIMessage(
+            content=f"DBO Decision: {dbo_decision.get('overall_recommendation', 'No decision')}"
+        ))
+        
+        return state

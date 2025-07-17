@@ -967,3 +967,146 @@ def select_best_secondary_match(self, primary_results, secondary_results):
    - `okdb_comparison_analysis` tracks what was compared and selected
 
 This handles all your scenarios correctly!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Looking at the workflow, after `compare_okdb_results`, the state should have:
+- `okdb_api_response` - the final selected OK DB result (primary, secondary, or best match)
+
+Let me verify and update `analyze_vr_vs_okdb`:
+
+## Updated `analyze_vr_vs_okdb` Function
+
+```python
+async def analyze_vr_vs_okdb(self, state: AgentState) -> AgentState:
+    """LLM-powered analysis comparing VR data vs OK DB results"""
+    vr_id = state["vr_record"].get("id")
+    logger.info(f"Analyzing VR vs OK DB for VR ID: {vr_id}")
+    
+    try:
+        # Skip analysis for new records (already handled in routing)
+        if state.get("record_status") == "new_record":
+            logger.info(f"VR ID {vr_id}: Skipping analysis for new record")
+            state["workflow_status"] = WorkflowStatus.ANALYSIS_COMPLETED
+            return state
+        
+        # Get the OK DB data to analyze
+        okdb_data_to_analyze = state.get("okdb_api_response")
+        
+        # Verify we have OK DB data to analyze
+        if not okdb_data_to_analyze or (isinstance(okdb_data_to_analyze, dict) and okdb_data_to_analyze.get("no_results")):
+            logger.warning(f"VR ID {vr_id}: No OK DB data to analyze")
+            # This shouldn't happen due to routing, but handle gracefully
+            state.update({
+                "comparison_analysis": {
+                    "record_status": "new_record",
+                    "analysis_summary": "No OK DB data available for comparison",
+                    "ok_db_results_count": 0
+                },
+                "record_status": "new_record",
+                "workflow_status": WorkflowStatus.ANALYSIS_COMPLETED,
+                "search_requirements": {
+                    "verification_needed": True,
+                    "geographic_region": state["vr_record"].get("countryCode", ""),
+                    "firstName": state["vr_record"].get("firstName", ""),
+                    "lastName": state["vr_record"].get("lastName", ""),
+                    "workplaceName": state["vr_record"].get("workplaceUsualName", ""),
+                    "address": state["vr_record"].get("city", ""),
+                    "specialityCode": state["vr_record"].get("specialityCode1", ""),
+                    "entity_type": "ent_activity" if state["vr_record"].get("entityTypeIco") == "ENT_ACTIVITY" else "ent_workplace"
+                }
+            })
+            return state
+        
+        # Log what we're analyzing
+        comparison_method = state.get("okdb_comparison_analysis", {}).get("comparison_method", "unknown")
+        logger.info(f"VR ID {vr_id}: Analyzing VR vs OK DB result from {comparison_method}")
+        
+        # Execute LLM analysis with the selected OK DB data
+        analysis_response = await self.llm.ainvoke(
+            VR_VS_OKDB_ANALYSIS_PROMPT.format(
+                vr_data=state["vr_record"],
+                okdb_data=okdb_data_to_analyze  # This is the final selected result
+            ).messages
+        )
+        
+        # Parse analysis results
+        parsed_analysis = safe_json_parse(analysis_response.content)
+        
+        # Override search requirements with your exact format if verification needed
+        if parsed_analysis.get("search_requirements", {}).get("verification_needed", False):
+            search_requirements = {
+                "verification_needed": True,
+                "geographic_region": state["vr_record"].get("countryCode", ""),
+                "firstName": state["vr_record"].get("firstName", ""),
+                "lastName": state["vr_record"].get("lastName", ""),
+                "workplaceName": state["vr_record"].get("workplaceUsualName", ""),
+                "address": state["vr_record"].get("city", ""),
+                "specialityCode": state["vr_record"].get("specialityCode1", ""),
+                "entity_type": "ent_activity" if state["vr_record"].get("entityTypeIco") == "ENT_ACTIVITY" else "ent_workplace"
+            }
+        else:
+            search_requirements = {"verification_needed": False}
+        
+        state.update({
+            "comparison_analysis": parsed_analysis,
+            "record_status": parsed_analysis.get("record_status", ""),
+            "search_requirements": search_requirements,  # Your format
+            "workflow_status": WorkflowStatus.ANALYSIS_COMPLETED
+        })
+        
+        state["messages"].append(AIMessage(
+            content=f"Analysis complete: {parsed_analysis.get('analysis_summary', 'Analysis completed')}"
+        ))
+        
+        logger.info(f"Analysis completed for VR ID {vr_id}: {parsed_analysis.get('record_status')}")
+        
+    except Exception as e:
+        logger.error(f"Analysis error for VR ID {vr_id}: {str(e)}")
+        state.update({
+            "workflow_status": WorkflowStatus.ERROR,
+            "error_context": {"stage": "analysis", "error": str(e)}
+        })
+    
+    return state
+```
+
+## Key Points:
+
+1. **Correct Data Source**: The function uses `state.get("okdb_api_response")` which contains:
+   - For single search: The single result
+   - For dual search with only primary: The primary result
+   - For dual search with only secondary: The secondary results
+   - For dual search with both: The primary result (as set in `compare_okdb_results`)
+
+2. **Safety Checks**: Added verification that OK DB data exists before sending to LLM
+
+3. **Search Requirements**: Overrides with your exact format when verification is needed
+
+4. **Logging**: Added logging to track which comparison method was used
+
+This ensures the LLM always analyzes the correct OK DB data against the VR record!

@@ -657,3 +657,313 @@ With just these changes:
 The beauty is that your existing code already handles the search requirements format correctly throughout the workflow. These minimal changes just ensure new records skip unnecessary steps and go directly to search.
 
 Good luck with your final day! This will work! 🚀
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Based on your clarification, let me provide the complete updated functions with your exact requirements:
+
+## Updated `execute_okdb_search` Function
+
+```python
+async def execute_okdb_search(self, state: AgentState) -> AgentState:
+    """Execute OK DB API search using VR record data"""
+    vr_id = state["vr_record"].get("id")
+    logger.info(f"Starting OK DB search for VR ID: {vr_id}")
+    
+    try:
+        # Get search strategy
+        vr_record = state["vr_record"]
+        search_strategy = determine_okdb_search_strategy(vr_record)
+        state["search_strategy"] = search_strategy
+        
+        # Call OK DB API with search strategy
+        # okdb_results = await self.okdb_api_client.search(search_strategy)
+        okdb_results = []  # Placeholder - replace with actual API call
+        
+        # Check if dual search or single search based on results structure
+        if isinstance(okdb_results, list) and len(okdb_results) == 2:
+            # DUAL SEARCH - list with [primary_results, secondary_results]
+            primary_results = okdb_results[0]  # First index
+            secondary_results = okdb_results[1]  # Second index
+            
+            # Check if both are empty/null
+            if not primary_results and not secondary_results:
+                logger.info(f"VR ID {vr_id}: No OK DB results found - NEW RECORD")
+                
+                state.update({
+                    "okdb_primary_results": None,
+                    "okdb_secondary_results": [],
+                    "okdb_api_response": {"no_results": True},
+                    "record_status": "new_record",
+                    "workflow_status": WorkflowStatus.OKDB_SEARCHED,
+                    "search_requirements": {
+                        "verification_needed": True,
+                        "geographic_region": vr_record.get("countryCode", ""),
+                        "firstName": vr_record.get("firstName", ""),
+                        "lastName": vr_record.get("lastName", ""),
+                        "workplaceName": vr_record.get("workplaceUsualName", ""),
+                        "address": vr_record.get("city", ""),
+                        "specialityCode": vr_record.get("specialityCode1", ""),
+                        "entity_type": "ent_activity" if vr_record.get("entityTypeIco") == "ENT_ACTIVITY" else "ent_workplace"
+                    }
+                })
+                
+                state["messages"].append(AIMessage(
+                    content=f"No OK DB records found - NEW RECORD identified"
+                ))
+            else:
+                # At least one has results
+                state.update({
+                    "okdb_primary_results": primary_results,
+                    "okdb_secondary_results": secondary_results,
+                    "workflow_status": WorkflowStatus.OKDB_SEARCHED
+                })
+                
+                state["messages"].append(AIMessage(
+                    content=f"Dual OK DB search completed - Primary: {'Found' if primary_results else 'None'}, Secondary: {'Found' if secondary_results else 'None'}"
+                ))
+                
+        else:
+            # SINGLE SEARCH - single result object
+            single_results = okdb_results
+            
+            if not single_results:
+                logger.info(f"VR ID {vr_id}: No OK DB results found - NEW RECORD")
+                
+                state.update({
+                    "okdb_api_response": {"no_results": True},
+                    "record_status": "new_record",
+                    "workflow_status": WorkflowStatus.OKDB_SEARCHED,
+                    "search_requirements": {
+                        "verification_needed": True,
+                        "geographic_region": vr_record.get("countryCode", ""),
+                        "firstName": vr_record.get("firstName", ""),
+                        "lastName": vr_record.get("lastName", ""),
+                        "workplaceName": vr_record.get("workplaceUsualName", ""),
+                        "address": vr_record.get("city", ""),
+                        "specialityCode": vr_record.get("specialityCode1", ""),
+                        "entity_type": "ent_activity" if vr_record.get("entityTypeIco") == "ENT_ACTIVITY" else "ent_workplace"
+                    }
+                })
+                
+                state["messages"].append(AIMessage(
+                    content=f"No OK DB records found - NEW RECORD identified"
+                ))
+            else:
+                # Single search has results
+                state.update({
+                    "okdb_api_response": single_results,
+                    "workflow_status": WorkflowStatus.OKDB_SEARCHED
+                })
+                
+                state["messages"].append(AIMessage(
+                    content=f"Single OK DB search completed with results"
+                ))
+        
+        logger.info(f"OK DB search completed for VR ID: {vr_id}")
+        
+    except Exception as e:
+        logger.error(f"OK DB search error for VR ID {vr_id}: {str(e)}")
+        state.update({
+            "workflow_status": WorkflowStatus.ERROR,
+            "error_context": {
+                "stage": "okdb_search", 
+                "error": str(e),
+                "vr_id": vr_id
+            }
+        })
+        
+        state["messages"].append(AIMessage(
+            content=f"OK DB search failed: {str(e)}"
+        ))
+    
+    return state
+```
+
+## Updated `compare_okdb_results` Function
+
+```python
+async def compare_okdb_results(self, state: AgentState) -> AgentState:
+    """Compare OK DB originKeyEid results vs name-based results"""
+    vr_id = state["vr_record"].get("id")
+    logger.info(f"Starting OK DB results comparison for VR ID: {vr_id}")
+    
+    try:
+        primary_results = state.get("okdb_primary_results")
+        secondary_results = state.get("okdb_secondary_results", [])
+        
+        # Case 1: Both are empty (should not reach here due to routing, but safety check)
+        if not primary_results and not secondary_results:
+            logger.warning(f"VR ID {vr_id}: Unexpected - both results empty in comparison")
+            state.update({
+                "okdb_comparison_analysis": {
+                    "comparison_method": "no_results",
+                    "recommended_result": None
+                },
+                "okdb_api_response": {"no_results": True},
+                "workflow_status": WorkflowStatus.OKDB_COMPARISON_COMPLETED
+            })
+            return state
+        
+        # Case 2: Only secondary results exist
+        if not primary_results and secondary_results:
+            logger.info(f"VR ID {vr_id}: Only secondary results found")
+            
+            # Use entire secondary results
+            final_okdb_result = secondary_results
+            
+            comparison_analysis = {
+                "same_entity": False,
+                "confidence_level": 0.7,
+                "comparison_summary": "No primary (originKeyEid) result - using secondary results",
+                "primary_entity": None,
+                "secondary_results": secondary_results,
+                "recommended_result": secondary_results,
+                "multiple_candidates_found": isinstance(secondary_results, list) and len(secondary_results) > 1,
+                "requires_manual_review": isinstance(secondary_results, list) and len(secondary_results) > 1,
+                "comparison_method": "secondary_only"
+            }
+            
+            state.update({
+                "okdb_comparison_analysis": comparison_analysis,
+                "okdb_api_response": final_okdb_result,
+                "workflow_status": WorkflowStatus.OKDB_COMPARISON_COMPLETED
+            })
+            
+            state["messages"].append(AIMessage(
+                content=f"Using secondary results only - {len(secondary_results) if isinstance(secondary_results, list) else 1} candidate(s) found"
+            ))
+            
+        # Case 3: Only primary results exist
+        elif primary_results and not secondary_results:
+            logger.info(f"VR ID {vr_id}: Only primary results found")
+            
+            # Use primary results directly
+            final_okdb_result = primary_results
+            
+            comparison_analysis = {
+                "same_entity": True,
+                "confidence_level": 0.95,
+                "comparison_summary": "Using primary (originKeyEid) result - no secondary results to compare",
+                "primary_entity": primary_results,
+                "secondary_results": None,
+                "recommended_result": primary_results,
+                "multiple_candidates_found": False,
+                "requires_manual_review": False,
+                "comparison_method": "primary_only"
+            }
+            
+            state.update({
+                "okdb_comparison_analysis": comparison_analysis,
+                "okdb_api_response": final_okdb_result,
+                "workflow_status": WorkflowStatus.OKDB_COMPARISON_COMPLETED
+            })
+            
+            state["messages"].append(AIMessage(
+                content=f"Using primary result only - high confidence match"
+            ))
+            
+        # Case 4: Both results exist
+        else:
+            logger.info(f"VR ID {vr_id}: Both primary and secondary results found")
+            
+            # Apply your logic to select best secondary match for primary
+            # TODO: Replace with your actual matching logic
+            best_secondary_match = self.select_best_secondary_match(primary_results, secondary_results)
+            
+            # Use primary as the authoritative result
+            final_okdb_result = primary_results
+            
+            comparison_analysis = {
+                "same_entity": True,  # Assuming your logic determines this
+                "confidence_level": 0.9,
+                "comparison_summary": "Primary result with best matching secondary",
+                "primary_entity": primary_results,
+                "best_secondary_match": best_secondary_match,
+                "all_secondary_results": secondary_results,
+                "recommended_result": primary_results,
+                "multiple_candidates_found": isinstance(secondary_results, list) and len(secondary_results) > 1,
+                "requires_manual_review": False,
+                "comparison_method": "primary_with_secondary_match"
+            }
+            
+            state.update({
+                "okdb_comparison_analysis": comparison_analysis,
+                "okdb_api_response": final_okdb_result,
+                "workflow_status": WorkflowStatus.OKDB_COMPARISON_COMPLETED
+            })
+            
+            state["messages"].append(AIMessage(
+                content=f"Using primary result with best secondary match identified"
+            ))
+        
+        logger.info(f"OK DB comparison completed for VR ID: {vr_id}")
+        
+    except Exception as e:
+        logger.error(f"OK DB comparison error for VR ID {vr_id}: {str(e)}")
+        state.update({
+            "workflow_status": WorkflowStatus.ERROR,
+            "error_context": {
+                "stage": "okdb_comparison", 
+                "error": str(e),
+                "vr_id": vr_id
+            }
+        })
+        
+        state["messages"].append(AIMessage(
+            content=f"OK DB comparison failed: {str(e)}"
+        ))
+    
+    return state
+
+def select_best_secondary_match(self, primary_results, secondary_results):
+    """
+    Your custom logic to select best secondary match
+    Replace this with your actual implementation
+    """
+    # Placeholder - implement your matching logic
+    if isinstance(secondary_results, list) and len(secondary_results) > 0:
+        return secondary_results[0]  # Return first as placeholder
+    return secondary_results
+```
+
+## Key Changes Made:
+
+1. **`execute_okdb_search`**:
+   - Handles list format `[primary, secondary]` for dual search
+   - Handles single result object for single search
+   - Sets new record when both/all results are empty
+
+2. **`compare_okdb_results`**:
+   - Case 1: Both empty (safety check)
+   - Case 2: Only secondary → use entire secondary results
+   - Case 3: Only primary → use primary directly
+   - Case 4: Both exist → use primary + best secondary match
+
+3. **State Updates**:
+   - `okdb_api_response` gets the final selected result
+   - `okdb_comparison_analysis` tracks what was compared and selected
+
+This handles all your scenarios correctly!

@@ -1110,3 +1110,79 @@ async def analyze_vr_vs_okdb(self, state: AgentState) -> AgentState:
 4. **Logging**: Added logging to track which comparison method was used
 
 This ensures the LLM always analyzes the correct OK DB data against the VR record!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# In storage_integration.py
+async def store_json_data(self, data: Dict[str, Any], vr_id: str, file_type: str, 
+                        tool_name: Optional[str] = None) -> Optional[str]:
+    try:
+        blob_path = self.generate_blob_path(vr_id, file_type, tool_name)
+        json_content = json.dumps(data, indent=2, ensure_ascii=False)
+        
+        # Add debug logging
+        logger.debug(f"Attempting to store to: {blob_path}")
+        logger.debug(f"Blob service endpoint: {self.blob_service_client.url}")
+        logger.debug(f"Container: {self.container_name}")
+        
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name, 
+            blob=blob_path
+        )
+        
+        # Upload with verification
+        result = blob_client.upload_blob(json_content, overwrite=True)
+        
+        # Verify upload
+        if blob_client.exists():
+            logger.info(f"✓ Successfully verified storage at: {blob_path}")
+        else:
+            logger.error(f"✗ Blob not found after upload: {blob_path}")
+            
+        return blob_path
+        
+    except Exception as e:
+        logger.error(f"Storage failed for {file_type}: {str(e)}")
+        logger.error(f"Full error: {traceback.format_exc()}")
+        return None

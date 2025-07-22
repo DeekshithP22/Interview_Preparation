@@ -449,3 +449,62 @@ async def handle_error(state: AgentState) -> AgentState:
 - **Batch tracking**: Can see all records from a daily run
 
 This implementation ensures complete storage coverage with minimal performance impact!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def __init__(self):
+        account_url = os.getenv("AZURE_BLOB_STORAGE_ACCOUNT_URL")
+        container_name = os.getenv("AZURE_BLOB_STORAGE_CONTAINER")
+        account_key = os.getenv("AZURE_BLOB_STORAGE_ACCOUNT_KEY")
+
+        self.container_name = container_name
+
+        # Use account key if available (typically local dev), otherwise managed identity
+        if account_key:
+            account_name = account_url.split("//")[1].split(".")[0]
+            credential = StorageSharedKeyCredential(account_name, account_key)
+        else:
+            credential = DefaultAzureCredential()
+
+        self.blob_service_client = BlobServiceClient(
+            account_url=account_url,
+            credential=credential
+        )
+
+        self.container_client = self.blob_service_client.get_container_client(container_name)

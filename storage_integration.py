@@ -508,3 +508,42 @@ This implementation ensures complete storage coverage with minimal performance i
         )
 
         self.container_client = self.blob_service_client.get_container_client(container_name)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        account_url = os.getenv("AZURE_BLOB_STORAGE_ACCOUNT_URL")         # required
+        container_name = os.getenv("AZURE_BLOB_STORAGE_CONTAINER")        # required
+        account_key = os.getenv("AZURE_BLOB_STORAGE_ACCOUNT_KEY")         # optional (used in dev)
+
+        self.container_name = container_name
+
+        if account_key:
+            # Directly use account_key as credential (client-style)
+            self.blob_service_client = BlobServiceClient(
+                account_url=account_url,
+                credential=account_key
+            )
+        else:
+            # Fallback to managed identity (e.g., in Azure)
+            self.blob_service_client = BlobServiceClient(
+                account_url=account_url,
+                credential=DefaultAzureCredential()
+            )
+
+        self.container_client = self.blob_service_client.get_container_client(container_name)

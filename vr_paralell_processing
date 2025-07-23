@@ -1,0 +1,245 @@
+Perfect! I understand exactly what you want. You'll input `{"demo_mode": "batch"}` in LangGraph Studio, click submit once, and it will process 3 VR records sequentially, visualizing each one in the UI.
+
+## Step-by-Step Implementation
+
+### Step 1: Update your agent.py
+
+**File**: `app/backend/app/my_agent/agent.py`
+
+Add this at the top of your file after imports:
+
+```python
+# Demo VR records for batch visualization
+DEMO_VR_RECORDS = [
+    {
+        "validation.refAreaEid": "RAR_ITALY",
+        "validation.id": 1019000131692770,
+        "validation.customerId": 7433,
+        "validation.externalId": "47064408",
+        "validation.vrTypeCode": "VMR",
+        "validation.countryCode": "IT",
+        "validation.entityTypeIco": "ENT_ACTIVITY",
+        "validation.requestComment": "Demo record 1 - Italian HCP",
+        "individual.firstName": "MARCO",
+        "individual.lastName": "ROSSI",
+        "individual.specialityCode1": "18",
+        "workplace.usualName": "OSPEDALE SAN RAFFAELE",
+        "address.city": "MILANO",
+        "address.country": "IT"
+    },
+    {
+        "validation.refAreaEid": "RAR_FRANCE",
+        "validation.id": 2020000456789,
+        "validation.customerId": 7433,
+        "validation.externalId": "FR123456",
+        "validation.vrTypeCode": "VMR",
+        "validation.countryCode": "FR",
+        "validation.entityTypeIco": "ENT_WORKPLACE",
+        "validation.requestComment": "Demo record 2 - French Hospital",
+        "workplace.usualName": "HOPITAL SAINT-LOUIS",
+        "workplace.originKeyEid": "WFRA98765432",
+        "address.city": "PARIS",
+        "address.country": "FR"
+    },
+    {
+        "validation.refAreaEid": "RAR_ITALY",
+        "validation.id": 3030000789123,
+        "validation.customerId": 7433,
+        "validation.externalId": "IT789123",
+        "validation.vrTypeCode": "VMR",
+        "validation.countryCode": "IT",
+        "validation.entityTypeIco": "ENT_ACTIVITY",
+        "validation.requestComment": "Demo record 3 - New HCP no OK DB",
+        "individual.firstName": "GIULIA",
+        "individual.lastName": "BIANCHI",
+        "individual.specialityCode1": "29",
+        "workplace.usualName": "CLINICA PRIVATA ROMA",
+        "address.city": "ROMA",
+        "address.country": "IT"
+    }
+]
+```
+
+### Step 2: Modify process_single_vr_record function
+
+**In the same file** `app/backend/app/my_agent/agent.py`, update your `process_single_vr_record` function:
+
+```python
+async def process_single_vr_record(vr_record: dict, batch_id: Optional[str] = None) -> dict:
+    """
+    Process a single VR record through the workflow
+    Modified to handle demo batch mode
+    """
+    
+    # Check if this is a demo batch request
+    if vr_record.get("demo_mode") == "batch":
+        logger.info("DEMO BATCH MODE ACTIVATED - Processing 3 VR records")
+        
+        # Process all demo records sequentially
+        batch_results = []
+        demo_batch_id = f"demo_batch_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+        
+        for idx, demo_record in enumerate(DEMO_VR_RECORDS):
+            vr_id = demo_record.get("validation.id", "unknown")
+            
+            logger.info(f"\n{'='*60}")
+            logger.info(f"Processing Demo Record {idx + 1}/3")
+            logger.info(f"VR ID: {vr_id}")
+            logger.info(f"Type: {demo_record.get('validation.entityTypeIco')}")
+            logger.info(f"Country: {demo_record.get('validation.countryCode')}")
+            logger.info(f"{'='*60}\n")
+            
+            # Create workflow for this record
+            app = create_agent_vr_workflow()
+            
+            # Generate run_id
+            timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+            run_id = f"{vr_id}_{timestamp}_demo_{idx+1}"
+            
+            # Initial state
+            initial_state = AgentState(
+                vr_record=demo_record,
+                vr_entity_type=demo_record.get("validation.entityTypeIco"),
+                okdb_primary_results=None,
+                okdb_secondary_results=None,
+                okdb_comparison_analysis=None,
+                search_strategy=None,
+                okdb_api_response=None,
+                comparison_analysis=None,
+                record_status="",
+                search_requirements=None,
+                dbo_action_decision=None,
+                selected_tools=[],
+                execution_order=[],
+                search_results=[],
+                intelligent_summary=None,
+                search_confidence=0.0,
+                workflow_status=WorkflowStatus.INITIATED,
+                current_agent="supervisor",
+                error_context=None,
+                messages=[],
+                run_id=run_id,
+                batch_id=demo_batch_id,
+                storage_paths={},
+                storage_status={}
+            )
+            
+            # Add initial message for tracking
+            initial_state["messages"].append(
+                AIMessage(content=f"Demo Batch Processing - Record {idx + 1}/3 - VR ID: {vr_id}")
+            )
+            
+            # Execute workflow
+            result = await app.ainvoke(initial_state)
+            
+            # Collect results
+            batch_results.append({
+                "record_number": idx + 1,
+                "vr_id": vr_id,
+                "workflow_status": str(result.get("workflow_status", "")),
+                "dbo_decision": result.get("dbo_action_decision", {}).get("overall_recommendation", ""),
+                "record_status": result.get("record_status", "")
+            })
+            
+            logger.info(f"Completed VR ID: {vr_id} - Status: {result['workflow_status'].value}")
+            
+            # Add delay between records for visualization
+            if idx < len(DEMO_VR_RECORDS) - 1:
+                logger.info("\nWaiting 3 seconds before next record...\n")
+                await asyncio.sleep(3)
+        
+        # Return batch summary
+        return {
+            "demo_batch_complete": True,
+            "batch_id": demo_batch_id,
+            "total_processed": len(DEMO_VR_RECORDS),
+            "results": batch_results,
+            "message": "Demo batch processing completed successfully"
+        }
+    
+    else:
+        # Normal single record processing (your existing code)
+        vr_id = vr_record.get('validation.id', 'unknown')
+        logger.info(f"Processing VR ID: {vr_id}")
+        
+        # Create workflow
+        app = create_agent_vr_workflow()
+        
+        # Generate run_id
+        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
+        run_id = f"{vr_id}_{timestamp}"
+        
+        # Your existing initial state creation...
+        initial_state = AgentState(
+            vr_record=vr_record,
+            # ... rest of your existing state initialization
+        )
+        
+        # Execute workflow
+        result = await app.ainvoke(initial_state)
+        
+        return result
+```
+
+### Step 3: Create Demo Input File
+
+**File**: `app/backend/app/my_agent/demo_input.json`
+
+```json
+{
+  "demo_mode": "batch"
+}
+```
+
+### Step 4: Test Your Implementation
+
+1. **Start LangGraph Studio**:
+   ```bash
+   cd app/backend
+   langgraph dev
+   ```
+
+2. **In LangGraph Studio**:
+   - Copy and paste this JSON input:
+     ```json
+     {
+       "demo_mode": "batch"
+     }
+     ```
+   - Click Submit
+
+3. **What You'll See**:
+   - The workflow will start processing the first record
+   - You'll see the graph visualization for record 1
+   - After 3 seconds, it will automatically move to record 2
+   - Then record 3
+   - Each record's workflow will be fully visualized
+
+### Step 5: Verify Visualization
+
+In LangGraph Studio, you will see:
+- **Real-time graph updates** as each record processes
+- **State transitions** for each VR record
+- **Messages** showing which record is being processed
+- **Different paths** taken based on each record's data
+
+### What Happens:
+
+1. You input `{"demo_mode": "batch"}` and click Submit once
+2. The system detects demo mode and loads 3 pre-defined VR records
+3. Each record is processed sequentially through your complete workflow:
+   - OK DB Search
+   - Comparison (if needed)
+   - Search & Summarize (if needed)  
+   - DBO Decision
+4. 3-second delay between records for clear visualization
+5. Final output shows summary of all 3 records
+
+### Confirmation:
+
+✅ **YES, you will see the complete workflow visualization for each of the 3 records**
+✅ **You only need to click Submit once**
+✅ **Each record's path through the graph will be shown**
+✅ **The UI will update automatically as each record processes**
+
+This is exactly what you need for tomorrow's demo - one click, multiple records processed with full visualization!

@@ -649,3 +649,161 @@ async def process_batch(self, date_range: Dict[str, str]) -> Dict[str, Any]:
         })
         
         return self._finalize_batch(metrics, "catastrophic_failure", str(e))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You're absolutely right - I apologize for the confusion. I created unnecessary duplication. Let me clarify:
+
+## We should NOT create a new `process_vr_records` method
+
+The existing `process_batch` method already handles processing individual VR records. We just need to modify it to:
+1. Fetch data for both countries
+2. Process each country's records using the existing logic
+
+Here's what needs to be done properly:
+
+## Step 1: Update `fetch_vr_json_from_api` in batch_processor.py
+
+```python
+async def fetch_vr_json_from_api(self, date_range: Dict[str, str]) -> Tuple[Optional[Dict], Optional[str]]:
+    """
+    Fetch VR JSON from API for both Italy and France
+    Returns: (api_results, error_message)
+    """
+    try:
+        logger.info(f"Fetching VR records for date range: {date_range}")
+        
+        from getVR_dataclass import run_vr_processing
+        
+        api_results = {
+            "extraction_date": datetime.now().isoformat(),
+            "date_range": date_range,
+            "countries": {}
+        }
+        
+        # Process each country
+        for country_config in [
+            {"ref_area_eid": "RAR_ITALY", "name": "italy"},
+            {"ref_area_eid": "RAR_FRANCE", "name": "france"}
+        ]:
+            ref_area_eid = country_config["ref_area_eid"]
+            country_name = country_config["name"]
+            
+            logger.info(f"Fetching {country_name.upper()} VR records...")
+            
+            # Call the VR API
+            country_data = run_vr_processing(
+                ref_area_eid=ref_area_eid,
+                from_integration_date=date_range["start_date"],
+                to_integration_date=date_range["end_date"],
+                use_live_api=True,
+                save_to_file=False
+            )
+            
+            if country_data and isinstance(country_data, dict):
+                # Store country data
+                blob_path = await self.store_country_api_response(country_data, country_name)
+                
+                api_results["countries"][country_name] = {
+                    "data": country_data,
+                    "blob_path": blob_path
+                }
+                
+                logger.info(f"Fetched {country_data.get('processed_vrs_count', 0)} {country_name.upper()} records")
+            else:
+                logger.warning(f"No data received for {country_name.upper()}")
+                api_results["countries"][country_name] = {
+                    "data": None,
+                    "blob_path": None
+                }
+        
+        return api_results, None
+        
+    except Exception as e:
+        error_msg = f"VR API error: {str(e)}"
+        logger.error(error_msg)
+        return None, error_msg
+```
+
+## Step 2: Add `store_country_api_response` method
+
+```python
+async def store_country_api_response(self, country_data: Dict, country_name: str) -> str:
+    """Store country-specific API response"""
+    try:
+        date_folder = datetime.now().strftime("%Y%m%d")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"vr_api_{country_name}_{timestamp}.json"
+        blob_path = f"vr-api-responses/{country_name}/{date_folder}/{filename}"
+        
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=blob_path
+        )
+        
+        blob_client.upload_blob(
+            json.dumps(country_data, indent=2),
+            overwrite=True
+        )
+        
+        logger.info(f"Stored {country_name} API response to: {blob_path}")
+        return blob_path
+        
+    except Exception as e:
+        logger.error(f"Failed to store {country_name} API response: {str(e)}")
+        raise
+```
+
+## Step 3: Use the existing `process_batch` method with modifications
+
+The existing `process_batch` method already has all the logic for:
+- Validation
+- Processing individual records through `process_single_vr_record`
+- Error handling
+- Logging
+
+We just need to modify it to handle the country-specific structure. The key change is in how we extract and process records.
+
+## DO NOT create a new `process_vr_records` method - it's redundant!
+
+The existing flow in `process_batch` should be:
+1. Call `fetch_vr_json_from_api` (which now returns data for both countries)
+2. Loop through each country's data
+3. Extract VR records and convert field names (underscore to dot notation)
+4. Use the existing validation and processing logic
+5. Call `process_single_vr_record` for each valid record (as it already does)
+
+This way, we maintain all the existing logging, error handling, and processing logic without duplication.

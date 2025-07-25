@@ -283,3 +283,246 @@ This approach:
 - ✅ Stores combined data for processing
 - ✅ Maintains organized blob storage structure
 - ✅ All data accessible from blob storage
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+You're absolutely right to be cautious. Let me thoroughly analyze the code flow and provide the missing pieces.
+
+## Critical Analysis:
+
+### 1. Missing `_upload_to_blob` Method
+
+You're correct - this method is not defined. We need to add it to `batch_processor.py`:
+
+**File**: `my_agent/batch_processor.py`
+
+Add this method to the `VRBatchProcessor` class:
+
+```python
+async def _upload_to_blob(self, blob_name: str, data: Dict, content_type: str = "application/json") -> None:
+    """Upload data to blob storage"""
+    try:
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=blob_name
+        )
+        
+        json_data = json.dumps(data, ensure_ascii=False, indent=2)
+        
+        await blob_client.upload_blob(
+            data=json_data,
+            content_type=content_type,
+            overwrite=True
+        )
+        
+        logger.info(f"Successfully uploaded to blob: {blob_name}")
+        
+    except Exception as e:
+        logger.error(f"Failed to upload blob {blob_name}: {str(e)}")
+        raise
+```
+
+### 2. Verifying VR Data Access
+
+Looking at `getVR_dataclass.py`, the data structure is:
+
+```python
+output_data = {
+    "source_file": raw_response_file if use_live_api else "local_file",
+    "processed_vrs_count": len(results_to_save),
+    "processed_vrs": results_to_save,  # This is the list of VR records
+    "ref_area_eid": ref_area_eid,
+    "extraction_timestamp": datetime.now().isoformat()
+}
+```
+
+Each record in `processed_vrs` has structure:
+```python
+{
+    "vr_data": {
+        "validation_refAreaEid": "RAR_ITALY",
+        "validation_id": 123456,
+        "validation_customerId": 7433,
+        // ... all other fields
+    }
+}
+```
+
+### 3. Correcting the Data Access in `process_vr_records`
+
+**File**: `my_agent/batch_processor.py`
+
+In the `process_vr_records` method, we need to access the nested structure correctly:
+
+```python
+async def process_vr_records(self, vr_records: List[Dict]) -> Dict[str, Any]:
+    """Process individual VR records through the workflow"""
+    results = {
+        "processed": 0,
+        "failed": 0,
+        "records": []
+    }
+    
+    for record_wrapper in vr_records:
+        try:
+            # CRITICAL: Extract the actual VR data from the wrapper
+            vr_data = record_wrapper.get("vr_data", {})
+            
+            # Ensure we have the required fields
+            vr_id = vr_data.get("validation_id", "unknown")
+            
+            if not vr_data:
+                logger.error(f"Empty VR data in record: {record_wrapper}")
+                results["failed"] += 1
+                continue
+            
+            logger.info(f"Processing VR ID: {vr_id}")
+            
+            # Process single record using the agent
+            from ..agent import process_single_vr_record
+            
+            # Pass the actual VR data (not the wrapper)
+            result = await process_single_vr_record(
+                vr_record=vr_data,  # Pass the nested vr_data
+                batch_id=self.batch_id
+            )
+            
+            results["processed"] += 1
+            results["records"].append({
+                "vr_id": vr_id,
+                "status": "success",
+                "workflow_status": str(result.get("workflow_status", "")),
+                "storage_paths": result.get("storage_paths", {})
+            })
+            
+        except Exception as e:
+            logger.error(f"Failed to process VR record: {str(e)}")
+            results["failed"] += 1
+            results["records"].append({
+                "vr_id": vr_data.get("validation_id", "unknown") if vr_data else "unknown",
+                "status": "failed",
+                "error": str(e)
+            })
+    
+    return results
+```
+
+### 4. Update storage_integration.py for Consistency
+
+**File**: `my_agent/utils/storage_integration.py`
+
+Add a method for batch storage operations:
+
+```python
+async def store_batch_api_response(
+    self,
+    data: Dict[str, Any],
+    batch_type: str,  # 'italy', 'france', or 'combined'
+    timestamp: Optional[str] = None
+) -> str:
+    """
+    Store batch API response data
+    
+    Args:
+        data: The API response data
+        batch_type: Type of batch data (italy/france/combined)
+        timestamp: Optional timestamp, defaults to current time
+        
+    Returns:
+        The blob path where data was stored
+    """
+    try:
+        if not timestamp:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        date_str = datetime.now().strftime("%Y%m%d")
+        
+        # Create blob path based on type
+        blob_name = f"api-responses/{batch_type}/{date_str}/vr_data_{batch_type}_{timestamp}.json"
+        
+        # Upload to blob
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=blob_name
+        )
+        
+        json_data = json.dumps(data, ensure_ascii=False, indent=2)
+        
+        blob_client.upload_blob(
+            data=json_data,
+            content_type="application/json",
+            overwrite=True
+        )
+        
+        logger.info(f"Stored batch API response to: {blob_name}")
+        return blob_name
+        
+    except Exception as e:
+        logger.error(f"Failed to store batch API response: {str(e)}")
+        raise
+```
+
+### 5. Final Verification of Data Flow
+
+Let me trace the complete data flow:
+
+1. **getVR_dataclass.py** returns:
+   ```python
+   {
+       "processed_vrs": [
+           {"vr_data": {actual_vr_fields}},
+           {"vr_data": {actual_vr_fields}}
+       ]
+   }
+   ```
+
+2. **batch_processor.py** extracts and combines:
+   ```python
+   all_vr_records.extend(country_data.get("processed_vrs", []))
+   ```
+
+3. **process_vr_records** extracts the actual VR data:
+   ```python
+   vr_data = record_wrapper.get("vr_data", {})
+   ```
+
+4. **agent.py** receives the correct VR structure with fields like:
+   - `validation.id`
+   - `validation.entityTypeIco`
+   - etc.
+
+## Complete Updated batch_processor.py Section
+
+Here's the critical section with all corrections:
+
+```python
+# In fetch_vr_json_from_api method, when storing combined data:
+vr_json_data = {
+    "extraction_date": datetime.now().isoformat(),
+    "date_range": date_range,
+    "total_records": len(all_vr_records),
+    "country_summaries": country_summaries,
+    "records": all_vr_records  # This contains the wrapped records
+}
+
+# In process_batch method, when calling process_vr_records:
+vr_records = vr_json_data.get("records", [])  # These are wrapped
+processing_results = await self.process_vr_records(vr_records)
+```
+
+This ensures:
+- ✅ VR data is correctly wrapped/unwrapped at each stage
+- ✅ The agent receives the proper VR structure
+- ✅ All storage operations are properly defined
+- ✅ Data integrity is maintained throughout the flow

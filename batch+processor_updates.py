@@ -1,6 +1,179 @@
+You're absolutely right. Let me analyze these critical issues thoroughly:
+
+## Critical Analysis:
+
+1. **Country Processing**: Process each country's records separately, not combined
+2. **Blob Storage**: Use existing patterns from storage_integration.py, store outside agent-output
+3. **Missing Method**: `process_vr_records` is indeed missing from the current batch_processor.py
+
+Let me provide the complete step-by-step changes:
+
+## Step 1: Fix Blob Storage Path in storage_integration.py
+
+**File**: `my_agent/utils/storage_integration.py`
+
+**Change**: Update the vr_api_batch path to be outside agent-output:
+
 ```python
+elif file_type == "vr_api_batch":
+    filename = f"vr_api_batch_{timestamp}.json"
+    return f"vr-api-responses/{date_folder}/{filename}"  # Changed from agent-output/vr-api-batches
+```
+
+## Step 2: Complete batch_processor.py Changes
+
+**File**: `my_agent/batch_processor.py`
+
+### Add the missing `process_vr_records` method:
+
+```python
+async def process_vr_records(self, vr_records: List[Dict], country: str) -> Dict[str, Any]:
+    """
+    Process individual VR records through the workflow
+    
+    Args:
+        vr_records: List of VR records from API
+        country: Country name for logging
+    """
+    results = {
+        "country": country,
+        "processed": 0,
+        "failed": 0,
+        "records": []
+    }
+    
+    for idx, record_wrapper in enumerate(vr_records):
+        try:
+            # CRITICAL: Extract the actual VR data from the wrapper
+            # The structure from getVR_dataclass is: {"vr_data": {...actual fields...}}
+            vr_data = record_wrapper.get("vr_data", {})
+            
+            if not vr_data:
+                logger.error(f"Empty VR data in record {idx} for {country}")
+                results["failed"] += 1
+                continue
+            
+            # Convert field names to match what agent expects
+            # getVR returns: validation_id, validation_customerId, etc.
+            # agent expects: validation.id, validation.customerId, etc.
+            agent_vr_record = {}
+            for key, value in vr_data.items():
+                # Convert underscore notation to dot notation
+                new_key = key.replace("_", ".")
+                agent_vr_record[new_key] = value
+            
+            vr_id = agent_vr_record.get("validation.id", "unknown")
+            logger.info(f"Processing {country} VR ID: {vr_id} ({idx + 1}/{len(vr_records)})")
+            
+            # Process single record using the agent
+            from app.my_agent.agent import process_single_vr_record
+            
+            result = await process_single_vr_record(
+                vr_record=agent_vr_record,
+                batch_id=self.batch_id
+            )
+            
+            results["processed"] += 1
+            results["records"].append({
+                "vr_id": vr_id,
+                "status": "success",
+                "workflow_status": str(result.get("workflow_status", "")),
+                "storage_paths": result.get("storage_paths", {})
+            })
+            
+        except Exception as e:
+            logger.error(f"Failed to process {country} VR record {idx}: {str(e)}")
+            results["failed"] += 1
+            results["records"].append({
+                "vr_id": vr_data.get("validation_id", "unknown") if vr_data else "unknown",
+                "status": "failed",
+                "error": str(e)
+            })
+    
+    return results
+```
+
+### Replace the entire `fetch_vr_json_from_api` method:
+
+```python
+async def fetch_vr_json_from_api(self, date_range: Dict[str, str]) -> Tuple[Optional[Dict], Optional[str]]:
+    """
+    Fetch VR JSON from API for both Italy and France
+    Store each country's data separately
+    Returns: (api_results, error_message)
+    """
+    try:
+        logger.info(f"Fetching VR records for date range: {date_range}")
+        
+        # Import the function from getVR_dataclass
+        from getVR_dataclass import run_vr_processing
+        
+        api_results = {
+            "extraction_date": datetime.now().isoformat(),
+            "date_range": date_range,
+            "countries": {}
+        }
+        
+        # Process each country separately
+        for country_config in [
+            {"ref_area_eid": "RAR_ITALY", "name": "italy"},
+            {"ref_area_eid": "RAR_FRANCE", "name": "france"}
+        ]:
+            ref_area_eid = country_config["ref_area_eid"]
+            country_name = country_config["name"]
+            
+            logger.info(f"Fetching {country_name.upper()} VR records...")
+            
+            # Call the VR API
+            country_data = run_vr_processing(
+                ref_area_eid=ref_area_eid,
+                from_integration_date=date_range["start_date"],
+                to_integration_date=date_range["end_date"],
+                use_live_api=True,
+                save_to_file=False  # Get data directly
+            )
+            
+            if country_data and isinstance(country_data, dict):
+                # Store country data using existing pattern
+                blob_path = await self.store_country_api_response(
+                    country_data, 
+                    country_name
+                )
+                
+                api_results["countries"][country_name] = {
+                    "data": country_data,
+                    "blob_path": blob_path,
+                    "record_count": country_data.get("processed_vrs_count", 0)
+                }
+                
+                logger.info(f"Stored {country_name.upper()} data: {blob_path}")
+            else:
+                logger.warning(f"No data received for {country_name.upper()}")
+                api_results["countries"][country_name] = {
+                    "data": None,
+                    "blob_path": None,
+                    "record_count": 0
+                }
+        
+        return api_results, None
+        
+    except Exception as e:
+        error_msg = f"VR API error: {str(e)}"
+        logger.error(error_msg)
+        return None, error_msg
+
+async def store_country_api_response(self, country_data: Dict, country_name: str) -> str:
+    """
+    Store country-specific API response using existing storage pattern
+    """
+    try:
+        date_folder = datetime.now().strftime("%Y%m%d")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"vr_api_{country_name}_{timestamp}.json"
+        
         # Store outside agent-output as discussed
         blob_path = f"vr-api-responses/{country_name}/{date_folder}/{filename}"
+
         
         # Use the same pattern as batch summary storage
         blob_client = self.blob_service_client.get_blob_client(

@@ -1186,3 +1186,194 @@ async def store_json_data(self, data: Dict[str, Any], vr_id: str, file_type: str
         logger.error(f"Storage failed for {file_type}: {str(e)}")
         logger.error(f"Full error: {traceback.format_exc()}")
         return None
+
+
+
+
+
+
+
+
+
+        You’re absolutely right! Your batch processor needs a proper entry point. Currently, `batch_processor.py` is just a class definition. You need either:
+
+## Option 1: Add a `__main__` block to batch_processor.py (Quick fix)
+
+Add this at the end of your `batch_processor.py`:
+
+```python
+# At the very end of batch_processor.py
+if __name__ == "__main__":
+    import asyncio
+    from datetime import datetime, timedelta
+    
+    async def run_daily_batch():
+        """Run batch processing for yesterday's data"""
+        # Calculate yesterday's date
+        yesterday = (datetime.now() - timedelta(days=1)).strftime("%Y-%m-%d")
+        
+        date_range = {
+            "start_date": yesterday,
+            "end_date": yesterday
+        }
+        
+        print(f"Starting batch processing for date: {yesterday}")
+        
+        # Initialize and run batch processor
+        processor = VRBatchProcessor()
+        result = await processor.process_batch(date_range)
+        
+        print(f"Batch processing completed: {result['status']}")
+        return result
+    
+    # Run the batch
+    asyncio.run(run_daily_batch())
+```
+
+## Option 2: Create a separate runner file (RECOMMENDED)
+
+Create a new file: `run_batch_processor.py`
+
+```python
+"""
+Daily Batch Processor Runner
+This script is triggered daily at 2 AM by Azure Functions or cron job
+"""
+
+import asyncio
+import sys
+import os
+from datetime import datetime, timedelta
+import logging
+
+# Add parent directory to path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.my_agent.batch_processor import VRBatchProcessor
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
+async def run_daily_batch(specific_date: str = None):
+    """
+    Run batch processing for a specific date or yesterday
+    
+    Args:
+        specific_date: Optional date in YYYY-MM-DD format
+    """
+    try:
+        # Determine date to process
+        if specific_date:
+            target_date = specific_date
+            logger.info(f"Processing specific date: {target_date}")
+        else:
+            # Default: process yesterday's data
+            yesterday = datetime.now() - timedelta(days=1)
+            target_date = yesterday.strftime("%Y-%m-%d")
+            logger.info(f"Processing yesterday's data: {target_date}")
+        
+        date_range = {
+            "start_date": target_date,
+            "end_date": target_date
+        }
+        
+        # Initialize batch processor
+        logger.info("Initializing VR Batch Processor...")
+        processor = VRBatchProcessor()
+        
+        # Run batch processing
+        logger.info(f"Starting batch processing for {target_date}")
+        result = await processor.process_batch(date_range)
+        
+        # Log summary
+        if result['status'] == 'completed':
+            logger.info(f"✅ Batch processing completed successfully!")
+            logger.info(f"   - Total records: {result.get('total_records', 0)}")
+            logger.info(f"   - Processed: {result.get('processed_successfully', 0)}")
+            logger.info(f"   - Failed: {result.get('failed_processing', 0)}")
+        else:
+            logger.error(f"❌ Batch processing failed: {result.get('error', 'Unknown error')}")
+        
+        return result
+        
+    except Exception as e:
+        logger.error(f"Fatal error in batch processing: {str(e)}")
+        raise
+
+def main():
+    """Main entry point for the script"""
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Run VR Batch Processing')
+    parser.add_argument(
+        '--date', 
+        type=str, 
+        help='Specific date to process (YYYY-MM-DD). Default: yesterday'
+    )
+    parser.add_argument(
+        '--test', 
+        action='store_true', 
+        help='Run in test mode with today\'s date'
+    )
+    
+    args = parser.parse_args()
+    
+    # Determine date
+    if args.test:
+        specific_date = datetime.now().strftime("%Y-%m-%d")
+        print(f"TEST MODE: Processing today's date: {specific_date}")
+    else:
+        specific_date = args.date
+    
+    # Run the batch processor
+    asyncio.run(run_daily_batch(specific_date))
+
+if __name__ == "__main__":
+    main()
+```
+
+## How to Use:
+
+### Option 1 - Direct run:
+
+```bash
+python batch_processor.py
+```
+
+### Option 2 - Using runner (BETTER):
+
+```bash
+# Process yesterday's data (default)
+python run_batch_processor.py
+
+# Process specific date
+python run_batch_processor.py --date 2025-01-27
+
+# Test mode (process today)
+python run_batch_processor.py --test
+```
+
+## For Daily Automation:
+
+### 1. **Azure Function** calls:
+
+```python
+from run_batch_processor import run_daily_batch
+result = await run_daily_batch()
+```
+
+### 2. **Cron job** (Linux):
+
+```bash
+0 2 * * * cd /path/to/project && python run_batch_processor.py
+```
+
+### 3. **Task Scheduler** (Windows):
+
+- Create task to run `run_batch_processor.py` at 2 AM daily
+
+I recommend **Option 2** with the separate runner file - it’s cleaner and more flexible!​​​​​​​​​​​​​​​​

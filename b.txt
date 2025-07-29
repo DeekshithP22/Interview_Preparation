@@ -516,3 +516,73 @@ logging.basicConfig(
 
 logger = logging.getLogger(__name__)
 logger.info("=== CLIENT DEMO STARTED ===")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def _extract_official_domain(
+    self, workplace_results: List[Dict[str, Any]], workplace_name: str = ""
+) -> Optional[str]:
+    """Extract official domain from workplace search results - SAFE VERSION"""
+    
+    try:
+        # Safety check for empty results
+        if not workplace_results:
+            logger.warning("No workplace results provided for domain extraction")
+            return None
+        
+        # Create workplace keywords for domain matching
+        workplace_keywords = []
+        if workplace_name:
+            words = workplace_name.lower().split()
+            workplace_keywords = [
+                word for word in words
+                if len(word) >= 4 and word not in [
+                    "foundation", "fondazione", "institute", "istituto",
+                    "hospital", "ospedale", "university", "universita", 
+                    "center", "centre", "medical", "clinic", "clinica",
+                ]
+            ]
+        
+        # Process each result safely
+        for result in workplace_results:
+            if not result:  # Skip empty results
+                continue
+                
+            url = result.get("url", "")
+            content = result.get("content", "")
+            title = result.get("title", "")
+            
+            # Combine content for analysis
+            full_text = f"{title} {content}".lower()
+            
+            # ... REST OF YOUR EXISTING DOMAIN EXTRACTION LOGIC ...
+            # (Keep all your existing domain matching code here)
+        
+        return None  # No domain found
+        
+    except Exception as e:
+        logger.error(f"Error in domain extraction: {str(e)}")
+        return None

@@ -586,3 +586,205 @@ def _extract_official_domain(
     except Exception as e:
         logger.error(f"Error in domain extraction: {str(e)}")
         return None
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    def _extract_official_domain(
+        self, workplace_results: List[Dict[str, Any]], workplace_name: str = ""
+    ) -> Optional[str]:
+        """Extract official domain from workplace search results - DYNAMIC VERSION"""
+        
+        try:
+            # Safety check for empty results
+            if not workplace_results:
+                logger.warning("No workplace results provided for domain extraction")
+                return None
+            # Create workplace keywords for domain matching
+            workplace_keywords = []
+            if workplace_name:
+                # Extract significant words from workplace name
+                words = workplace_name.lower().split()
+                workplace_keywords = [
+                    word
+                    for word in words
+                    if len(word) >= 4
+                    and word
+                    not in [
+                        "foundation",
+                        "fondazione",
+                        "institute",
+                        "istituto",
+                        "hospital",
+                        "ospedale",
+                        "university",
+                        "universita",
+                        "center",
+                        "centre",
+                        "medical",
+                        "clinic",
+                        "clinica",
+                    ]
+                ]
+            
+            for result in workplace_results:
+                url = result.get("url", "")
+                content = result.get("content", "")
+                title = result.get("title", "")
+                
+                # Combine content for analysis
+                full_text = f"{title} {content}".lower()
+                
+                if url:
+                    domain = urlparse(url).netloc
+                    # Remove www. prefix if present
+                    if domain.startswith("www."):
+                        domain = domain[4:]
+                    
+                    # Check if it's likely an official domain
+                    official_indicators = [
+                        ".org",
+                        ".edu",
+                        ".gov",
+                        ".it",
+                        ".uk",
+                        ".de",
+                        ".fr",
+                        ".com",
+                    ]
+                    if any(domain.endswith(indicator) for indicator in official_indicators):
+                        # Check if this domain contains workplace keywords
+                        if workplace_keywords:
+                            domain_matches_workplace = any(keyword in domain for keyword in workplace_keywords)
+                            if domain_matches_workplace:
+                                logger.info(f"Found direct domain match: {domain}")
+                                return domain
+                    
+                    # Generic institutional domain indicators
+                    institutional_indicators = [
+                        "hospital",
+                        "clinic",
+                        "medical",
+                        "university",
+                        "institute",
+                        "ospedale",
+                        "clinica",
+                        "universita",
+                        "istituto",
+                        "fondazione",
+                    ]
+                    if any(indicator in domain for indicator in institutional_indicators):
+                        logger.info(f"Found institutional domain: {domain}")
+                        return domain
+            
+            # ENHANCED: Look for referenced domains in content DYNAMICALLY
+            
+            # Dynamic patterns based on workplace keywords
+            website_patterns = [
+                r"(?:www\.)?([a-zA-Z0-9-]+\.(?:it|org|edu|gov|uk|de|fr|com))",  # General websites
+                r"(?:web|sito|website)[:.\s]*(?:www\.)?([a-zA-Z0-9-]+\.(?:it|org|edu|gov|uk|de|fr|com))",  # Web indicators
+            ]
+            
+            # Add workplace-specific patterns
+            if workplace_keywords:
+                for keyword in workplace_keywords:
+                    # Look for domains containing workplace keywords
+                    workplace_patterns = [
+                        rf"(?:www\.)?([a-zA-Z0-9-]*{re.escape(keyword)}[a-zA-Z0-9-]*\.(?:it|org|edu|gov|uk|de|fr|com))",
+                        rf"(?:www\.)?(?:[a-zA-Z0-9-]+\.)?({re.escape(keyword)}\.(?:it|org|edu|gov|uk|de|fr|com))",
+                    ]
+                    website_patterns.extend(workplace_patterns)
+            
+            # Find all potential domains in content
+            found_domains = set()
+            for pattern in website_patterns:
+                matches = re.findall(pattern, full_text, re.IGNORECASE)
+                for match in matches:
+                    if match and len(match) > 5:  # Valid domain length
+                        found_domains.add(match.lower())
+            
+            # Score domains based on workplace relevance
+            best_domain = None
+            best_score = 0
+            
+            for domain in found_domains:
+                score = 0
+                
+                # Score based on workplace keyword presence
+                if workplace_keywords:
+                    for keyword in workplace_keywords:
+                        if keyword in domain:
+                            score += 10
+                
+                # Score based on institutional indicators
+                institutional_indicators = [
+                    "hospital",
+                    "clinic",
+                    "medical",
+                    "university",
+                    "institute",
+                    "ospedale",
+                    "clinica",
+                    "universita",
+                    "istituto",
+                    "fondazione",
+                ]
+                for indicator in institutional_indicators:
+                    if indicator in domain:
+                        score += 5
+                
+                # Prefer certain TLDs
+                preferred_tlds = [".org", ".edu", ".gov"]
+                if any(domain.endswith(tld) for tld in preferred_tlds):
+                    score += 3
+                
+                # Avoid generic domains
+                generic_indicators = [
+                    "facebook",
+                    "linkedin",
+                    "twitter",
+                    "youtube",
+                    "google",
+                ]
+                if any(generic in domain for generic in generic_indicators):
+                    score -= 20
+                
+                if score > best_score:
+                    best_score = score
+                    best_domain = domain
+            
+            if best_domain and best_score > 0:
+                logger.info(f"Found best matching domain: {best_domain} (score: {best_score})")
+                return best_domain
+            
+            return None
+        
+        except Exception as e:
+            logger.error(f"Error in domain extraction: {str(e)}")
+            return None

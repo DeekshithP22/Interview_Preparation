@@ -246,3 +246,236 @@ INFO - Step 3c: Skipping workplace search - no workplace name provided
 **That's it!** Just make these 5 changes exactly as shown, and you'll eliminate all wasteful "null" workplace searches.
 
 Want me to clarify any of these steps?
+
+
+
+
+
+
+
+
+
+
+
+
+
+Yes! Currently for workplace entity type, you're using **tavily score + workplace name match** weighted average. Let me show you **exactly** where to add city validation.
+
+## **Current Workplace Validation Logic:**
+
+```python
+elif entity_type == "ent_workplace":
+    tavily_score = result.get("score", 0.0)
+    exact_workplace_match = self.validate_exact_workplace_match(full_content, workplace)
+    workplace_score = 1.0 if exact_workplace_match else 0.0
+    
+    # Same flexible weights
+    tavily_weight = 0.8
+    workplace_weight = 0.2
+    final_score = (workplace_weight * workplace_score) + (tavily_weight * tavily_score)
+```
+
+---
+
+## **Step-by-Step Fix to Add City Validation:**
+
+### **Step 1: Find the Workplace Validation Section**
+
+**File:** Your main Python file  
+**Method:** `validate_url()`  
+**Location:** Find this section (around line 480-500):
+
+```python
+elif entity_type == "ent_workplace":
+    # WORKPLACE FLEXIBLE VALIDATION - Same approach
+    
+    tavily_score = result.get("score", 0.0)
+    exact_workplace_match = self.validate_exact_workplace_match(full_content, workplace)
+    workplace_score = 1.0 if exact_workplace_match else 0.0
+    
+    # Same flexible weights
+    tavily_weight = 0.8
+    workplace_weight = 0.2
+    final_score = (workplace_weight * workplace_score) + (tavily_weight * tavily_score)
+    
+    score_threshold = 0.3
+    is_valid = final_score >= score_threshold
+```
+
+### **Step 2: Replace with City-Enhanced Logic**
+
+**REPLACE THE ABOVE SECTION WITH:**
+
+```python
+elif entity_type == "ent_workplace":
+    # WORKPLACE FLEXIBLE VALIDATION - Include city validation
+    
+    tavily_score = result.get("score", 0.0)
+    exact_workplace_match = self.validate_exact_workplace_match(full_content, workplace)
+    workplace_score = 1.0 if exact_workplace_match else 0.0
+    
+    # Calculate city match score for workplace
+    exact_city_match = self.validate_exact_city_match(full_content, address)
+    city_score = 1.0 if exact_city_match else 0.0
+    
+    # Updated weights for workplace: Include city validation
+    tavily_weight = 0.7      # Tavily score (reduced from 0.8)
+    workplace_weight = 0.2   # Workplace match (unchanged)
+    city_weight = 0.1        # City match (new)
+    final_score = (workplace_weight * workplace_score) + (tavily_weight * tavily_score) + (city_weight * city_score)
+    
+    score_threshold = 0.3
+    is_valid = final_score >= score_threshold
+```
+
+### **Step 3: Update Workplace Validation Reasons**
+
+**Location:** Find this section right after the above code:
+
+```python
+# CURRENT CODE:
+validation_reasons = []
+validation_reasons.append(f"Workplace match: {'YES' if exact_workplace_match else 'NO'} (weight: 20%)")
+validation_reasons.append(f"Tavily relevance: {tavily_score:.3f} (weight: 80%)")
+validation_reasons.append(f"Final weighted score: {final_score:.3f}")
+validation_reasons.append(f"Threshold: {score_threshold} - {' PASS' if is_valid else ' FAIL'}")
+```
+
+**REPLACE WITH:**
+
+```python
+validation_reasons = []
+validation_reasons.append(f"Workplace match: {'YES' if exact_workplace_match else 'NO'} (weight: 20%)")
+validation_reasons.append(f"City match: {'YES' if exact_city_match else 'NO'} (weight: 10%)")
+validation_reasons.append(f"Tavily relevance: {tavily_score:.3f} (weight: 70%)")
+validation_reasons.append(f"Final weighted score: {final_score:.3f}")
+validation_reasons.append(f"Threshold: {score_threshold} - {'PASS' if is_valid else 'FAIL'}")
+```
+
+### **Step 4: Update Workplace Acceptance Logic**
+
+**Location:** Find this section right after validation_reasons:
+
+```python
+# CURRENT CODE:
+confidence_score = final_score if is_valid else 0.0
+exact_name_match = False
+workplace_match = exact_workplace_match
+```
+
+**REPLACE WITH:**
+
+```python
+# Add workplace-specific acceptance reasoning
+if is_valid:
+    if exact_workplace_match and exact_city_match:
+        validation_reasons.append("✅ ACCEPTED: Workplace + City + adequate relevance")
+    elif exact_workplace_match:
+        validation_reasons.append("✅ ACCEPTED: Workplace found + adequate relevance")
+    elif exact_city_match and tavily_score >= 0.4:
+        validation_reasons.append("✅ ACCEPTED: City found + good relevance")
+    elif tavily_score >= 0.5:
+        validation_reasons.append("✅ ACCEPTED: High relevance compensates for missing workplace/city")
+    elif tavily_score >= 0.35:
+        validation_reasons.append("✅ ACCEPTED: Good relevance, workplace/city may be in metadata")
+    else:
+        validation_reasons.append("✅ ACCEPTED: Meets minimum threshold")
+else:
+    validation_reasons.append(f"❌ REJECTED: Score {final_score:.3f} below threshold {score_threshold}")
+
+confidence_score = final_score if is_valid else 0.0
+exact_name_match = False  # Not applicable for workplace validation
+workplace_match = exact_workplace_match
+```
+
+### **Step 5: Update Return Statement for Workplace**
+
+**Location:** Find the return statement at the end of workplace validation:
+
+```python
+# CURRENT CODE:
+return ValidationResult(
+    url=url,
+    is_valid=is_valid,
+    confidence_score=confidence_score,
+    validation_reasons=validation_reasons,
+    geographic_match=True,
+    name_match=exact_name_match,
+    workplace_match=workplace_match,
+)
+```
+
+**REPLACE WITH:**
+
+```python
+return ValidationResult(
+    url=url,
+    is_valid=is_valid,
+    confidence_score=confidence_score,
+    validation_reasons=validation_reasons,
+    geographic_match=exact_city_match,  # Now reflects actual city match
+    name_match=exact_name_match,
+    workplace_match=workplace_match,
+)
+```
+
+---
+
+## **What These Changes Do:**
+
+### **New Workplace Scoring System:**
+- **Workplace Match:** 20% (unchanged)
+- **City Match:** 10% (new)
+- **Tavily Score:** 70% (reduced from 80%)
+
+### **Example Scenarios for Workplace Search:**
+
+```python
+# Scenario 1: Perfect workplace + city match
+workplace_match = 1.0, city_match = 1.0, tavily = 0.4
+final_score = 0.2 * 1.0 + 0.1 * 1.0 + 0.7 * 0.4 = 0.58 ✅
+
+# Scenario 2: Workplace match, wrong city
+workplace_match = 1.0, city_match = 0.0, tavily = 0.3
+final_score = 0.2 * 1.0 + 0.1 * 0.0 + 0.7 * 0.3 = 0.41 ✅
+
+# Scenario 3: No workplace/city, good relevance
+workplace_match = 0.0, city_match = 0.0, tavily = 0.5
+final_score = 0.2 * 0.0 + 0.1 * 0.0 + 0.7 * 0.5 = 0.35 ✅
+
+# Scenario 4: Low relevance (now harder to pass)
+workplace_match = 0.0, city_match = 0.0, tavily = 0.4
+final_score = 0.2 * 0.0 + 0.1 * 0.0 + 0.7 * 0.4 = 0.28 ❌ (was 0.32 before)
+```
+
+### **Improved Validation Messages:**
+```
+Workplace match: YES (weight: 20%)
+City match: YES (weight: 10%)
+Tavily relevance: 0.650 (weight: 70%)
+Final weighted score: 0.585
+Threshold: 0.3 - PASS
+✅ ACCEPTED: Workplace + City + adequate relevance
+```
+
+---
+
+## **Summary of Changes:**
+
+1. **Added city validation** to workplace entity scoring
+2. **Redistributed weights:** Tavily 70%, Workplace 20%, City 10%
+3. **Enhanced logging** with city match information
+4. **Better acceptance reasoning** for workplace validation
+5. **Updated geographic_match** to reflect actual city validation
+
+---
+
+## **Test After Implementation:**
+
+1. **Test workplace with correct city:** Should get higher scores
+2. **Test workplace with wrong city:** Should get lower scores but might still pass
+3. **Check logs:** Should show `"City match: YES/NO (weight: 10%)"`
+
+**That's it!** Just make these 5 changes exactly as shown, and workplace validation will now include city matching with 10% weight, same as HCP validation.
+
+Want me to clarify any of these steps?

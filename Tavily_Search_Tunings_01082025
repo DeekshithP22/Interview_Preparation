@@ -479,3 +479,281 @@ Threshold: 0.3 - PASS
 **That's it!** Just make these 5 changes exactly as shown, and workplace validation will now include city matching with 10% weight, same as HCP validation.
 
 Want me to clarify any of these steps?
+
+
+
+
+
+
+
+
+
+
+
+
+
+I'll guide you step-by-step to add retry functionality **safely** without breaking your working code.
+
+## Step-by-Step Implementation for Phase 1 Retry
+
+### Step 1: Add a New Method to Load Failed Records
+
+In `batch_processor.py`, add this method **after** your existing methods (don't modify anything else):
+
+```python
+async def load_failed_records_from_current_batch(self, batch_id: str) -> List[Dict]:
+    """
+    Load failed records from the current batch for retry
+    
+    Args:
+        batch_id: Current batch ID
+        
+    Returns:
+        List of failed records with their error info
+    """
+    try:
+        date_folder = datetime.now().strftime("%Y%m%d")
+        container_client = self.blob_service_client.get_container_client(self.container_name)
+        
+        failed_records = []
+        
+        # List all failed record blobs for current batch
+        blob_prefix = f"agent-output/failed-records/{date_folder}/"
+        blobs = container_client.list_blobs(name_starts_with=blob_prefix)
+        
+        for blob in blobs:
+            # Only get blobs from current batch
+            if batch_id in blob.name:
+                blob_client = container_client.get_blob_client(blob.name)
+                blob_data = blob_client.download_blob().readall()
+                record_data = json.loads(blob_data)
+                
+                # Only retry transient errors
+                error_msg = record_data.get("error", "").lower()
+                if any(retry_keyword in error_msg for retry_keyword in [
+                    "timeout", "rate limit", "connection", "network", 
+                    "temporary", "503", "502", "500", "429"
+                ]):
+                    failed_records.append(record_data)
+                    logger.info(f"Loaded failed record for retry: VR ID {record_data.get('vr_record', {}).get('validation.id')}")
+        
+        logger.info(f"Found {len(failed_records)} failed records eligible for retry")
+        return failed_records
+        
+    except Exception as e:
+        logger.error(f"Error loading failed records: {str(e)}")
+        return []
+```
+
+### Step 2: Add Retry Processing Method
+
+Add this method right after the above method:
+
+```python
+async def retry_failed_records(self, failed_records: List[Dict], batch_id: str) -> Dict[str, Any]:
+    """
+    Retry processing of failed records
+    
+    Args:
+        failed_records: List of failed record data
+        batch_id: Current batch ID
+        
+    Returns:
+        Retry results summary
+    """
+    retry_results = {
+        "total_retried": len(failed_records),
+        "retry_success": 0,
+        "retry_failed": 0,
+        "records": []
+    }
+    
+    if not failed_records:
+        logger.info("No failed records to retry")
+        return retry_results
+    
+    logger.info(f"Starting retry for {len(failed_records)} failed records")
+    
+    for idx, failed_data in enumerate(failed_records):
+        vr_record = failed_data.get("vr_record", {})
+        vr_id = vr_record.get("validation.id", "unknown")
+        original_error = failed_data.get("error", "Unknown error")
+        
+        try:
+            logger.info(f"Retrying VR ID {vr_id} ({idx + 1}/{len(failed_records)})")
+            
+            # Add retry marker to avoid infinite loops
+            vr_record["_is_retry"] = True
+            vr_record["_retry_count"] = failed_data.get("retry_count", 0) + 1
+            
+            # Call the same processing function
+            from app.my_agent.agent import process_single_vr_record
+            result = await process_single_vr_record(vr_record, batch_id=batch_id)
+            
+            # Check if retry succeeded
+            workflow_status = result.get("workflow_status")
+            
+            if workflow_status == WorkflowStatus.DBO_DECISION_READY:
+                retry_results["retry_success"] += 1
+                status = "retry_success"
+                
+                # Log the success
+                logger.info(f"✅ Retry successful for VR ID {vr_id}")
+                
+                # Store success info
+                await self.store_retry_success(vr_record, result, batch_id, original_error)
+            else:
+                retry_results["retry_failed"] += 1
+                status = "retry_failed"
+                logger.warning(f"❌ Retry failed for VR ID {vr_id}")
+            
+            retry_results["records"].append({
+                "vr_id": vr_id,
+                "status": status,
+                "original_error": original_error,
+                "retry_result": str(workflow_status) if workflow_status else "error"
+            })
+            
+        except Exception as e:
+            retry_results["retry_failed"] += 1
+            logger.error(f"Retry error for VR ID {vr_id}: {str(e)}")
+            
+            retry_results["records"].append({
+                "vr_id": vr_id,
+                "status": "retry_error",
+                "original_error": original_error,
+                "retry_error": str(e)
+            })
+        
+        # Small delay between retries
+        await asyncio.sleep(1)
+    
+    return retry_results
+```
+
+### Step 3: Add Helper Method for Storing Retry Success
+
+Add this small helper method:
+
+```python
+async def store_retry_success(self, vr_record: Dict, result: Dict, batch_id: str, original_error: str) -> None:
+    """Store information about successful retry"""
+    try:
+        date_folder = datetime.now().strftime("%Y%m%d")
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        vr_id = vr_record.get("validation.id", "unknown")
+        
+        retry_success_data = {
+            "vr_id": vr_id,
+            "batch_id": batch_id,
+            "original_error": original_error,
+            "retry_timestamp": datetime.now().isoformat(),
+            "retry_count": vr_record.get("_retry_count", 1),
+            "workflow_status": str(result.get("workflow_status")),
+            "storage_paths": result.get("storage_paths", {})
+        }
+        
+        blob_name = f"agent-output/retry-success/{date_folder}/retry_success_{vr_id}_{timestamp}.json"
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=blob_name
+        )
+        
+        blob_client.upload_blob(
+            json.dumps(retry_success_data, indent=2),
+            overwrite=True
+        )
+        
+    except Exception as e:
+        logger.error(f"Failed to store retry success info: {str(e)}")
+```
+
+### Step 4: Update process_batch Method
+
+**IMPORTANT**: Only add the retry section at the very end, don't change existing code!
+
+In your `process_batch` method, find this section near the end:
+
+```python
+# Step 5: Store batch summary
+batch_summary = {
+    **metrics.to_dict(),
+    # ... existing code ...
+}
+
+summary_path = await self._store_batch_summary(batch_summary)
+logger.info(f"Batch processing completed. Summary at: {summary_path}")
+```
+
+**ADD this code RIGHT AFTER the above section but BEFORE the return statement:**
+
+```python
+# Step 6: Retry failed records from current batch
+logger.info("\n" + "="*50)
+logger.info("PHASE 1: Retrying failed records")
+logger.info("="*50)
+
+# Load and retry failed records
+failed_records = await self.load_failed_records_from_current_batch(batch_id)
+
+if failed_records:
+    retry_results = await self.retry_failed_records(failed_records, batch_id)
+    
+    # Update batch summary with retry results
+    batch_summary["retry_phase_1"] = retry_results
+    
+    # Update overall metrics
+    if retry_results["retry_success"] > 0:
+        metrics.processed_successfully += retry_results["retry_success"]
+        metrics.failed_processing -= retry_results["retry_success"]
+        
+        # Log retry summary
+        logger.info(f"\nRetry Phase 1 Complete:")
+        logger.info(f"  - Total retried: {retry_results['total_retried']}")
+        logger.info(f"  - Successful: {retry_results['retry_success']}")
+        logger.info(f"  - Still failed: {retry_results['retry_failed']}")
+        
+        # Update and re-store batch summary
+        batch_summary.update({
+            **metrics.to_dict(),
+            "retry_phase_1": retry_results
+        })
+        
+        # Re-save updated summary
+        await self._store_batch_summary(batch_summary)
+else:
+    logger.info("No failed records found for retry")
+
+# Store completion log (existing code)
+await self.store_batch_logs(batch_id, "completion", {
+    "metrics": metrics.to_dict()["metrics"],
+    "country_metrics": country_metrics,
+    "summary_path": summary_path
+})
+
+return batch_summary
+```
+
+### Step 5: Test Carefully
+
+1. **First test**: Run your batch processor as normal - it should work exactly as before
+2. **Second test**: If any records fail, check if retry happens
+3. **Monitor logs**: Look for "PHASE 1: Retrying failed records"
+
+## What This Does:
+
+1. **After main processing completes**, it checks for failed records
+2. **Only retries transient errors** (timeout, rate limit, network)
+3. **Successful retries** update the metrics
+4. **Failed retries** remain as failed
+5. **Everything is logged** for monitoring
+
+## Important Notes:
+
+- ✅ Your existing code remains untouched
+- ✅ Retry only happens after main processing
+- ✅ Only transient errors are retried
+- ✅ Max 1 retry per record in Phase 1
+- ✅ All retry activity is logged
+
+This implementation is **safe** and won't break your working code!

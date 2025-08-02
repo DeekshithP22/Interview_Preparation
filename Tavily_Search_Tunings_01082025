@@ -766,3 +766,255 @@ logger.info(f"{country_name.upper()}: Validation complete - {len(valid_records)}
 # ADD THESE 2 LINES:
 valid_records = valid_records[:30]  # Limit to 30 records per country
 logger.info(f"{country_name.upper()}: Limited to {len(valid_records)} records for Tavily free tier")
+
+
+
+
+
+
+
+
+
+
+**Perfect! Here are the MINIMAL changes needed - being very careful not to break existing functionality.**
+
+---
+
+## **Step 1: Modify AsyncTavilyWrapper to Return Error Indicator**
+
+**File:** Your main Python file  
+**Class:** `AsyncTavilyWrapper`  
+**Method:** `search_async()`  
+**Location:** Find this line (around line 85-90):
+
+```python
+# CURRENT CODE:
+if attempt == max_retries - 1:
+    return {"results": [], "answer": ""}  # ← CHANGE THIS LINE ONLY
+```
+
+**REPLACE WITH:**
+
+```python
+if attempt == max_retries - 1:
+    return {"results": [], "answer": "", "api_error": True}  # ← Added api_error flag
+```
+
+**That's it for Step 1!** Just add `, "api_error": True` to the return statement.
+
+---
+
+## **Step 2: Update HCP Search to Handle API Errors**
+
+**File:** Your main Python file  
+**Method:** `search_hcp()`  
+**Location:** Find this section (around line 640-660):
+
+```python
+# CURRENT CODE:
+# Wait for all three to complete
+online_results, linkedin_results, workplace_site_results = await asyncio.gather(
+    main_task, linkedin_task, workplace_task
+)
+
+print(f"Main search results: {online_results}")
+print(f"LinkedIn search results: {linkedin_results}")
+print(f"Workplace search results: {workplace_site_results}")
+clean_response["tavily_answer"] = online_results.get("answer", "") or ""
+```
+
+**REPLACE WITH:**
+
+```python
+# Wait for all three to complete
+online_results, linkedin_results, workplace_site_results = await asyncio.gather(
+    main_task, linkedin_task, workplace_task
+)
+
+print(f"Main search results: {online_results}")
+print(f"LinkedIn search results: {linkedin_results}")
+print(f"Workplace search results: {workplace_site_results}")
+clean_response["tavily_answer"] = online_results.get("answer", "") or ""
+
+# Handle API errors by inserting error results
+if online_results.get("api_error", False):
+    online_results["results"] = [{"url": "", "title": "", "content": "Tavily API temporarily unavailable. Please try again later.", "score": 0.0}]
+
+if linkedin_results.get("api_error", False):
+    linkedin_results["results"] = [{"url": "", "title": "", "content": "Tavily API temporarily unavailable. Please try again later.", "score": 0.0}]
+
+if workplace_site_results.get("api_error", False):
+    workplace_site_results["results"] = [{"url": "", "title": "", "content": "Tavily API temporarily unavailable. Please try again later.", "score": 0.0}]
+```
+
+---
+
+## **Step 3: Handle Targeted Workplace Search Errors**
+
+**File:** Your main Python file  
+**Method:** `search_hcp()`  
+**Location:** Find this section (around line 680-690):
+
+```python
+# CURRENT CODE:
+if official_domain:
+    logger.info(f"Step 3c: Found official domain: {official_domain}")
+    # Step 3c: Search for person on that specific domain using the new method
+    targeted_payload = self.payload_builder.build_targeted_workplace_payload(doctor_info, official_domain)
+    targeted_workplace_results = await self.tavily_client.search_async(**targeted_payload)
+    # Use HCP validation for targeted search (looking for person)
+    validated_workplace = await self._validate_results_async(
+        targeted_workplace_results.get("results", []), search_input
+    )
+```
+
+**REPLACE WITH:**
+
+```python
+if official_domain:
+    logger.info(f"Step 3c: Found official domain: {official_domain}")
+    # Step 3c: Search for person on that specific domain using the new method
+    targeted_payload = self.payload_builder.build_targeted_workplace_payload(doctor_info, official_domain)
+    targeted_workplace_results = await self.tavily_client.search_async(**targeted_payload)
+    
+    # Handle API error for targeted workplace search
+    if targeted_workplace_results.get("api_error", False):
+        targeted_workplace_results["results"] = [{"url": "", "title": "", "content": "Tavily API temporarily unavailable. Please try again later.", "score": 0.0}]
+    
+    # Use HCP validation for targeted search (looking for person)
+    validated_workplace = await self._validate_results_async(
+        targeted_workplace_results.get("results", []), search_input
+    )
+```
+
+---
+
+## **Step 4: Handle Fallback Workplace Search Errors**
+
+**File:** Your main Python file  
+**Method:** `search_hcp()`  
+**Location:** Find this section right after Step 3:
+
+```python
+# CURRENT CODE:
+else:
+    logger.info("Step 3c: No official domain found, using fallback search")
+    # Fallback: Use original workplace search
+    workplace_payload = self.payload_builder.build_workplace_payload(doctor_info)
+    workplace_results = await self.tavily_client.search_async(**workplace_payload)
+    # Use HCP validation for fallback search (looking for person)
+    validated_workplace = await self._validate_results_async(
+        workplace_results.get("results", []), search_input
+    )
+```
+
+**REPLACE WITH:**
+
+```python
+else:
+    logger.info("Step 3c: No official domain found, using fallback search")
+    # Fallback: Use original workplace search
+    workplace_payload = self.payload_builder.build_workplace_payload(doctor_info)
+    workplace_results = await self.tavily_client.search_async(**workplace_payload)
+    
+    # Handle API error for fallback workplace search
+    if workplace_results.get("api_error", False):
+        workplace_results["results"] = [{"url": "", "title": "", "content": "Tavily API temporarily unavailable. Please try again later.", "score": 0.0}]
+    
+    # Use HCP validation for fallback search (looking for person)
+    validated_workplace = await self._validate_results_async(
+        workplace_results.get("results", []), search_input
+    )
+```
+
+---
+
+## **Step 5: Update Workplace Search Method**
+
+**File:** Your main Python file  
+**Method:** `search_workplace()`  
+**Location:** Find this section (around line 760-770):
+
+```python
+# CURRENT CODE:
+# Workplace validation search
+workplace_payload = self.payload_builder.build_workplace_validation_payload(workplace_info)
+workplace_results = await self.tavily_client.search_async(**workplace_payload)
+print(f"Workplace validation results: {workplace_results}")
+clean_response["tavily_answer"] = workplace_results.get("answer", "") or ""
+```
+
+**REPLACE WITH:**
+
+```python
+# Workplace validation search
+workplace_payload = self.payload_builder.build_workplace_validation_payload(workplace_info)
+workplace_results = await self.tavily_client.search_async(**workplace_payload)
+print(f"Workplace validation results: {workplace_results}")
+clean_response["tavily_answer"] = workplace_results.get("answer", "") or ""
+
+# Handle API error for workplace validation
+if workplace_results.get("api_error", False):
+    workplace_results["results"] = [{"url": "", "title": "", "content": "Tavily API temporarily unavailable. Please try again later.", "score": 0.0}]
+```
+
+---
+
+## **Step 6: Skip Validation for Error Results**
+
+**File:** Your main Python file  
+**Method:** `_validate_results()`  
+**Location:** Find the beginning of the method (around line 540):
+
+```python
+# CURRENT CODE:
+def _validate_results(self, results: List[Dict[str, Any]], search_input: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Validate search results - STRICT FILTERING"""
+    validated_results = []
+    
+    for result in results:
+```
+
+**REPLACE WITH:**
+
+```python
+def _validate_results(self, results: List[Dict[str, Any]], search_input: Dict[str, Any]) -> List[Dict[str, Any]]:
+    """Validate search results - STRICT FILTERING"""
+    validated_results = []
+    
+    for result in results:
+        # Skip validation for API error results - pass them through directly
+        if result.get("url") == "" and result.get("title") == "" and "Tavily API" in result.get("content", ""):
+            validated_results.append({
+                "url": result.get("url", ""),
+                "title": result.get("title", ""),
+                "content": result.get("content", ""),
+                "score": result.get("score", 0.0),
+                "validation": {
+                    "is_valid": True,  # Always valid for error messages
+                    "confidence_score": 1.0,
+                    "validation_reasons": ["API Error - bypassing validation"],
+                    "geographic_match": False,
+                    "name_match": False,
+                    "workplace_match": False,
+                },
+            })
+            continue
+```
+
+---
+
+## **That's It! Summary of Changes:**
+
+1. **Step 1:** Add `api_error: True` flag when Tavily fails
+2. **Steps 2-5:** Insert error result when `api_error` flag detected
+3. **Step 6:** Skip validation for error results
+
+**Total lines changed: ~10 lines**  
+**Risk level: Very low** - only adding error handling, not changing core logic
+
+**Test after implementation:**
+1. **Normal case:** Should work exactly as before
+2. **Tavily down:** Should show error messages instead of empty results
+
+**Want me to clarify any of these steps?**

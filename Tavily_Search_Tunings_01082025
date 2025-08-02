@@ -757,3 +757,12 @@ return batch_summary
 - ✅ All retry activity is logged
 
 This implementation is **safe** and won't break your working code!
+
+
+
+
+logger.info(f"{country_name.upper()}: Validation complete - {len(valid_records)} valid records out of {len(vr_records)} total")
+
+# ADD THESE 2 LINES:
+valid_records = valid_records[:30]  # Limit to 30 records per country
+logger.info(f"{country_name.upper()}: Limited to {len(valid_records)} records for Tavily free tier")
